@@ -125,7 +125,6 @@ const myReducer = (state, action) => {
             ...state,
             questionsArray: b.allQuest
         }
-        console.log(a)
         return a
     }
     if (action.type === "DELETE_TEST") {
