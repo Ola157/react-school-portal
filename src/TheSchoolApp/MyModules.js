@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 const MyModules = ({ schPortal }) => {
     const { studentId } = useParams()
@@ -18,15 +20,26 @@ const MyModules = ({ schPortal }) => {
 
         <Container fluid>
             <Row className='bg-light mt-2 py-1'>
-                <Col className='text-center'>My Modules</Col>
-                <hr className='my-1'></hr>
-                <Col >
-                    {schPortal.staffArray ? schPortal.staffArray.map(a => (<>
-                        <Link to={`/fullmode/${a.moduleId}/${studentId}`}>{a.moduleId}</Link>
-                    </>)) : ''}
+                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                    <Link to={`/student/${studentId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
                 </Col>
+
+                <hr className='my-0'></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
+                    Modules
+                </Col>
+                <hr className='my-1'></hr>
+                {schPortal.staffArray ? schPortal.staffArray.map((a, index) => (
+                    <Col lg={12} md={12} sm={12} key={index}>
+
+                        <Link className='d-block align-self-center' style={{ textDecoration: 'none', color: 'black' }} to={`/fullmode/${a.moduleId}/${studentId}`}>{a.moduleId}
+                        </Link>
+                        <hr className='my-1'></hr>
+                    </Col>))
+                    : <Col className='text-center'>No Modules Yet</Col>}
+
             </Row>
         </Container>
-    </Container>)
+    </Container >)
 }
 export default MyModules;

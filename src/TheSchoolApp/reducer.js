@@ -24,14 +24,12 @@ const myReducer = (state, action) => {
     }
 
     if (action.type === "EDIT_QUESTION") {
-        let { any, index, moduleId } = action.payload
         let a = {
             ...state,
-            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && index === i)
-                .map(a => ({
-                    ...a,
-                    edit: any
-                }))
+            questionArray: state.questionArray.map((a, i) => a.moduleId === action.payload.moduleId && action.payload.index === i ? ({
+                ...a,
+                edit: action.payload.any
+            }) : a)
         }
         return a
     }
@@ -49,7 +47,7 @@ const myReducer = (state, action) => {
         let { index, moduleId, question, optionA, optionB, optionC, optionD, answer } = action.payload
         let a = {
             ...state,
-            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && i === index).map(a => ({
+            questionArray: state.questionArray.map((a, i) => a.moduleId === moduleId && i === index ? ({
                 ...a,
                 question: question,
                 optionA: optionA,
@@ -58,7 +56,7 @@ const myReducer = (state, action) => {
                 optionE: optionD,
                 answer: answer,
                 edit: ''
-            }))
+            }) : a)
         }
         return a
     }
@@ -73,29 +71,37 @@ const myReducer = (state, action) => {
         return a
     }
 
-    if (action.type === "DISPLAY_CONTROL") {
-        let { any, moduleId, time } = action.payload
+    if (action.type === "ADD_TIME") {
+        let { moduleId, time } = action.payload
+        let b = state.duration ? state.duration.find(a => a.moduleId === moduleId) : ''
+
         let a = {
             ...state,
-            questionArray: action.payload.any === 'dQuestion' || action.payload.any === '!dQuestion' ?
-                state.questionArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
-                    ...a,
-                    display: action.payload.any
-                })) : state.questionArray,
+            duration: !b ? [...state.duration, { moduleId, time }] : state.duration
+        }
+        return a
+    }
 
-            duration: action.payload.any === 'dQuestion' ? [...state.duration, { moduleId, time }] : Array.isArray(state.duration) ? state.duration.filter(a => a.moduleId !== moduleId) : state.duration,
+    if (action.type === "DISPLAY_CONTROL") {
+        let { any, moduleId } = action.payload
+        let a = {
+            ...state,
+            questionArray: any === 'dQuestion' || any === '!dQuestion' ? state.questionArray.map(a => a.moduleId === moduleId ? ({
+                ...a,
+                display: any
+            }) : a) : state.questionArray,
 
-            informationArray: action.payload.any === 'dInfo' || action.payload.any === '!dInfo' ?
-                state.informationArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
-                    ...a,
-                    display: action.payload.any
-                })) : state.informationArray,
+            duration: any === '!dQuestion' ? state.duration.filter(a => a.moduleId !== moduleId) : state.duration,
 
-            resultArray: action.payload.any === 'dGrades' || action.payload.any === '!dGrades' ?
-                state.resultArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
-                    ...a,
-                    display: action.payload.any
-                })) : state.resultArray
+            informationArray: any === 'dInfo' || any === '!dInfo' ? state.informationArray.map(a => a.moduleId === moduleId ? ({
+                ...a,
+                display: any
+            }) : a) : state.informationArray,
+
+            resultArray: any === 'dGrades' || any === '!dGrades' ? state.resultArray.map(a => a.moduleId === moduleId ? ({
+                ...a,
+                display: any
+            }) : a) : state.resultArray
         }
         console.log(a)
         return a
@@ -112,27 +118,26 @@ const myReducer = (state, action) => {
     }
 
     if (action.type === "ADD_PINFO") {
-        console.log(action.payload)
 
         let a = {
             ...state,
-            staffArray: action.payload.moduleId ? state.staffArray.filter(a => a.moduleId === action.payload.moduleId).map(a =>
-            ({
-                ...a,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                dob: action.payload.dob,
-                homeAddress: action.payload.homeAddy
-            })) : state.staffArray,
+            staffArray: action.payload.moduleId ? state.staffArray.map(a => a.moduleId === action.payload.moduleId ?
+                ({
+                    ...a,
+                    firstName: action.payload.firstName,
+                    lastName: action.payload.lastName,
+                    dob: action.payload.dob,
+                    homeAddress: action.payload.homeAddy
+                }) : a) : state.staffArray,
 
-            studentArray: action.payload.studentId ? state.studentArray.filter(a => a.studentId === action.payload.studentId).map(a =>
-            ({
-                ...a,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                dob: action.payload.dob,
-                homeAddress: action.payload.homeAddy
-            })) : state.studentArray
+            studentArray: action.payload.studentId ? state.studentArray.map(a => a.studentId === action.payload.studentId ?
+                ({
+                    ...a,
+                    firstName: action.payload.firstName,
+                    lastName: action.payload.lastName,
+                    dob: action.payload.dob,
+                    homeAddress: action.payload.homeAddy
+                }) : a) : state.studentArray
 
         }
         return a
@@ -143,11 +148,11 @@ const myReducer = (state, action) => {
 
         let a = {
             ...state,
-            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && index === i).map(a =>
-            ({
-                ...a,
-                studentAnswer: answer
-            }))
+            questionArray: state.questionArray.map((a, i) => a.moduleId === moduleId && index === i ?
+                ({
+                    ...a,
+                    studentAnswer: answer
+                }) : a)
         }
         return a
     }

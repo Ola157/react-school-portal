@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -24,18 +24,17 @@ const StudentPersonalInfo = ({ schPortal, addPersonalInfo }) => {
             </Navbar >
             <Container fluid>
                 <Row className='bg-white mt-2'>
-                    <Col className='d-flex'>
-                        <FontAwesomeIcon icon={faArrowLeft} size="2xl" />
-                        <FontAwesomeIcon icon={solid("arrow-left")} />
-                        <div className='text-center'>Personal Information</div>
+                    <Col className='d-flex justify-content-start align-items-center my-1'>
+                        <Link to={`/student/${studentId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
                     </Col>
 
                     <hr className='my-0'></hr>
-                    <FontAwesomeIcon icon={faArrowLeft} size="2xl" />
-
-                    {schPortal.staffArray ?
-                        schPortal.studentArray.filter(a => a.studentId === studentId).map(a => (<>
-                            <Table striped bordered hover className='text-center my-2 table-responsive'>
+                    <Col className='d-flex  justify-content-center align-items-center'>
+                        Personal Information
+                    </Col>
+                    {schPortal.studentArray ?
+                        schPortal.studentArray.filter(a => a.studentId === studentId).map((a, i) => (
+                            <Table striped bordered hover className='text-center my-2 table-responsive' key={i}>
                                 <tbody>
                                     <tr></tr>
                                     <tr><td>Module Name</td><td>{a.studentId}</td></tr>
@@ -47,7 +46,7 @@ const StudentPersonalInfo = ({ schPortal, addPersonalInfo }) => {
                                     <tr><td>{!a.firstName ? <button className='m-1 border rounded btn py-0' onClick={() => addPersonalInfo({ studentId, firstName, lastName, dob, homeAddy })}>Add</button> : ''}</td></tr>
                                 </tbody>
                             </Table>
-                        </>))
+                        ))
                         : ''}
                 </Row>
             </Container>

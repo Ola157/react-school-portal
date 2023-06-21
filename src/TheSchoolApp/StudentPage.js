@@ -18,7 +18,7 @@ const StudentPage = ({ schPortal }) => {
                 navigate(`/modules/${studentId}`)
                 break;
             case any === 'news':
-                navigate('/news')
+                navigate(`/news/${studentId}`)
                 break;
             case any === 'grades':
                 navigate(`/grades/${studentId}`)
@@ -41,16 +41,16 @@ const StudentPage = ({ schPortal }) => {
 
         <Container>
             <Row className='d-flex justify-content-center align-items-center mt-5 mb-5'>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('modules')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} md={2} sm={2} xs={6} onClick={() => navigateBtn('modules')} >
                     My Modules
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('news')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} md={2} sm={2} xs={6} onClick={() => navigateBtn('news')} >
                     News
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('grades')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} md={2} sm={2} xs={6} onClick={() => navigateBtn('grades')} >
                     Grades
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} onClick={() => navigateBtn('studentInfo')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} md={2} sm={2} xs={6} onClick={() => navigateBtn('studentInfo')} >
                     Personal Information
                 </Col>
             </Row>

@@ -7,6 +7,7 @@ import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
 import useBoo from './custom hooks/useBoo';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const ModuleDeets = ({ schPortal }) => {
     const { moduleId, studentId } = useParams()
@@ -26,19 +27,26 @@ const ModuleDeets = ({ schPortal }) => {
 
         <Container fluid>
             <Row className='bg-light'>
-                <Col lg={12} className='text-center'>Module Information</Col>
-                <hr className='my-1'></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                    <Link to={`/modules/${studentId}`} ><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                </Col>
+
+                <hr className='my-0'></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
+                    Module Information
+                </Col>
+                <hr className='my-0'></hr>
                 <Col className='d-flex justify-content-around'>
-                    <Col className='m-1' lg={6}>
+                    <Col className='m-1' lg={6} md={6} sm={12} xs={12}>
                         <Col className='text-center'>Module</Col>
                         <hr className='my-1' style={{ width: "100%" }}></hr>
                         <button onClick={boo === false ? () => handleBoo(true) : () => handleBoo(false)} className='border-0 bg-transparent'>Test</button>
                         {avail && boo ?
-                            <Link className='d-block' to={`/test/${moduleId}/${studentId}`}>Test Available</Link> :
+                            <Link className='d-block' style={{ textDecoration: 'none', color: 'black' }} to={`/test/${moduleId}/${studentId}`}>Test Available</Link> :
                             ''}
                     </Col>
 
-                    <Col className='m-1' lg={6}>
+                    <Col className='m-1' lg={6} md={6} sm={12} xs={12}>
                         <Col className='text-center'>Module News</Col>
                         <hr className='my-1' style={{ width: "100%" }}></hr>
                         {schPortal.informationArray ?

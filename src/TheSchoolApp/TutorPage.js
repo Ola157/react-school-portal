@@ -41,16 +41,16 @@ const TutorPage = () => {
 
         <Container>
             <Row className='d-flex justify-content-center align-items-center mt-5 mb-5'>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('questions')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} md={2} sm={6} xs={6} onClick={() => navigateBtn('questions')} >
                     Questions
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('announcement')} >
-                    Announcements
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} md={2} sm={6} xs={6} onClick={() => navigateBtn('announcement')} >
+                    Infos
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('results')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} md={2} sm={6} xs={6} onClick={() => navigateBtn('results')} >
                     Results
                 </Col>
-                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} onClick={() => navigateBtn('personalInfo')} >
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} md={2} sm={6} xs={6} onClick={() => navigateBtn('personalInfo')} >
                     Personal Information
                 </Col>
             </Row>

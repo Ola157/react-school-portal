@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Grades = ({ schPortal }) => {
     const { studentId } = useParams()
@@ -18,8 +19,16 @@ const Grades = ({ schPortal }) => {
         </Navbar >
         <Container fluid className='mt-2'>
             <Row className='bg-light'>
-                <Col className='text-center' lg={12}>Grades</Col>
+                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                    <Link to={`/student/${studentId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                </Col>
+
                 <hr className='my-0'></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
+                    Grades
+                </Col>
+                <hr className='my-0'></hr>
+
                 {schPortal.resultArray ?
                     <Table striped bordered hover className='text-center'>
                         <thead>
@@ -37,7 +46,7 @@ const Grades = ({ schPortal }) => {
                         </tbody>
                     </Table>
 
-                    : <Col className='text-center'>No Grades Yet</Col>}
+                    : <Col lg={12} md={12} sm={12} className='text-center'>No Grades Yet</Col>}
 
             </Row>
         </Container >

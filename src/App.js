@@ -39,8 +39,8 @@ const App = () => {
     dispatchPortal({ type: 'ADD_QUESTION', payload: { moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit } })
   }
 
-  const editQuestion = (any, index, moduleId) => {
-    dispatchPortal({ type: "EDIT_QUESTION", payload: { any, index, moduleId } })
+  const editQuestion = (value) => {
+    dispatchPortal({ type: "EDIT_QUESTION", payload: value })
   }
 
   const delQuestion = (index, moduleId) => {
@@ -51,8 +51,11 @@ const App = () => {
     dispatchPortal({ type: "ADD_EDITED", payload: { index, moduleId, question, optionA, optionB, optionC, optionD, answer } })
   }
 
+  const handleTime = (moduleId, time) => {
+    dispatchPortal({ type: "ADD_TIME", payload: { moduleId, time } })
+  }
+
   const displayControl = (value) => {
-    console.log(value)
     dispatchPortal({ type: "DISPLAY_CONTROL", payload: value })
   }
 
@@ -85,14 +88,14 @@ const App = () => {
         <Route path='/admin/:id' element={<Admin schPortal={schPortal} addStaff={addStaff} addStudent={addStudent} />} />
         <Route path='/test/:moduleId/:studentId' element={<Test schPortal={schPortal} handleAnswer={handleAnswer} addScore={addScore} />} />
         <Route path='/questions/:moduleId' element={<SetQuest addQuestion={addQuestion} schPortal={schPortal} />} />
-        <Route path='/modulequestions/:moduleId' element={<ModuleQuestions editQuestion={editQuestion} delQuestion={delQuestion} schPortal={schPortal} addEdited={addEdited} displayControl={displayControl} />} />
+        <Route path='/modulequestions/:moduleId' element={<ModuleQuestions handleTime={handleTime} editQuestion={editQuestion} delQuestion={delQuestion} schPortal={schPortal} addEdited={addEdited} displayControl={displayControl} />} />
         <Route path='/announcement/:moduleId' element={<SendUpdate schPortal={schPortal} addInfos={addInfos} deleteInfos={deleteInfos} displayControl={displayControl} />} />
         <Route path='/results/:moduleId' element={<Results schPortal={schPortal} displayControl={displayControl} />} />
         <Route path='staffpInfo/:moduleId' element={<StaffPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
         <Route path='studentpInfo/:studentId' element={<StudentPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
         <Route path='modules/:studentId' element={<MyModules schPortal={schPortal} />} />
         <Route path='fullmode/:moduleId/:studentId' element={<ModuleDeets schPortal={schPortal} />} />
-        <Route path='news' element={<News schPortal={schPortal} />} />
+        <Route path='news/:studentId' element={<News schPortal={schPortal} />} />
         <Route path='grades/:studentId' element={<Grades schPortal={schPortal} />} />
         <Route path='/guest' element={<GuestPage />} />
         <Route path='/openday' element={<OpenDay />} />

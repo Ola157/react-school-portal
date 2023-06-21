@@ -5,7 +5,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Navbar } from 'react-bootstrap'; import useBoo from './custom hooks/useBoo';
+import { Navbar } from 'react-bootstrap';
+import useBoo from './custom hooks/useBoo';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 const Test = ({ schPortal, handleAnswer, addScore }) => {
     const { moduleId, studentId } = useParams();
@@ -17,7 +20,7 @@ const Test = ({ schPortal, handleAnswer, addScore }) => {
 
     useEffect(() => {
         let a = schPortal.duration ? schPortal.duration.find(a => a.moduleId === moduleId) : ''
-        let b = schPortal.resultArray ? schPortal.resultArray.find(a => a.studentId === studentId) : ''
+        let b = schPortal.resultArray ? schPortal.resultArray.find(a => a.studentId === studentId && a.moduleId === moduleId) : ''
         setVal(b)
         setTime(a.time)
     }, [boo])
@@ -47,7 +50,7 @@ const Test = ({ schPortal, handleAnswer, addScore }) => {
         addScore(moduleId, studentId, validate.length, display)
         handleBoo(true)
     }
-
+    console.log(schPortal)
     return (
         <Container fluid className='display pb-5'>
             <Navbar bg="black" className="justify-content-around">
@@ -57,24 +60,35 @@ const Test = ({ schPortal, handleAnswer, addScore }) => {
 
             <Container fluid>
                 <Row className='bg-light mt-2'>
+                    {boo ?
+                        <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                            <Link to={`/fullmode/${moduleId}/${studentId}`} ><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                        </Col>
+                        : ''}
+
+                    <hr className='my-0'></hr>
+                    <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
+                        Test
+                    </Col>
+                    <hr className='my-0'></hr>
 
                     {!validate ? <>
                         {boo ?
-                            <Col className='text-center'>
+                            <Col lg={12} md={12} sm={12} className='text-center'>
                                 <>Test Duration: {time} secs</>
 
                                 <button className='btn py-0 border rounded' onClick={() => handleBoo(false)}>Click To Start</button>
                             </Col>
                             :
 
-                            <Col >
+                            <Col lg={12} md={12} sm={12} >
                                 {time > 0 ? <div className='text-center'>{time} Secs Left</div> : ''}
                                 {schPortal.questionArray ?
                                     schPortal.questionArray.filter(a => a.moduleId === moduleId).map((a, index) =>
                                     (<div key={index}>
                                         {counter++} {a.question}<br></br>
                                         <div> {time <= 0 ? 'A' : <input onClick={() => handleAnswer('A', index, moduleId)} type='radio' id={a.optionA} value={a.optionA} name={a.question} />}  <label htmlFor={a.optionA}>{a.optionA}</label></div>
-                                        <div> {time <= 0 ? 'B' : <input onClick={() => handleAnswer('B', index, moduleId)} type='radio' id={a.optionB} value={a.optionB} name={a.question} />} <label htmlFor={a.optionB}>{a.optionB}</label></div>
+                                        <div> {time <= 0 ? 'B' : <input onClick={() => handleAnswer('B', index, moduleId)} type='radio' id={a.optionB} value={a.optionB} name={a.question} />}  <label htmlFor={a.optionB}>{a.optionB}</label></div>
                                         <div> {time <= 0 ? 'C' : <input onClick={() => handleAnswer('C', index, moduleId)} type='radio' id={a.optionC} value={a.optionC} name={a.question} />}   <label htmlFor={a.optionC}>{a.optionC}</label></div>
                                         <div> {time <= 0 ? 'D' : <input onClick={() => handleAnswer('D', index, moduleId)} type='radio' id={a.optionD} value={a.optionD} name={a.question} />}   <label htmlFor={a.optionD}>{a.optionD}</label></div>
                                     </div>))
@@ -83,7 +97,7 @@ const Test = ({ schPortal, handleAnswer, addScore }) => {
                             </Col>
                         }
                     </>
-                        : <Col className='text-center'>Test Attempted <Link to={`/grades/${studentId}`}>Check Grade</Link></Col>}
+                        : <Col lg={12} md={12} sm={12} className='text-center'>Test Attempted <Link to={`/grades/${studentId}`}>Check Grade</Link></Col>}
                 </Row >
             </Container >
         </Container >

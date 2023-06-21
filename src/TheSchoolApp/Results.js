@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
@@ -27,8 +27,16 @@ const Results = ({ schPortal, displayControl }) => {
 
         <Container fluid>
             <Row className='bg-light mt-2'>
-                <Col className='d-flex justify-content-center align-items-center' lg={12}>Results</Col>
-                <hr></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                    <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                </Col>
+
+                <hr className='my-0'></hr>
+                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
+                    Results
+                </Col>
+                <hr className='my-0'></hr>
+
                 <Col >
                     {schPortal.resultArray ?
                         <Table striped bordered hover className='text-center my-2 table-responsive'>
@@ -49,7 +57,7 @@ const Results = ({ schPortal, displayControl }) => {
                                 }
                             </tbody>
                         </Table>
-                        : <Col>No Grades Yet</Col>}
+                        : <Col className='text-center'>No Grades Yet</Col>}
 
                     {!validate ?
                         <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dGrades', moduleId })}>Send Grades</button></div>

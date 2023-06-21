@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
-
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const SetQuest = ({ schPortal, addQuestion }) => {
     const { moduleId } = useParams();
@@ -53,10 +53,18 @@ const SetQuest = ({ schPortal, addQuestion }) => {
             </Navbar >
 
             <Container fluid>
-                <Row>
-                    <Col lg={12} className='mt-1 mb-5 bg-light py-1'>
-                        <div className='text-center'>Set Questions</div>
-                        <hr className='my-0'></hr>
+                <Row className='mt-2 bg-light'>
+                    <Col className='d-flex justify-content-start align-items-center my-1'>
+                        <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                    </Col>
+
+                    <hr className='my-0'></hr>
+                    <Col className='d-flex  justify-content-center align-items-center'>
+                        Set Questions
+                    </Col>
+                    <hr className='my-0'></hr>
+
+                    <Col lg={12} md={12} sm={12} xs={12} className='mt-1 mb-5  py-1'>
                         <div className='m-1'>Question <input className='questInp border rounded' value={question} onInput={(event) => setQuestion(event.target.value)} /></div>
                         <hr className='my-0'></hr>
                         <div className='m-1'> A <input className='questInp border rounded' value={optionA} onInput={(event) => setOptionA(event.target.value)} /></div>

@@ -19,7 +19,7 @@ const Admin = ({ addStudent, schPortal, addStaff }) => {
     const { id } = useParams()
     const [boo, handleboo] = useBoo(id)
     const navigate = useNavigate();
-    console.log(boo)
+
     const loginOsignup = (any) => {
         let validate = { ...schPortal }
         let studentval = validate.studentArray ? validate.studentArray.find(a => a.studentId === first && a.studentCode === sec) : ''
@@ -31,7 +31,6 @@ const Admin = ({ addStudent, schPortal, addStaff }) => {
                 break;
             case any === 'login' && studentval && boo === 'student':
                 navigate(`/student/${studentval.studentId}`)
-                console.log(any)
                 break;
             case any === 'login' && !studentval:
                 alert('incorrect Details')
