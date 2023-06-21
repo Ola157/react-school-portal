@@ -50,7 +50,6 @@ const Test = ({ schPortal, handleAnswer, addScore }) => {
         addScore(moduleId, studentId, validate.length, display)
         handleBoo(true)
     }
-    console.log(schPortal)
     return (
         <Container fluid className='display pb-5'>
             <Navbar bg="black" className="justify-content-around">

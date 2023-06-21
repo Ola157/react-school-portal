@@ -103,7 +103,6 @@ const myReducer = (state, action) => {
                 display: any
             }) : a) : state.resultArray
         }
-        console.log(a)
         return a
     }
 
