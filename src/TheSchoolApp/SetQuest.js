@@ -1,121 +1,78 @@
-import React, { Fragment, useState } from 'react';
-import { Formik, Form, Field } from 'formik'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { faSchool } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Navbar } from 'react-bootstrap';
 
 
+const SetQuest = ({ schPortal, addQuestion }) => {
+    const { moduleId } = useParams();
+    const navigate = useNavigate();
+    let [question, setQuestion] = useState('')
+    let [optionA, setOptionA] = useState('')
+    let [optionB, setOptionB] = useState('')
+    let [optionC, setOptionC] = useState('')
+    let [optionD, setOptionD] = useState('')
+    let [answer, setAnswer] = useState('')
+    let studentAnswer = ''
+    let edit = ''
+    let display = ''
+    let [availQuest, setAvail] = useState('')
 
-const SetQuest = ({ addQuest, deleteBtn, schPortal, sendQuestions, deleteQuests, addTime }) => {
-    const { id } = useParams();
-    let [studentAnswer, setIt] = useState('')
-    let [time, setTime] = useState('')
+    useEffect(() => {
+        let a = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId) : ''
+        setAvail(a)
+    }, [schPortal.questionArray, []])
 
-    const mySubmit = (values) => {
-        let { question, optionA, optionB, optionC, optionD, tutorAnswer } = values
-        if (question !== '' && optionA !== '' && optionB !== '' && optionC !== '' && optionD !== '' && tutorAnswer !== '') {
-            addQuest({ id, question, optionA, optionB, optionC, optionD, tutorAnswer, studentAnswer })
+    const addOview = any => {
+        switch (true) {
+            case any === 'add' && question !== '' && optionA !== '' && optionB !== '' && optionC !== '' && optionD !== '' && answer !== '':
+                addQuestion(moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit);
+                setQuestion('')
+                setOptionA('')
+                setOptionB('')
+                setOptionC('')
+                setOptionD('')
+                setAnswer('')
+                break;
+            case any === 'view':
+                navigate(`/modulequestions/${moduleId}`);
+                break;
         }
-        values.question = '';
-        values.optionA = '';
-        values.optionB = '';
-        values.optionC = '';
-        values.optionD = '';
-        values.tutorAnswer = '';
     }
 
-    const sendQuests = () => {
-        sendQuestions(id);
-        setTime('')
-
-    }
-
-    const delQuests = () => {
-        deleteQuests(id);
-        console.log(schPortal)
-    }
-
-    const seTime = e => {
-        addTime(e)
-    }
     return (
-        <Container className='border'>
-            <Col className='my-2'>
-                <Formik initialValues={{
-                    question: '',
-                    optionA: '',
-                    optionB: '',
-                    optionC: '',
-                    optionD: '',
-                    tutorAnswer: ''
-                }}
-                    onSubmit={mySubmit}
-                >
-                    {(props) => (
-                        <Form>
-                            Question: <Field type='text' placeholder='Question' name='question' /> <br></br>
-                            <hr></hr>
-                            A <Field type='text' placeholder='option A' name='optionA' /><br></br>
-                            <hr></hr>
-                            B <Field type='text' placeholder='option B' name='optionB' /><br></br>
-                            <hr></hr>
-                            C <Field type='text' placeholder='option C' name='optionC' /><br></br>
-                            <hr></hr>
-                            D <Field type='text' placeholder='option D' name='optionD' /><br></br>
-                            <hr></hr>
-                            Answer: <Field type='text' placeholder='answer' name='tutorAnswer' />
+        <Container fluid className='display pb-5'>
+            <Navbar bg="black" className="justify-content-around">
 
-                            <Button type='submit'>ADD QUESTIONS</Button>
-                        </Form>
-                    )}
-                </Formik >
-            </Col>
+                <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
 
-            {schPortal.moduleArray.length !== 0 ?
-                <>
-                    < Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>QUESTION</th>
-                                <th>OPTION A</th>
-                                <th>OPTION B</th>
-                                <th>OPTION C</th>
-                                <th>OPTION D</th>
-                                <th>ANSWER</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {schPortal.moduleArray.map((a, i) => (
-                                a.allQuest ?
-                                    <Fragment key={i}>
-                                        {a.allQuest.map((b, index) => (
-                                            b.id === id && b.question !== '' ?
-                                                < tr key={index} >
-                                                    <td>{b.question}</td>
-                                                    <td>{b.optionA}</td>
-                                                    <td>{b.optionB}</td>
-                                                    <td>{b.optionC}</td>
-                                                    <td> {b.optionD}</td>
-                                                    <td>{b.tutorAnswer}</td>
-                                                    <td><Button onClick={() => deleteBtn(id, index)}>Delete</Button></td>
-                                                </tr>
-                                                : ''
-                                        ))}
-                                    </Fragment>
-                                    : ''
-                            ))}
-                        </tbody>
-                    </Table>
-                    <div className='my-2'><input defaultValue={time} onInput={event => seTime(event.target.value)} /><Button>Set Time</Button></div>
-                    {schPortal.time !== "" ? <>
-                        < div className='my-2'><Button onClick={sendQuests}>Send Questions</Button></div>
-                        <div className='my-2'><Button onClick={delQuests}>Delete Test Questions</Button></div>
-                    </>
-                        : ''}
-                </>
-                : ''}
+            </Navbar >
+
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className='mt-1 mb-5 bg-light py-1'>
+                        <div className='text-center'>Set Questions</div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'>Question <input className='questInp border rounded' value={question} onInput={(event) => setQuestion(event.target.value)} /></div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'> A <input className='questInp border rounded' value={optionA} onInput={(event) => setOptionA(event.target.value)} /></div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'> B <input className='questInp border rounded' value={optionB} onInput={(event) => setOptionB(event.target.value)} /></div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'> C <input className='questInp border rounded' value={optionC} onInput={(event) => setOptionC(event.target.value)} /></div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'> D < input className='questInp border rounded' value={optionD} onInput={(event) => setOptionD(event.target.value)} /></div>
+                        <hr className='my-0'></hr>
+                        <div className='m-1'> Answer < input className='border rounded w-90' value={answer} onInput={(event) => setAnswer(event.target.value)} /></div>
+                        <div className='m-1'><button className='border rounded w-90 btn py-0' onClick={() => addOview('add')}>add</button></div>
+                        {availQuest ? <button className='btn py-0 border rounded' onClick={() => addOview('view')}>view questions</button> : ''}
+                    </Col >
+                </Row >
+            </Container >
         </Container >
     )
 }

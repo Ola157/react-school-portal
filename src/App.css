@@ -1,38 +1,52 @@
-.App {
-  text-align: center;
+.display {
+  background-image: url('/src/TheSchoolApp/assets/schoolCamp2.jpg');
+  background-position: center;
+  background-size: cover;
+  font-size: 17px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.homepage {
+  background-color: black;
+  color: goldenrod;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logo {
+  color: rgba(180, 245, 17, 0.975);
+  font-weight: bold;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.btn {
+  background-color: black;
+  color: goldenrod;
+  border-radius: 0%;
 }
 
-.App-link {
-  color: #61dafb;
+.btn:hover {
+  background-color: rgb(32, 32, 32);
+  color: goldenrod;
+  transition: 1s;
+  opacity: unset;
+  border: 1px solid gray;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.adminCol {
+  height: 20em;
+  background-position: center;
+  background-size: cover;
+}
+
+.btnNav {
+  color: goldenrod;
+  background-color: black;
+  height: 7em;
+}
+
+.btnNav:hover {
+  box-shadow: inset 0em -0.1em rgb(76, 171, 3);
+  font-weight: bold;
+  transition: 10ms;
+}
+
+.questInp {
+  width: 90%;
 }

@@ -1,64 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom'
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Fade from 'react-bootstrap/Fade';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import { faSchool } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Navbar } from 'react-bootstrap';
 
 const StudentPage = ({ schPortal }) => {
-    const [open, setOpen] = useState(false);
-    const { id } = useParams();
+    const { studentId } = useParams();
 
+    const navigate = useNavigate();
 
+    const navigateBtn = any => {
+        switch (true) {
+            case any === 'modules':
+                navigate(`/modules/${studentId}`)
+                break;
+            case any === 'news':
+                navigate('/news')
+                break;
+            case any === 'grades':
+                navigate(`/grades/${studentId}`)
+                break;
+            case any === 'studentInfo':
+                navigate(`/studentpInfo/${studentId}`)
+                break;
+            case any === 'logout':
+                navigate('/*')
+                break;
+        }
+    }
 
-    return (
-        <Container className='border mt-3 px-3 py-3 mx-auto'>
-            <Col>WELCOME {id}</Col>
-            <Col className='text-center py-1' lg={4}> MY MODULES</Col>
+    return (<Container fluid className='display pb-5'>
+        <Navbar bg="black" className="justify-content-around">
 
-            {schPortal ? <Col className='border text-center p-2' lg={4}>
+            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
+            <button onClick={() => navigateBtn('logout')} className='border-0 bg-transparent btn'>signout</button>
+        </Navbar >
 
-                {schPortal.moduleArray.map((mod, i) => (<div key={i}>
-                    <div>{mod.moduleName}</div>
-                </div>))}
-                <hr></hr>
-                {console.log(schPortal)}
-                {schPortal.questionsArray.length > 0 || schPortal.informationsArray.length > 0 ?
-                    <>
-                        <Button
-                            onClick={() => setOpen(!open)}
-                            aria-controls="example-fade-text"
-                            aria-expanded={open}
-                        >
-                            Anouncement
-                        </Button>
+        <Container>
+            <Row className='d-flex justify-content-center align-items-center mt-5 mb-5'>
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('modules')} >
+                    My Modules
+                </Col>
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('news')} >
+                    News
+                </Col>
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded' lg={2} onClick={() => navigateBtn('grades')} >
+                    Grades
+                </Col>
+                <Col className='m-1 btnNav d-flex justify-content-center align-items-center border rounded text-center' lg={2} onClick={() => navigateBtn('studentInfo')} >
+                    Personal Information
+                </Col>
+            </Row>
+        </Container>
 
-
-                        <Fade className='mb-0' in={open}>
-                            <div id="example-fade-text">
-
-                                {schPortal.questionsArray.length ?
-                                    schPortal.moduleArray.map((mod, i) => (
-                                        <div key={i}>
-                                            < Link to={`/test/${mod.moduleName}/${id}`}>
-                                                <Button style={{ border: '0px', backgroundColor: 'white', color: 'blue' }}>
-                                                    Test Available
-                                                </Button>
-                                            </Link>
-                                        </div>))
-                                    : ''}
-
-
-                                {schPortal.moduleArray.map((mod, i) => mod.infos.map((a, index) => (<div key={index}>{a.post}</div>)))}
-
-                            </div>
-                        </Fade >
-                    </> : ''}
-
-            </Col> : 'Check Back Later'}
-
-        </Container >
+    </Container>
     )
 }
 export default StudentPage;

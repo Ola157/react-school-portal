@@ -1,86 +1,103 @@
 const myReducer = (state, action) => {
-    if (action.type === "ADD_MODULE") {
+    if (action.type === "ADD_STAFF") {
         let a = {
             ...state,
-            moduleArray: [...state.moduleArray, action.payload]
+            staffArray: [...state.staffArray, action.payload]
         }
         return a
     }
 
     if (action.type === "ADD_STUDENT") {
-        let { studentCode, studentPass } = action.payload
         let a = {
             ...state,
-            studentArray: [...state.studentArray, { studentCode, studentPass }]
+            studentArray: [...state.studentArray, action.payload]
         }
-        console.log(a)
         return a
     }
 
     if (action.type === 'ADD_QUESTION') {
         let a = {
             ...state,
-            moduleArray: state.moduleArray.map((mod) =>
-                action.payload.id == mod.moduleName ?
-                    {
-                        ...mod,
-                        allQuest: [...mod.allQuest, action.payload]
-                    }
-                    : mod
-            )
+            questionArray: [...state.questionArray, action.payload]
         }
         return a
     }
 
-    if (action.type === "DELETE_QUEST") {
-        let { id, index } = action.payload
-
+    if (action.type === "EDIT_QUESTION") {
+        let { any, index, moduleId } = action.payload
         let a = {
             ...state,
-            moduleArray: state.moduleArray.map((mod) =>
-                mod.moduleName === id ?
-                    ({
-                        ...mod,
-                        allQuest: mod.allQuest.filter((b, i) =>
-                            i !== index)
-                    })
-                    : mod)
+            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && index === i)
+                .map(a => ({
+                    ...a,
+                    edit: any
+                }))
         }
         return a
     }
 
-    if (action.type === "ANSWER_UPDATE") {
-        let { e, index, id } = action.payload
-
+    if (action.type === "DEL_QUESTION") {
+        let { index, moduleId } = action.payload
         let a = {
             ...state,
-            moduleArray: state.moduleArray.map((mod) => mod.moduleName === id ?
-                ({
-                    ...mod,
-                    allQuest: mod.allQuest.map((b, i) =>
-                        i === index ? ({
-                            ...b,
-                            studentAnswer: b.studentAnswer = e
-                        })
-                            : b)
-                })
-                : mod)
+            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId ? index !== i : a)
+        }
+        return a
+    }
+
+    if (action.type === "ADD_EDITED") {
+        let { index, moduleId, question, optionA, optionB, optionC, optionD, answer } = action.payload
+        let a = {
+            ...state,
+            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && i === index).map(a => ({
+                ...a,
+                question: question,
+                optionA: optionA,
+                optionC: optionB,
+                optionD: optionC,
+                optionE: optionD,
+                answer: answer,
+                edit: ''
+            }))
         }
         return a
     }
 
     if (action.type === "ADD_INFOS") {
-        let { post, id } = action.payload
+        let { post, moduleId, display } = action.payload
 
         let a = {
             ...state,
-            moduleArray: state.moduleArray.filter((mod) =>
-                mod.moduleName === id).map((mod) =>
-                ({
-                    ...mod,
-                    infos: [...mod.infos, action.payload]
-                }))
+            informationArray: [...state.informationArray, { post, moduleId, display }]
         }
+        return a
+    }
+
+    if (action.type === "DISPLAY_CONTROL") {
+        let { any, moduleId, time } = action.payload
+        let a = {
+            ...state,
+            questionArray: action.payload.any === 'dQuestion' || action.payload.any === '!dQuestion' ?
+                state.questionArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
+                    ...a,
+                    display: action.payload.any
+                })) : state.questionArray,
+
+            duration: action.payload.any === 'dQuestion' ? [...state.duration, { moduleId, time }] : Array.isArray(state.duration) ? state.duration.filter(a => a.moduleId !== moduleId) : state.duration,
+
+            informationArray: action.payload.any === 'dInfo' || action.payload.any === '!dInfo' ?
+                state.informationArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
+                    ...a,
+                    display: action.payload.any
+                })) : state.informationArray,
+
+            resultArray: action.payload.any === 'dGrades' || action.payload.any === '!dGrades' ?
+                state.resultArray.filter(a => a.moduleId === action.payload.moduleId).map(a => ({
+                    ...a,
+                    display: action.payload.any
+                })) : state.resultArray
+        }
+        console.log(a)
         return a
     }
 
@@ -89,110 +106,73 @@ const myReducer = (state, action) => {
 
         let a = {
             ...state,
-            moduleArray: state.moduleArray.filter((mod) => mod.moduleName === moduleId)
-                .map((mod, i) => ({
-                    ...mod,
-                    infos: mod.infos.filter((a, i) => i !== index)
-                }))
+            informationArray: state.informationArray.filter((a, i) => a.moduleId === moduleId ? index !== i : a)
         }
         return a
     }
+
+    if (action.type === "ADD_PINFO") {
+        console.log(action.payload)
+
+        let a = {
+            ...state,
+            staffArray: action.payload.moduleId ? state.staffArray.filter(a => a.moduleId === action.payload.moduleId).map(a =>
+            ({
+                ...a,
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName,
+                dob: action.payload.dob,
+                homeAddress: action.payload.homeAddy
+            })) : state.staffArray,
+
+            studentArray: action.payload.studentId ? state.studentArray.filter(a => a.studentId === action.payload.studentId).map(a =>
+            ({
+                ...a,
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName,
+                dob: action.payload.dob,
+                homeAddress: action.payload.homeAddy
+            })) : state.studentArray
+
+        }
+        return a
+    }
+
+    if (action.type === "ANSWER_UPDATE") {
+        let { answer, index, moduleId } = action.payload
+
+        let a = {
+            ...state,
+            questionArray: state.questionArray.filter((a, i) => a.moduleId === moduleId && index === i).map(a =>
+            ({
+                ...a,
+                studentAnswer: answer
+            }))
+        }
+        return a
+    }
+
 
     if (action.type === "ADD_SCORE") {
-        let { id1, finalScore, id } = action.payload
-        let b = state.moduleArray.find((a) => a.moduleName === id && a.results)
-        b = b.results.find((a) => id1 === a.id1)
+        let { moduleId, studentId, finalScore, display } = action.payload
+
         let a = {
             ...state,
-            moduleArray: state.moduleArray
-                .filter((mod) => mod.moduleName === id)
-                .map((mod) => !b ? (
-                    {
-                        ...mod,
-                        results: [...mod.results, { id1, finalScore }]
-                    }
-                ) : mod)
-        }
-
-        return a
-    }
-
-    if (action.type === "SEND_QUESTION") {
-        let { id } = action.payload
-        let b = state.moduleArray.find((mod) => mod.allQuest.length > 0)
-        console.log(b)
-        let a = {
-            ...state,
-            questionsArray: b.allQuest
-        }
-        return a
-    }
-    if (action.type === "DELETE_TEST") {
-        let { id } = action.payload
-        let a = {
-            ...state,
-            questionsArray: state.questionsArray.filter((mod) => id !== mod.id)
-        }
-
-        a = {
-            ...state,
-            moduleArray: state.moduleArray.map((mod) => (
-                {
-                    ...mod,
-                    allQuest: mod.allQuest.filter((a) => !a)
-                }
-            ))
+            resultArray: [...state.resultArray, { moduleId, studentId, finalScore, display }]
         }
         return a
     }
 
-    if (action.type === "SEND_INFOS") {
-        let { id } = action.payload
-        let b = state.moduleArray.find((mod) => mod.infos.length > 0)
-
-        let a = {
-            ...state,
-            informationsArray: b.infos
-        }
-        return a
-    }
-
-    if (action.type === "DELETE_INFOS") {
-        let { id } = action.payload
-        let a = {
-            ...state,
-            informationsArray: state.informationsArray.filter((mod) => id !== mod.id)
-        }
-        a = {
-            ...state,
-            moduleArray: state.moduleArray.map((mod) => (
-                {
-                    ...mod,
-                    infos: mod.infos.filter((a) => !a)
-                }
-            ))
-        }
-
-        return a
-    }
-
-    if (action.type === "ADD_TIME") {
-        let { e } = action.payload
-        let a = {
-            ...state,
-            time: e
-        }
-        return a
-    }
     return state;
 }
 
 export let portalData = {
     studentArray: '',
-    moduleArray: '',
-    questionsArray: '',
-    informationsArray: '',
-    time: ''
+    staffArray: '',
+    questionArray: '',
+    informationArray: '',
+    duration: '',
+    resultArray: ''
 }
 
 export default myReducer;

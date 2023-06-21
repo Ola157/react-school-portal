@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './TheSchoolApp/HomePage';
 import TutorPage from './TheSchoolApp/TutorPage';
 import StudentPage from './TheSchoolApp/StudentPage';
-import CourseDeets from './TheSchoolApp/CourseDeets';
 import Admin from './TheSchoolApp/Admin';
 import Test from './TheSchoolApp/Test';
 import SetQuest from './TheSchoolApp/SetQuest';
@@ -13,99 +12,88 @@ import Results from './TheSchoolApp/Results';
 import myReducer, { portalData } from './TheSchoolApp/reducer';
 import GuestPage from './TheSchoolApp/GuestPage';
 import OpenDay from './TheSchoolApp/OpenDay';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './App.css';
+import ModuleQuestions from './TheSchoolApp/ModuleQuestions';
+import StaffPersonalInfo from './TheSchoolApp/StaffPersonalInfo';
+import MyModules from './TheSchoolApp/MyModules';
+import ModuleDeets from './TheSchoolApp/ModuleDeets';
+import News from './TheSchoolApp/News';
+import Grades from './TheSchoolApp/Grades';
+import StudentPersonalInfo from './TheSchoolApp/StudentPersonalInfo';
+
 
 
 const App = () => {
-  // let [module, setModules] = useState(() => {
-  //   let localStorageportal = localStorage.getItem('portal');
-  //   if (localStorageportal) {
-  //     let parsedPortal = JSON.parse(localStorageportal);
-  //     return parsedPortal;
-  //   }
-  //   return [];
-  // });
+
 
   let [schPortal, dispatchPortal] = useReducer(myReducer, portalData)
-  let [boo, setBoo] = useState(false)
 
-  const funcBoo = getBoo => {
-    setBoo(getBoo)
+  const addStaff = (first, sec, firstName, lastName, dob, homeAddress) => {
+    dispatchPortal({ type: 'ADD_STAFF', payload: { moduleId: first, moduleCode: sec, firstName, lastName, dob, homeAddress } })
   }
 
-  const addMod = data => {
-    let { moduleName, moduleCode, allQuest, infos, results } = data
-    if (moduleName !== '' && moduleCode !== '') {
-      dispatchPortal({ type: 'ADD_MODULE', payload: { moduleName, moduleCode, allQuest, infos, results } })
-    }
-    console.log(data)
+  const addStudent = (first, sec, firstName, lastName, dob, homeAddress) => {
+    dispatchPortal({ type: "ADD_STUDENT", payload: { studentId: first, studentCode: sec, firstName, lastName, dob, homeAddress } })
+  }
+  const addQuestion = (moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit) => {
+    dispatchPortal({ type: 'ADD_QUESTION', payload: { moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit } })
   }
 
-  const addQuest = (values) => {
-    dispatchPortal({ type: 'ADD_QUESTION', payload: values })
+  const editQuestion = (any, index, moduleId) => {
+    dispatchPortal({ type: "EDIT_QUESTION", payload: { any, index, moduleId } })
   }
 
-  const deleteBtn = (id, index) => {
-    dispatchPortal({ type: "DELETE_QUEST", payload: { id, index } })
+  const delQuestion = (index, moduleId) => {
+    dispatchPortal({ type: "DEL_QUESTION", payload: { index, moduleId } })
   }
 
-  const studentAnswer = (e, index, id) => {
-    dispatchPortal({ type: "ANSWER_UPDATE", payload: { e, index, id } })
+  const addEdited = (index, moduleId, question, optionA, optionB, optionC, optionD, answer) => {
+    dispatchPortal({ type: "ADD_EDITED", payload: { index, moduleId, question, optionA, optionB, optionC, optionD, answer } })
   }
 
-  const addInfos = getInfos => {
-    let { post, id } = getInfos
-    dispatchPortal({ type: "ADD_INFOS", payload: { post, id } })
+  const displayControl = (value) => {
+    console.log(value)
+    dispatchPortal({ type: "DISPLAY_CONTROL", payload: value })
   }
 
-  const delInfo = (index, moduleId) => {
+  const addInfos = (post, moduleId, display) => {
+    dispatchPortal({ type: "ADD_INFOS", payload: { post, moduleId, display } })
+  }
+
+  const deleteInfos = (index, moduleId) => {
     dispatchPortal({ type: "DELETE_INFOS", payload: { index, moduleId } })
   }
 
-  const addScore = (id1, finalScore, id) => {
-    dispatchPortal({ type: "ADD_SCORE", payload: { id1, finalScore, id } })
+  const addPersonalInfo = (value) => {
+    dispatchPortal({ type: "ADD_PINFO", payload: value })
   }
 
-  const addStudent = (stuDeets) => {
-    let { studentCode, studentPass } = stuDeets
-    dispatchPortal({ type: "ADD_STUDENT", payload: { studentCode, studentPass } })
+  const handleAnswer = (answer, index, moduleId) => {
+    dispatchPortal({ type: "ANSWER_UPDATE", payload: { answer, index, moduleId } })
   }
 
-  const sendQuestions = (id) => {
-    dispatchPortal({ type: "SEND_QUESTION", payload: { id } })
-
-  }
-
-  const sendInfo = (id) => {
-    dispatchPortal({ type: "SEND_INFOS", payload: { id } })
-
-  }
-
-  const deleteQuests = (id) => {
-    dispatchPortal({ type: "DELETE_TEST", payload: { id } })
-  }
-
-  const deleteInfos = (id) => {
-    dispatchPortal({ type: "DELETE_INFOS", payload: { id } })
-  }
-
-  const addTime = (e) => {
-    dispatchPortal({ type: "ADD_TIME", payload: { e } })
-
+  const addScore = (moduleId, studentId, finalScore, display) => {
+    dispatchPortal({ type: "ADD_SCORE", payload: { moduleId, studentId, finalScore, display } })
   }
 
   return (
     <>
       <Routes>
-        <Route path='/*' element={<HomePage schPortal={schPortal} funcBoo={funcBoo} />} />
-        <Route path='/tutor/:id' element={<TutorPage schPortal={schPortal} />} />
-        <Route path='/student/:id' element={<StudentPage schPortal={schPortal} />} />
-        <Route path='/courseDeets/:id' element={<CourseDeets module={module} />} />
-        <Route path='/admin' element={<Admin schPortal={schPortal} addMod={addMod} boo={boo} addStudent={addStudent} />} />
-        <Route path='/test/:id/:id1' element={<Test schPortal={schPortal} studentAnswer={studentAnswer} addScore={addScore} />} />
-        <Route path='/questions/:id' element={<SetQuest addQuest={addQuest} schPortal={schPortal} deleteBtn={deleteBtn} sendQuestions={sendQuestions} deleteQuests={deleteQuests} addTime={addTime} />} />
-        <Route path='/update/:id' element={<SendUpdate schPortal={schPortal} addInfos={addInfos} delInfo={delInfo} sendInfo={sendInfo} deleteInfos={deleteInfos} />} />
-        <Route path='/results/:id' element={<Results schPortal={schPortal} />} />
+        <Route path='/*' element={<HomePage schPortal={schPortal} />} />
+        <Route path='/staff/:moduleId' element={<TutorPage schPortal={schPortal} />} />
+        <Route path='/student/:studentId' element={<StudentPage schPortal={schPortal} />} />
+        <Route path='/admin/:id' element={<Admin schPortal={schPortal} addStaff={addStaff} addStudent={addStudent} />} />
+        <Route path='/test/:moduleId/:studentId' element={<Test schPortal={schPortal} handleAnswer={handleAnswer} addScore={addScore} />} />
+        <Route path='/questions/:moduleId' element={<SetQuest addQuestion={addQuestion} schPortal={schPortal} />} />
+        <Route path='/modulequestions/:moduleId' element={<ModuleQuestions editQuestion={editQuestion} delQuestion={delQuestion} schPortal={schPortal} addEdited={addEdited} displayControl={displayControl} />} />
+        <Route path='/announcement/:moduleId' element={<SendUpdate schPortal={schPortal} addInfos={addInfos} deleteInfos={deleteInfos} displayControl={displayControl} />} />
+        <Route path='/results/:moduleId' element={<Results schPortal={schPortal} displayControl={displayControl} />} />
+        <Route path='staffpInfo/:moduleId' element={<StaffPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
+        <Route path='studentpInfo/:studentId' element={<StudentPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
+        <Route path='modules/:studentId' element={<MyModules schPortal={schPortal} />} />
+        <Route path='fullmode/:moduleId/:studentId' element={<ModuleDeets schPortal={schPortal} />} />
+        <Route path='news' element={<News schPortal={schPortal} />} />
+        <Route path='grades/:studentId' element={<Grades schPortal={schPortal} />} />
         <Route path='/guest' element={<GuestPage />} />
         <Route path='/openday' element={<OpenDay />} />
       </Routes>
