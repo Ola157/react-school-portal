@@ -64,9 +64,9 @@ const Admin = ({ addStudent, schPortal, addStaff }) => {
         <Container fluid className='py-3'>
             <Row className='d-flex justify-content-around align-items-center'>
 
-                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/schoolGoer.jpg')})` }}>
+                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/schoolGoer.jpg') : require('./assets/staff1.jpg')})` }}>
                 </Col>
-                <Col className='adminCol border rounded m-1 py-1' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/schoolCamp1.jpg')})` }}>
+                <Col className='adminCol border rounded m-1 py-1' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/passion.jpg') : require('./assets/staff2.jpg')})` }}>
                     <div className='w-100'>
                         <input className='d-block border rounded my-4 text-center w-100' style={{ height: '2.5em' }} value={first} onInput={(event) => setFirstEntry(event.target.value)} placeholder={boo === 'staff' || boo === 'staffsignup' ? 'module name' : 'student Code'} />
                         <input className='d-block border rounded my-4 text-center w-100' style={{ height: '2.5em' }} value={sec} onInput={(event) => setSecEntry(event.target.value)} placeholder={boo === 'staff' || boo === 'studentsignup' ? 'module code' : 'password'} />
@@ -74,14 +74,14 @@ const Admin = ({ addStudent, schPortal, addStaff }) => {
                         {boo === 'staffsignup' || boo === 'studentsignup' ? '' : <div className='text-center mt-4'><button className='border rounded btn py-0' onClick={boo === 'student' ? () => handleboo('studentsignup') : () => handleboo('staffsignup')} style={{ textDecoration: 'underline' }}> signup </button></div>}
                     </div>
                 </Col >
-                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/library.jpg')})` }}>
+                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/library.jpg') : require('./assets/staff3.jpg')})` }}>
                 </Col>
 
-                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/reading.jpg')})` }}>
+                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/reading.jpg') : require('./assets/staff4.jpg')})` }}>
                 </Col>
-                <Col className='adminCol border rounded bg-white m-1 py-2' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/nightstudy.jpg')})` }}>
+                <Col className='adminCol border rounded bg-white m-1 py-2' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/nightstudy.jpg') : require('./assets/staff5.jpg')})` }}>
                 </Col >
-                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${require('./assets/graduate.jpg')})` }}>
+                <Col className='adminCol border rounded m-1 p-0' lg={3} md={4} sm={12} style={{ backgroundImage: `url(${boo === 'student' ? require('./assets/graduate.jpg') : require('./assets/staff6.jpg')})` }}>
                 </Col>
             </Row >
         </Container>

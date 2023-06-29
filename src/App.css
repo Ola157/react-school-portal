@@ -7,6 +7,7 @@
 
 .homepage {
   background-color: black;
+  box-shadow: inset 0em -1em 3em 0.5em rgba(64, 63, 63, 2);
   color: goldenrod;
 }
 
@@ -33,6 +34,7 @@
   height: 20em;
   background-position: center;
   background-size: cover;
+  box-shadow: inset 1em 1em 3em 2em rgba(64, 63, 63, 0.9);
 }
 
 .btnNav {
@@ -53,4 +55,13 @@
 
 .backIcon {
   color: black;
+}
+
+.calendar {
+  background-color: rgba(64, 63, 63, 0.9);
+  color: black;
+}
+
+.guestGrid {
+  background-color: rgba(251, 245, 245, 0.9);
 }

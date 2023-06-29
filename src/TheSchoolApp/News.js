@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom'
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -26,18 +27,35 @@ const News = ({ schPortal }) => {
                 <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
                     Announcements
                 </Col>
-                <hr className='my-0'></hr>
                 {schPortal.informationArray ?
-                    schPortal.informationArray.filter(a => a.display === 'dInfo').map(a => (
-                        <Col className='d-flex'>
-                            <Col>
-                                {a.moduleId}
-                            </Col>
-                            < Col >
-                                {a.post}
-                            </Col>
-                        </Col>))
-                    : <Col lg={12} md={12} sm={12} className='text-center'>No Announcements Yet</Col>}
+                    <Table striped bordered hover className='text-center my-2 table-responsive'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Module
+                                </th>
+                                <th>
+                                    Information
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {schPortal.informationArray.filter(a => a.display === 'dInfo').map(a => (
+                                <tr >
+                                    <td>
+                                        {a.moduleId}
+                                    </td>
+                                    < td >
+                                        {a.post}
+                                    </td>
+                                </tr>))}
+                        </tbody>
+                    </Table>
+
+                    : <div>
+                        <hr className='my-0'></hr>
+                        <Col lg={12} md={12} sm={12} className='text-center'>No Announcement Yet</Col>
+                    </div>}
 
             </Row>
         </Container >

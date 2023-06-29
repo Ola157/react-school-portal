@@ -1,56 +1,103 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Table from 'react-bootstrap/Table'
 import { Navbar } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook } from '@fortawesome/free-solid-svg-icons'
-import { faMapLocation } from '@fortawesome/free-solid-svg-icons'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { faTable } from '@fortawesome/free-solid-svg-icons'
-import { faPersonDotsFromLine } from '@fortawesome/free-solid-svg-icons'
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 
 const GuestPage = () => {
+    let today = new Date()
+    let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']
+    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    let [month, setMonth] = useState(today.getMonth())
+    let [year, setYear] = useState(today.getFullYear())
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const totalDays = daysInMonth + firstDayOfMonth;
+    const numRows = Math.ceil(totalDays / 7);
 
-    return (<div style={{ height: '800px', backgroundColor: 'gray' }}>
-        <Navbar bg="white" variant="white" className="justify-content-around py-2" style={{ height: '50px' }}>
-            {/* <Container fluid> */}
-            {/* <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav> */}
-            {/* </Container > */}
+    const handleDate = any => {
+        if (any === 'previous') {
+            setMonth((prev) => prev -= 1)
+            if (month <= 0) {
+                setMonth(11)
+                setYear((prev) => prev - 1)
+            }
+        }
+        if (any === 'next') {
+            setMonth((prev) => prev += 1)
+            if (month >= 11) {
+                setMonth(0)
+                setYear((prev) => prev + 1)
+            }
+        }
+    }
 
-            <div> <FontAwesomeIcon style={{ height: '30px', color: 'red', marginLeft: '-40px' }} icon={faSchool} size="2xl" /><span className='mx-1 py-2' style={{ fontWeight: 'light' }}>MySch</span></div>
-            {/* < NavDropdown title='' id="nav-dropdown" style={{ marginRight: '200px' }}>
-                    <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
-                </NavDropdown > */}
+    const td = []
+    const displayCalendar = () => {
+        for (let row = 0; row < numRows; row++) {
+            const weekDays = [];
+
+            for (let i = 0; i < 7; i++) {
+                const dayIndex = row * 7 + i;
+                const dayNumber = dayIndex - firstDayOfMonth + 1;
+
+                if (dayIndex >= firstDayOfMonth && dayNumber <= daysInMonth) {
+                    weekDays.push(<td key={dayIndex}>{dayNumber}</td>);
+                } else {
+                    weekDays.push(<td key={dayIndex}></td>);
+                }
+            }
+
+            td.push(<tr className='text-white' key={row}>{weekDays}</tr>);
+        }
+    }
+    displayCalendar()
+
+    return (<Container className='display' fluid>
+        <Navbar bg="black" className="justify-content-around">
+            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
-        <Container fluid style={{ backgroundColor: 'gray' }}>
-            <Col className='d-flex p-3' lg={8}>
-                <Col className='rounded border bg-light me-2' style={{ height: '160px', width: '160px', marginLeft: '20%' }}><Link style={{ textDecoration: "none" }} to='/openday'><h1 className='text-center my-4' style={{ color: 'red' }}>OPEN DAYS</h1></Link></Col>
-                <Col className='flex-column align-items-center rounded border bg-light mx-2 me-2' style={{ height: '160px', width: '160px', paddingLeft: '35px', paddingTop: '20px', paddingBottom: '10px' }}><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faBook} /><div className='mt-auto align-self-start' style={{ color: 'red' }}>ORDER A PROSPECTUS</div></Link></Col>
-                <Col className='flex-column  rounded border bg-light mx-2 text-center p-4' style={{ height: '160px', width: '160px' }} ><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faMapLocation} /> <span className='mt-3' style={{ color: 'red' }}>Campus Map</span></Link></Col>
-                <Col className='flex-column  rounded border bg-light mx-2 text-center' style={{ height: '160px', width: '160px', marginRight: '20%' }} ><Link style={{ textDecoration: "none" }} to='/openday'><hr style={{ border: 'solid', color: 'red' }}></hr> <span className='mt-1' style={{ fontSize: '20px', fontWeight: 'bold' }}><span style={{ color: 'red' }}>MySch</span><br></br><span style={{ color: 'red' }}> Global</span></span><hr style={{ border: 'solid', color: 'red' }}></hr><hr style={{ border: 'solid', color: 'red' }}></hr></Link></Col>
-            </Col>
 
-            <Col className='d-flex p-3' lg={8}>
-                <Col className='flex-column text-center  rounded border bg-light me-2 py-4' style={{ height: '160px', width: '160px', marginLeft: '20%' }}><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faLink} /> <br></br> <span style={{ color: 'red' }}>Quick Links</span></Link></Col>
-                <Col className='flex-column text-center rounded border bg-light mx-2 me-2 py-4' style={{ height: '160px', width: '160px' }}><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faGlobe} /><br></br><span style={{ color: 'red' }}>MSU Website</span></Link></Col>
-                <Col className='flex-column text-center rounded border bg-light mx-2 me-2 py-4' style={{ height: '160px', width: '160px' }}><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faTable} /><br></br><span style={{ color: 'red' }}>Time Table</span></Link></Col>
-                <Col className='flex-column text-center rounded border bg-light mx-2 py-4' style={{ height: '160px', width: '160px', marginRight: '20%' }} ><Link style={{ textDecoration: "none" }} to='/openday'><FontAwesomeIcon style={{ height: '70px', color: 'red' }} icon={faPersonDotsFromLine} /><span style={{ color: 'red' }}>Learning Beyond Registration</span></Link></Col>
-            </Col >
+        <Container fluid >
+            <Row className='calendar m-1'>
+                <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-start align-items-center my-1'>
+                    <Link to='/'><FontAwesomeIcon className='text-white' icon={faArrowLeft} /></Link>
+                </Col>
+                <hr className='my-0 text-white'></hr>
+                <Col lg={12} md={12} sm={12} xs={12} className='text-center align-self-center my-2 text-white'>Calendar</Col>
+                <Col lg={12} md={12} sm={12} xs={12}>
+                    <Table bordered>
+                        <thead>
+                            <tr>
+                                <th colSpan={7}>
+                                    <div className='d-flex justify-content-between'>
+                                        <button onClick={() => handleDate('previous')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesLeft} /></button>
+                                        <div className='text-white'>{months[month]}, {year}</div>
+                                        <button onClick={() => handleDate('next')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesRight} /></button>
+                                    </div>
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody className='text-white'>
+                            <tr >{weekdays.map((a, i) => <td key={i} className='text-white'>{a}</td>)}</tr>
+                            {td}
+                        </tbody>
+                    </Table>
+
+
+                </Col>
+            </Row>
+
         </Container >
-    </div >)
+    </Container >)
 }
 export default GuestPage;

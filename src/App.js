@@ -11,7 +11,6 @@ import SendUpdate from './TheSchoolApp/SendUpdate';
 import Results from './TheSchoolApp/Results';
 import myReducer, { portalData } from './TheSchoolApp/reducer';
 import GuestPage from './TheSchoolApp/GuestPage';
-import OpenDay from './TheSchoolApp/OpenDay';
 import './App.css';
 import ModuleQuestions from './TheSchoolApp/ModuleQuestions';
 import StaffPersonalInfo from './TheSchoolApp/StaffPersonalInfo';
@@ -98,7 +97,6 @@ const App = () => {
         <Route path='news/:studentId' element={<News schPortal={schPortal} />} />
         <Route path='grades/:studentId' element={<Grades schPortal={schPortal} />} />
         <Route path='/guest' element={<GuestPage />} />
-        <Route path='/openday' element={<OpenDay />} />
       </Routes>
     </>
   )

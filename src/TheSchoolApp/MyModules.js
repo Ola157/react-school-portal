@@ -7,6 +7,7 @@ import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 
 const MyModules = ({ schPortal }) => {
@@ -32,7 +33,7 @@ const MyModules = ({ schPortal }) => {
                 {schPortal.staffArray ? schPortal.staffArray.map((a, index) => (
                     <Col lg={12} md={12} sm={12} key={index}>
 
-                        <Link className='d-block align-self-center' style={{ textDecoration: 'none', color: 'black' }} to={`/fullmode/${a.moduleId}/${studentId}`}>{a.moduleId}
+                        <Link className='d-block align-self-center' style={{ textDecoration: 'none', color: 'black' }} to={`/fullmode/${a.moduleId}/${studentId}`}><FontAwesomeIcon className='mx-1' icon={faCaretRight} /> {a.moduleId}
                         </Link>
                         <hr className='my-1'></hr>
                     </Col>))

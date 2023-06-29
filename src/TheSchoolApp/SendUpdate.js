@@ -16,9 +16,12 @@ const SendUpdate = ({ addInfos, schPortal, deleteInfos, displayControl }) => {
     let counter = 1
     let { moduleId } = useParams();
     let [validate, setVal] = useState('')
+    let [valTwo, setValTwo] = useState('')
 
     useEffect(() => {
         let a = schPortal.informationArray ? schPortal.informationArray.find(a => a.moduleId === moduleId && a.display === 'dInfo') : ''
+        let b = schPortal.informationArray ? schPortal.informationArray.find(a => a.moduleId === moduleId) : ''
+        setValTwo(b)
         setVal(a)
     }, [schPortal.informationArray, []])
 
@@ -54,9 +57,8 @@ const SendUpdate = ({ addInfos, schPortal, deleteInfos, displayControl }) => {
                         className='my-1'
                     />
                     <button className='btn my-1 py-0 border rounded' onClick={() => addBtn()}>Post</button> <br></br>
-
-                    <Table striped bordered hover className='text-center'>
-                        {schPortal.informationArray ?
+                    {schPortal.informationArray ?
+                        <Table striped bordered hover className='text-center'>
                             <tbody>
                                 {schPortal.informationArray.filter(a => a.moduleId === moduleId)
                                     .map((a, index) => (<tr key={index}>
@@ -65,12 +67,14 @@ const SendUpdate = ({ addInfos, schPortal, deleteInfos, displayControl }) => {
                                         <td><button className='btn my-1 py-0 border rounded' onClick={() => deleteInfos(index, moduleId)}>Delete Announcement</button></td>
                                     </tr>))}
                             </tbody>
-                            : ''}
-                    </Table>
-                    {!validate ?
-                        <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dInfo', moduleId })}>Send Announcement</button></div>
-                        : <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: '!dInfo', moduleId })}>Delete Announcement</button></div>
-                    }
+
+                        </Table>
+                        : ''}
+                    {valTwo ?
+                        !validate ?
+                            <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dInfo', moduleId })}>Send Announcement</button></div>
+                            : <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: '!dInfo', moduleId })}>Delete Announcement</button></div>
+                        : ''}
                 </Col>
             </Row>
         </Container>

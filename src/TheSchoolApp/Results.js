@@ -12,10 +12,13 @@ import Col from 'react-bootstrap/Col'
 const Results = ({ schPortal, displayControl }) => {
     const { moduleId } = useParams();
     let [validate, setVal] = useState('')
+    let [valTwo, setValTwo] = useState('')
     let counter = 1
 
     useEffect(() => {
         let a = schPortal.resultArray ? schPortal.resultArray.find(a => a.display === 'dGrades' && a.moduleId === moduleId) : ''
+        let b = schPortal.resultArray ? schPortal.resultArray.find(a => a.moduleId === moduleId) : ''
+        setValTwo(b)
         setVal(a)
     }, [schPortal.resultArray, []])
 
@@ -35,7 +38,6 @@ const Results = ({ schPortal, displayControl }) => {
                 <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
                     Results
                 </Col>
-                <hr className='my-0'></hr>
 
                 <Col >
                     {schPortal.resultArray ?
@@ -59,10 +61,11 @@ const Results = ({ schPortal, displayControl }) => {
                         </Table>
                         : <Col className='text-center'>No Grades Yet</Col>}
 
-                    {!validate ?
-                        <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dGrades', moduleId })}>Send Grades</button></div>
-                        : <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: '!dGrades', moduleId })}>Delete Grades</button></div>
-                    }
+                    {valTwo ?
+                        !validate ?
+                            <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dGrades', moduleId })}>Send Grades</button></div>
+                            : <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: '!dGrades', moduleId })}>Delete Grades</button></div>
+                        : ''}
                 </Col>
             </Row>
         </Container>

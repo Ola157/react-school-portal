@@ -21,10 +21,14 @@ const ModuleQuestions = ({ schPortal, editQuestion, delQuestion, addEdited, disp
     let [answer, setAnswer] = useState('')
     let [time, setTime] = useState('')
     let [validate, setVal] = useState('')
+    let [valTwo, setValTwo] = useState('')
+
 
     useEffect(() => {
         let a = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId && a.display === 'dQuestion') : ''
+        let b = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId) : ''
         setVal(a)
+        setValTwo(b)
     }, [schPortal.questionArray, []])
 
     const addBtn = (any, index) => {
@@ -60,64 +64,66 @@ const ModuleQuestions = ({ schPortal, editQuestion, delQuestion, addEdited, disp
                     Module Questions
                 </Col>
 
+                <Col lg={12} md={12} sm={12} xs={12}>
+                    < Table striped bordered hover className='table-responsive my-1'>
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>QUEST</th>
+                                <th>OPT A</th>
+                                <th>OPT B</th>
+                                <th>OPT C</th>
+                                <th>OPT D</th>
+                                <th>ANS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {schPortal.questionArray ?
+                                schPortal.questionArray.filter(a => a.moduleId === moduleId).map((b, index) => (
+                                    < tr key={index} >
+                                        <td>{counter++}</td>
+                                        <td>{b.question}</td>
+                                        <td>{b.optionA}</td>
+                                        <td>{b.optionB}</td>
+                                        <td>{b.optionC}</td>
+                                        <td>{b.optionD}</td>
+                                        <td>{b.answer}</td>
+                                        <td className='text-center'><button className='btn border rounded py-0' onClick={() => editQuestion({ any: 'edit', index, moduleId })}>edit</button>
+                                            <button className='btn border rounded py-0' onClick={() => delQuestion(index, moduleId)}>del</button></td>
+                                        {
+                                            b.edit === 'edit' ?
+                                                <>
+                                                    <tr className='d-flex justify-content-center'>
+                                                        <td>
+                                                            <input className='border rounded my-1' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} />
+                                                            <input className='border rounded my-1' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} />
+                                                            <input className='border rounded my-1' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} />
+                                                            <input className='border rounded my-1' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} />
+                                                            <input className='border rounded my-1' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} />
+                                                            <input className='border rounded my-1' placeholder='Answer' onInput={(event) => setAnswer(event.target.value)} />
+                                                            <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('add', index)}>Done</button>
+                                                            <button className='btn border rounded py-0 d-block my-1' onClick={() => editQuestion({ any: '!edit', index, moduleId })}>Cancel</button>
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                                : ''
+                                        }
+                                    </tr>
+                                ))
+                                : ''}
 
-                < Table striped bordered hover className='table-responsive my-1'>
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>QUESTION</th>
-                            <th>OPTION A</th>
-                            <th>OPTION B</th>
-                            <th>OPTION C</th>
-                            <th>OPTION D</th>
-                            <th>ANSWER</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {schPortal.questionArray ?
-                            schPortal.questionArray.filter(a => a.moduleId === moduleId).map((b, index) => (
-                                < tr key={index} >
-                                    <td>{counter++}</td>
-                                    <td>{b.question}</td>
-                                    <td>{b.optionA}</td>
-                                    <td>{b.optionB}</td>
-                                    <td>{b.optionC}</td>
-                                    <td>{b.optionD}</td>
-                                    <td>{b.answer}</td>
-                                    <td><button className='btn border rounded py-0' onClick={() => editQuestion({ any: 'edit', index, moduleId })}>edit</button></td>
-                                    <td><button className='btn border rounded py-0' onClick={() => delQuestion(index, moduleId)}>Delete</button></td>
-                                    {
-                                        b.edit === 'edit' ?
-                                            <>
-                                                <tr className='d-flex justify-content-center'>
-                                                    <td>
-                                                        <input className='border rounded my-1' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} />
-                                                        <input className='border rounded my-1' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} />
-                                                        <input className='border rounded my-1' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} />
-                                                        <input className='border rounded my-1' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} />
-                                                        <input className='border rounded my-1' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} />
-                                                        <input className='border rounded my-1' placeholder='Answer' onInput={(event) => setAnswer(event.target.value)} />
-                                                        <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('add', index)}>Done</button>
-                                                        <button className='btn border rounded py-0 d-block my-1' onClick={() => editQuestion({ any: '!edit', index, moduleId })}>Cancel</button>
-                                                    </td>
-                                                </tr>
-                                            </>
-                                            : ''
-                                    }
-                                </tr>
-                            ))
-                            : ''}
+                        </tbody>
+                    </Table>
+                    {valTwo ?
+                        !validate ?
+                            <>
+                                <div className='my-2'><input className='text-center rounded border' placeholder='Set Test Duration' onInput={event => setTime(event.target.value)} /></div>
 
-                    </tbody>
-                </Table>
-                {!validate ?
-                    <>
-                        <div className='my-2'><input className='text-center rounded border' placeholder='Set Test Duration' onInput={event => setTime(event.target.value)} /></div>
-
-                        <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('send')}>Send Questions</button>
-                    </>
-                    : <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('del')}>Delete Test Questions</button>
-                }
+                                <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('send')}>Send Questions</button>
+                            </>
+                            : <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('del')}>Delete Test Questions</button>
+                        : ''}
+                </Col>
             </Row>
         </Container>
 

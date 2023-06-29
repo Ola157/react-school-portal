@@ -27,10 +27,9 @@ const Grades = ({ schPortal }) => {
                 <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
                     Grades
                 </Col>
-                <hr className='my-0'></hr>
 
                 {schPortal.resultArray ?
-                    <Table striped bordered hover className='text-center'>
+                    <Table striped bordered hover className='text-center table-responsive'>
                         <thead>
                             <tr>
                                 <th>Module</th>
@@ -46,7 +45,10 @@ const Grades = ({ schPortal }) => {
                         </tbody>
                     </Table>
 
-                    : <Col lg={12} md={12} sm={12} className='text-center'>No Grades Yet</Col>}
+                    : <div>
+                        <hr className='my-0'></hr>
+                        <Col lg={12} md={12} sm={12} className='text-center'>No Grades Yet</Col>
+                    </div>}
 
             </Row>
         </Container >
