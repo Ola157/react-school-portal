@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Table } from 'react-bootstrap';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux';
 
 
-const MyModules = ({ schPortal }) => {
-    const { studentId } = useParams()
+const MyModules = ({ handleFetchMyModules, handleSelectMyModules }) => {
+    let allModules = useSelector(state => state.allModules)
+    let allMyModules = useSelector(state => state.allMyModules)
+    let [selectedMod, setSelected] = useState('')
+
+    useEffect(() => {
+        handleFetchMyModules()
+    }, [allMyModules, allModules])
+
+    const handleModuleSelect = (moduleId, moduleName, moduleCode) => {
+        setSelected([...selectedMod, { moduleId, moduleName, moduleCode }])
+    }
+    const handleSelectedModule = () => {
+        handleSelectMyModules(selectedMod)
+    }
 
     return (<Container fluid className='display pb-5'>
         <Navbar bg="black" className="justify-content-around">
@@ -19,28 +33,41 @@ const MyModules = ({ schPortal }) => {
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
-        <Container fluid>
-            <Row className='bg-light mt-2 py-1'>
-                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+
+        <Row className='d-flex justify-content-center'>
+            {/* <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
                     <Link to={`/student/${studentId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col>
+                </Col> */}
 
-                <hr className='my-0'></hr>
-                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
-                    Modules
-                </Col>
-                <hr className='my-1'></hr>
-                {schPortal.staffArray ? schPortal.staffArray.map((a, index) => (
-                    <Col lg={12} md={12} sm={12} key={index}>
+            <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
+                <h3> {allMyModules.length < 1 ? 'Select From The List Of Modules' : 'My Modules'}</h3>
+            </Col>
 
-                        <Link className='d-block align-self-center' style={{ textDecoration: 'none', color: 'black' }} to={`/fullmode/${a.moduleId}/${studentId}`}><FontAwesomeIcon className='mx-1' icon={faCaretRight} /> {a.moduleId}
-                        </Link>
-                        <hr className='my-1'></hr>
-                    </Col>))
-                    : <Col className='text-center'>No Modules Yet</Col>}
+            {allMyModules.length < 1 && <Col lg={8} md={8} sm={8} className='bg-light text-center py-2'>
+                {allModules.map((module) => (
+                    <Col lg={12} md={12} sm={12} className=' d-flex justify-content-evenly' key={module._id}>
+                        <label className='m-1' htmlFor={module._id}>{module.moduleName} {module.moduleCode}</label>
+                        <input className='m-1' id={module._id} type='radio' onChange={() => handleModuleSelect(module.moduleId, module.moduleName, module.moduleCode)} />
+                    </Col>
+                ))}
+                <button className='w-20 my-1 border-0 border rounded' onClick={() => handleSelectedModule()}>Add Modules</button>
+            </Col>}
 
-            </Row>
-        </Container>
+            {allMyModules.length > 0 &&
+                <Col lg={8} md={8} sm={8} className='d-flex justify-content-evenly personalInfo' >
+                    <Table className='table-responsive' striped hover bordered>
+                        <thead>
+                            <tr>
+                                <th>Module Name</th>
+                                <th>Module Code </th>
+                            </tr>
+                        </thead>
+                        {allMyModules.length && allMyModules.map((module, index) => (<tbody key={index}>
+                            <tr><td>{module.moduleName}</td><td>{module.moduleCode}</td><td className='text-center'><Link className='modulelink' to={`/moduleDetails/${module.moduleId}`}>Click For More!</Link></td></tr>
+                        </tbody>))}
+                    </Table>
+                </Col>}
+        </Row>
     </Container >)
 }
 export default MyModules;

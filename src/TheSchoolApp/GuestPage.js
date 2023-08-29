@@ -50,54 +50,57 @@ const GuestPage = () => {
                 const dayNumber = dayIndex - firstDayOfMonth + 1;
 
                 if (dayIndex >= firstDayOfMonth && dayNumber <= daysInMonth) {
-                    weekDays.push(<td key={dayIndex}>{dayNumber}</td>);
+                    weekDays.push(<td key={dayIndex} className='text-white text-center'>{dayNumber}</td>);
                 } else {
                     weekDays.push(<td key={dayIndex}></td>);
                 }
             }
 
-            td.push(<tr className='text-white' key={row}>{weekDays}</tr>);
+            td.push(<tr key={row}>{weekDays}</tr>);
         }
     }
     displayCalendar()
 
-    return (<Container className='display' fluid>
+    return (<Container className='display pb-5' fluid>
         <Navbar bg="black" className="justify-content-around">
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
-        <Container fluid >
-            <Row className='calendar m-1'>
-                <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to='/'><FontAwesomeIcon className='text-white' icon={faArrowLeft} /></Link>
-                </Col>
-                <hr className='my-0 text-white'></hr>
-                <Col lg={12} md={12} sm={12} xs={12} className='text-center align-self-center my-2 text-white'>Calendar</Col>
-                <Col lg={12} md={12} sm={12} xs={12}>
-                    <Table bordered>
-                        <thead>
-                            <tr>
-                                <th colSpan={7}>
-                                    <div className='d-flex justify-content-between'>
-                                        <button onClick={() => handleDate('previous')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesLeft} /></button>
-                                        <div className='text-white'>{months[month]}, {year}</div>
-                                        <button onClick={() => handleDate('next')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesRight} /></button>
-                                    </div>
-                                </th>
-                            </tr>
+        <Row className='d-flex justify-content-center m-1'>
+            <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
+                <h3>Calendar</h3>
+            </Col>
 
-                        </thead>
-                        <tbody className='text-white'>
-                            <tr >{weekdays.map((a, i) => <td key={i} className='text-white'>{a}</td>)}</tr>
-                            {td}
-                        </tbody>
-                    </Table>
+            {/* <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-start align-items-center my-1'>
+                <Link to='/'><FontAwesomeIcon className='text-white' icon={faArrowLeft} /></Link>
+            </Col>
+            <hr className='my-0 text-white'></hr> */}
 
+            <Col lg={9} md={9} sm={9} xs={9} className='calendar' >
+                <Col className='d-flex justify-content-evenly py-1 my-1'>
+                    <div>
+                        <button onClick={() => handleDate('previous')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesLeft} /></button>
+                    </div>
+                    <div className='text-white'>
+                        {months[month]}, {year}
+                    </div>
+
+                    <div>
+                        <button onClick={() => handleDate('next')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesRight} /></button>
+                    </div>
 
                 </Col>
-            </Row>
+                <Table bordered className='table-responsive'>
+                    <tbody>
+                        <tr >{weekdays.map((a, i) => <td key={i} className='text-white text-center'>{a}</td>)}</tr>
+                        {td}
+                    </tbody>
+                </Table>
 
-        </Container >
+
+            </Col>
+        </Row>
+
     </Container >)
 }
 export default GuestPage;

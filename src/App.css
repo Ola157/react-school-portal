@@ -3,6 +3,7 @@
   background-position: center;
   background-size: cover;
   font-size: 17px;
+  background-color: rgba(211, 211, 211, .6);
 }
 
 .homepage {
@@ -16,41 +17,197 @@
   font-weight: bold;
 }
 
-.btn {
-  background-color: black;
+.loginbtn {
+  background-color: rgba(12, 12, 12, .9);
   color: goldenrod;
-  border-radius: 0%;
+  border-radius: 2px;
+  border: none;
+  height: 2.5em;
+  width: 70%;
+  font-weight: bold;
+  font-size: 1em;
 }
 
-.btn:hover {
-  background-color: rgb(32, 32, 32);
-  color: goldenrod;
-  transition: 1s;
-  opacity: unset;
+.inputs {
+  height: 2.5em;
+  border-radius: 3px;
+  border: none;
+  background-color: rgb(187, 184, 184);
+}
+
+.inputs:hover {
+  border: 2px solid black;
+}
+
+.loginbtn:hover {
+  background-color: rgb(17, 16, 16);
   border: 1px solid gray;
 }
 
-.adminCol {
+.loginCol {
   height: 20em;
   background-position: center;
   background-size: cover;
-  box-shadow: inset 1em 1em 3em 2em rgba(64, 63, 63, 0.9);
+  box-shadow: inset 1em 1em 3em 2em rgba(24, 24, 24, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.btnNav {
-  color: goldenrod;
-  background-color: black;
-  height: 7em;
+.myModal {
+  border: 2px solid red;
+  background-color: rgba(68, 67, 67, .7);
+  border-radius: 3px;
+  font-style: oblique;
+  color: white;
 }
 
-.btnNav:hover {
-  box-shadow: inset 0em -0.1em rgb(76, 171, 3);
+.module {
+  height: 3em;
+  font-size: 1.5em;
   font-weight: bold;
-  transition: 10ms;
+  background-color: rgba(206, 202, 202, .7);
+}
+
+.module:hover {
+  height: 3em;
+  font-size: 1.5em;
+  font-weight: bolder;
+  background-color: white;
+}
+
+
+.assesmentInput {
+  font-size: 1em;
+  font-weight: bold
+}
+
+.addQuestion {
+  width: 10em;
+  height: 2.5em;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: rgba(83, 82, 82, .7);
+  border-radius: 3px;
+}
+
+.addQuestion:hover {
+  background-color: rgba(83, 82, 82, .4);
+}
+
+.questionBtn {
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: rgb(12, 12, 12);
+  color: white;
+}
+
+.amends {
+  border: none;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.amends:hover {
+  text-decoration: underline;
+}
+
+.editDelete {
+  width: 10em;
+  height: 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: rgba(83, 82, 82, .7);
+  border-radius: 3px;
+}
+
+.informationInput {
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.informationInput:hover {
+  border: 2px solid black;
+}
+
+.signOutBtn {
+  border: none;
+  color: rgba(223, 223, 223, 0.5);
+  background-color: transparent;
+}
+
+.signOutBtn:hover {
+  border: none;
+  color: white;
+  background-color: transparent;
+}
+
+.results {
+  background-color: rgba(245, 237, 237, .7);
+  font-weight: bolder;
+}
+
+.personalInfo {
+  background-color: rgba(238, 236, 236, .8);
+}
+
+.tutorButton {
+  height: 7em;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  color: rgba(248, 247, 247, 0.6);
+  border: 1px solid rgba(220, 188, 7, .5);
+  font-weight: bold;
+}
+
+.tutorButton:hover {
+  color: white;
+  border-color: gold;
+  transition: 20ms;
+  background-color: black;
 }
 
 .questInp {
-  width: 90%;
+  border-radius: 3px;
+  border: 1px solid black;
+  width: 80%;
+}
+
+.modulelink {
+  text-decoration: none;
+  color: black;
+}
+
+.modulelink:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.h3headings {
+  color: gold;
+  background-color: rgba(14, 14, 14, .9);
+}
+
+.moduleData {
+  background-color: rgba(243, 242, 242, .7);
+}
+
+.moduleDataHeadings {
+  font-weight: bolder;
+}
+
+.submitButton {
+  border-radius: 3px;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+}
+
+.calendar {
+  background-color: rgba(245, 236, 224, .4);
 }
 
 .backIcon {

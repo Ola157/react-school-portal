@@ -2,100 +2,120 @@ import React, { useReducer } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './TheSchoolApp/HomePage';
-import TutorPage from './TheSchoolApp/TutorPage';
-import StudentPage from './TheSchoolApp/StudentPage';
+import UserHomePage from './TheSchoolApp/UserHomePage';
 import Admin from './TheSchoolApp/Admin';
 import Test from './TheSchoolApp/Test';
-import SetQuest from './TheSchoolApp/SetQuest';
-import SendUpdate from './TheSchoolApp/SendUpdate';
+import AllQuestions from './TheSchoolApp/CreateAssesment';
+import AnnouncementsPage from './TheSchoolApp/Announcements';
 import Results from './TheSchoolApp/Results';
-import myReducer, { portalData } from './TheSchoolApp/reducer';
 import GuestPage from './TheSchoolApp/GuestPage';
 import './App.css';
 import ModuleQuestions from './TheSchoolApp/ModuleQuestions';
-import StaffPersonalInfo from './TheSchoolApp/StaffPersonalInfo';
+import PersonalInformation from './TheSchoolApp/PersonalInformation';
 import MyModules from './TheSchoolApp/MyModules';
 import ModuleDeets from './TheSchoolApp/ModuleDeets';
-import News from './TheSchoolApp/News';
-import Grades from './TheSchoolApp/Grades';
-import StudentPersonalInfo from './TheSchoolApp/StudentPersonalInfo';
-
-
+import { useDispatch } from 'react-redux';
+import { handleAddNewQuestion, handleAllAmendsAct, handleAllQuestions, handleAnnouncementChanges, handleDisplayInformation, handleFetchAllInformation, handleFetchAllResults, handleInformationPush, handleModalClear, handleMyAllModules, handlePersonalChanges, handlePersonalInfoFetch, handlePullAssesment, handlePullModuleData, handlePushStudentGrade, handleQuestionDisplay, handleRegistration, handleSelectModules, handleShowResults, handleSignOutAct, handleStdAttempt } from './TheSchoolApp/redux/myActions';
 
 const App = () => {
+  const dispatch = useDispatch()
 
-
-  let [schPortal, dispatchPortal] = useReducer(myReducer, portalData)
-
-  const addStaff = (first, sec, firstName, lastName, dob, homeAddress) => {
-    dispatchPortal({ type: 'ADD_STAFF', payload: { moduleId: first, moduleCode: sec, firstName, lastName, dob, homeAddress } })
+  const handle_login_signup = (data) => {
+    dispatch(handleRegistration(data))
   }
 
-  const addStudent = (first, sec, firstName, lastName, dob, homeAddress) => {
-    dispatchPortal({ type: "ADD_STUDENT", payload: { studentId: first, studentCode: sec, firstName, lastName, dob, homeAddress } })
-  }
-  const addQuestion = (moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit) => {
-    dispatchPortal({ type: 'ADD_QUESTION', payload: { moduleId, question, optionA, optionB, optionC, optionD, answer, studentAnswer, display, edit } })
+  const handleModal = () => {
+    dispatch(handleModalClear())
   }
 
-  const editQuestion = (value) => {
-    dispatchPortal({ type: "EDIT_QUESTION", payload: value })
+  const handleSignOut = () => {
+    dispatch(handleSignOutAct())
   }
 
-  const delQuestion = (index, moduleId) => {
-    dispatchPortal({ type: "DEL_QUESTION", payload: { index, moduleId } })
+  const handleFetchQuestions = () => {
+    dispatch(handleAllQuestions())
   }
 
-  const addEdited = (index, moduleId, question, optionA, optionB, optionC, optionD, answer) => {
-    dispatchPortal({ type: "ADD_EDITED", payload: { index, moduleId, question, optionA, optionB, optionC, optionD, answer } })
+  const handleAddAllQuestion = (data) => {
+    dispatch(handleAddNewQuestion(data))
   }
 
-  const handleTime = (moduleId, time) => {
-    dispatchPortal({ type: "ADD_TIME", payload: { moduleId, time } })
+  const handleShowQuestion = (id) => {
+    dispatch(handleQuestionDisplay(id))
   }
 
-  const displayControl = (value) => {
-    dispatchPortal({ type: "DISPLAY_CONTROL", payload: value })
+  const handle_Add_Information = (data) => {
+    dispatch(handleInformationPush(data))
   }
 
-  const addInfos = (post, moduleId, display) => {
-    dispatchPortal({ type: "ADD_INFOS", payload: { post, moduleId, display } })
+  const handleFetchInformations = (typeId) => {
+    dispatch(handleFetchAllInformation(typeId))
   }
 
-  const deleteInfos = (index, moduleId) => {
-    dispatchPortal({ type: "DELETE_INFOS", payload: { index, moduleId } })
+  const handleShowInformation = (infoId) => {
+    dispatch(handleDisplayInformation(infoId))
   }
 
-  const addPersonalInfo = (value) => {
-    dispatchPortal({ type: "ADD_PINFO", payload: value })
+  const handleAllChanges = (alldata) => {
+    let { origin, type, id, data, typeId } = alldata
+    switch (origin) {
+      case "personalInformation":
+        dispatch(handlePersonalChanges(type, id, data, typeId))
+        break;
+      case "AnnouncementPage":
+        dispatch(handleAnnouncementChanges(type, id, data))
+        break;
+      case "moduleQuestions":
+        dispatch(handleAllAmendsAct(type, id, data))
+        break;
+    }
   }
 
-  const handleAnswer = (answer, index, moduleId) => {
-    dispatchPortal({ type: "ANSWER_UPDATE", payload: { answer, index, moduleId } })
+  const handleFetchResults = (typeId) => {
+    dispatch(handleFetchAllResults(typeId))
   }
 
-  const addScore = (moduleId, studentId, finalScore, display) => {
-    dispatchPortal({ type: "ADD_SCORE", payload: { moduleId, studentId, finalScore, display } })
+  const handlePersonalInformation = (typeId) => {
+    dispatch(handlePersonalInfoFetch(typeId))
+  }
+
+  const handleFetchMyModules = () => {
+    dispatch(handleMyAllModules())
+  }
+  const handleSelectMyModules = (data) => {
+    dispatch(handleSelectModules(data))
+  }
+
+  const handleFetchModuleData = (moduleId) => {
+    dispatch(handlePullModuleData(moduleId))
+  }
+
+  const handleFetchAssesment = (questionId) => {
+    dispatch(handlePullAssesment(questionId))
+  }
+
+  const handlePushStdGrade = (modId, studentGrade) => {
+    dispatch(handlePushStudentGrade(modId, studentGrade))
+  }
+
+  const handleDisplay = (type, id) => {
+    dispatch(handleShowResults(type, id))
   }
 
   return (
     <>
       <Routes>
-        <Route path='/*' element={<HomePage schPortal={schPortal} />} />
-        <Route path='/staff/:moduleId' element={<TutorPage schPortal={schPortal} />} />
-        <Route path='/student/:studentId' element={<StudentPage schPortal={schPortal} />} />
-        <Route path='/admin/:id' element={<Admin schPortal={schPortal} addStaff={addStaff} addStudent={addStudent} />} />
-        <Route path='/test/:moduleId/:studentId' element={<Test schPortal={schPortal} handleAnswer={handleAnswer} addScore={addScore} />} />
-        <Route path='/questions/:moduleId' element={<SetQuest addQuestion={addQuestion} schPortal={schPortal} />} />
-        <Route path='/modulequestions/:moduleId' element={<ModuleQuestions handleTime={handleTime} editQuestion={editQuestion} delQuestion={delQuestion} schPortal={schPortal} addEdited={addEdited} displayControl={displayControl} />} />
-        <Route path='/announcement/:moduleId' element={<SendUpdate schPortal={schPortal} addInfos={addInfos} deleteInfos={deleteInfos} displayControl={displayControl} />} />
-        <Route path='/results/:moduleId' element={<Results schPortal={schPortal} displayControl={displayControl} />} />
-        <Route path='staffpInfo/:moduleId' element={<StaffPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
-        <Route path='studentpInfo/:studentId' element={<StudentPersonalInfo schPortal={schPortal} addPersonalInfo={addPersonalInfo} />} />
-        <Route path='modules/:studentId' element={<MyModules schPortal={schPortal} />} />
-        <Route path='fullmode/:moduleId/:studentId' element={<ModuleDeets schPortal={schPortal} />} />
-        <Route path='news/:studentId' element={<News schPortal={schPortal} />} />
-        <Route path='grades/:studentId' element={<Grades schPortal={schPortal} />} />
+        <Route path='/*' element={<HomePage />} />
+        <Route path='/userhomepage/:type' element={<UserHomePage handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} />} />
+        <Route path='/admin/:id' element={<Admin handle_login_signup={handle_login_signup} handleModal={handleModal} />} />
+        <Route path='/assesment/:questionId' element={<Test handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
+        <Route path='/questions' element={<AllQuestions handleAddAllQuestion={handleAddAllQuestion} />} />
+        <Route path='/allAssesment' element={<ModuleQuestions handleFetchQuestions={handleFetchQuestions} handleDisplay={handleDisplay} handleShowQuestion={handleShowQuestion} handleAllChanges={handleAllChanges} />} />
+        <Route path='/announcement/:typeId' element={<AnnouncementsPage handleDisplay={handleDisplay} handleShowInformation={handleShowInformation} handle_Add_Information={handle_Add_Information} handleAllChanges={handleAllChanges} handleFetchInformations={handleFetchInformations} />} />
+        <Route path='/grades/:typeId' element={<Results handleFetchResults={handleFetchResults} handleDisplay={handleDisplay} />} />
+        <Route path='/PersonalInformation/:typeId' element={<PersonalInformation handlePersonalInformation={handlePersonalInformation} handleAllChanges={handleAllChanges} />} />
+        <Route path='modules' element={<MyModules handleFetchMyModules={handleFetchMyModules} handleSelectMyModules={handleSelectMyModules} />} />
+        <Route path='/moduleDetails/:moduleId' element={<ModuleDeets handleFetchModuleData={handleFetchModuleData} />} />
         <Route path='/guest' element={<GuestPage />} />
       </Routes>
     </>

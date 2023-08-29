@@ -5,19 +5,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Navbar } from 'react-bootstrap';
-import useBoo from './custom hooks/useBoo';
+import { Navbar, Table } from 'react-bootstrap';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-const ModuleDeets = ({ schPortal }) => {
-    const { moduleId, studentId } = useParams()
-    let [avail, setAvail] = useState('')
-    let [boo, handleBoo] = useBoo(false)
+const ModuleDeets = ({ handleFetchModuleData }) => {
+    const { moduleId } = useParams()
+    let allQuestions = useSelector(state => state.allQuestions)
+    let allInformations = useSelector(state => state.allInformations)
 
     useEffect(() => {
-        let a = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId && a.display === 'dQuestion') : ''
-        setAvail(a)
+        handleFetchModuleData(moduleId)
     }, [])
 
     return (<Container fluid className='display pb-5'>
@@ -26,45 +26,69 @@ const ModuleDeets = ({ schPortal }) => {
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
-        <Container fluid>
-            <Row className='bg-light'>
-                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+        <Row className='d-flex justify-content-center'>
+            {/* <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
                     <Link to={`/modules/${studentId}`} ><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+                </Col> */}
+
+            <Col lg={8} md={8} sm={8} className='d-flex  justify-content-center align-items-center h3headings my-2'>
+                <h3 >Module Data</h3>
+            </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-evenly' >
+            <Col className='m-1 moduleData py-2' lg={5} md={6} sm={12} xs={12}>
+                <Col lg={12} md={12} sm={12} xs={12} className='text-center'><h5 className='moduleDataHeadings'>Module Assessments</h5></Col>
+
+                <Col>
+                    {allQuestions.length > 0 ?
+                        <Table className='table-responsive' striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Assesment Title
+                                    </th>
+                                </tr>
+                            </thead>
+                            {allQuestions.length > 0 && allQuestions.map((question) => (
+                                <tbody key={question._id}>
+                                    <tr>
+                                        <td>{question.testTitle}</td>
+                                        <td className='text-center'><Link className='modulelink' to={`/assesment/${question._id}`}>Click To Attempt</Link> </td>
+                                    </tr>
+                                </tbody>
+                            ))}
+                        </Table> :
+                        <h6 className='text-center'>No Assessments, Check Back</h6>}
                 </Col>
+            </Col>
 
-                <hr className='my-0'></hr>
-                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
-                    Module Information
+            <Col className='m-1 moduleData py-2' lg={5} md={6} sm={12} xs={12}>
+                <Col lg={12} md={12} sm={12} xs={12} className='text-center'><h5 className='moduleDataHeadings'>Module Informations</h5></Col>
+
+                <Col>
+                    {allInformations.length > 0 ?
+                        <Table className='table-responsive' striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Information
+                                    </th>
+                                </tr>
+                            </thead>
+                            {allInformations.length > 0 && allInformations.map((info, i) => (
+                                <tbody key={i}><tr><td>{info.title}</td><td className='text-start'>{info.information}</td></tr></tbody>
+                            ))}
+                        </Table>
+                        :
+                        <h6 className='text-center'>No Informations, Check Back</h6>}
                 </Col>
-                <hr className='my-0'></hr>
-                <Col className='d-flex justify-content-around'>
-                    <Col className='m-1' lg={6} md={6} sm={12} xs={12}>
-                        <Col className='text-center'>Module</Col>
-                        <hr className='my-1' style={{ width: "100%" }}></hr>
-                        <button onClick={boo === false ? () => handleBoo(true) : () => handleBoo(false)} className='border-0 bg-transparent'><FontAwesomeIcon className='mx-1' icon={faCaretRight} /> Test</button>
-                        {avail && boo ?
-                            <Link className='d-block' style={{ textDecoration: 'none', color: 'black' }} to={`/test/${moduleId}/${studentId}`}><FontAwesomeIcon className='mx-1' icon={faCaretRight} /> Test Available</Link> :
-                            ''}
-                    </Col>
+            </Col>
 
-                    <Col className='m-1' lg={6} md={6} sm={12} xs={12}>
-
-                        <Col className='text-center'>Module News</Col>
-
-                        <hr className='my-1' style={{ width: "100%" }}></hr>
-
-                        {schPortal.informationArray ?
-
-                            schPortal.informationArray.filter(a => a.moduleId === moduleId).map(a =>
-
-                                <><FontAwesomeIcon className='mx-1' icon={faCaretRight} /> {a.post}</>
-                            )
-                            : ''}
-
-                    </Col>
-                </Col>
-            </Row>
-        </Container>
-    </Container>)
+        </Row>
+    </Container >)
 }
 export default ModuleDeets;

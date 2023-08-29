@@ -11,22 +11,6 @@ import { Navbar } from 'react-bootstrap';
 
 const HomePage = () => {
     const navigate = useNavigate();
-
-    const navigateBtn = id => {
-        switch (true) {
-            case id === 'staff':
-                navigate(`admin/${id}`)
-                break;
-            case id === 'student':
-                navigate(`admin/${id}`)
-                break;
-            case id === 'guest':
-                navigate('/guest')
-                break;
-        }
-
-    }
-
     return (
         <Container className='display pb-5' fluid >
             <Navbar bg="black" className="justify-content-around">
@@ -43,11 +27,11 @@ const HomePage = () => {
                     <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
                     <div className='text-center my-2'>Welcome to MySch - MySch's Student Portal</div>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigateBtn('student')} ><FontAwesomeIcon icon={faPeopleLine} />Student  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate(`/admin/${'student'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Student  <FontAwesomeIcon icon={faRightToBracket} /></button>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigateBtn('staff')} ><FontAwesomeIcon icon={faPeopleLine} />Staff  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate(`/admin/${'tutor'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Staff  <FontAwesomeIcon icon={faRightToBracket} /></button>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigateBtn('guest')} ><FontAwesomeIcon icon={faPeopleLine} />Guest  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate('guest')} ><FontAwesomeIcon icon={faPeopleLine} />Guest  <FontAwesomeIcon icon={faRightToBracket} /></button>
                 </Col>
 
             </Row >

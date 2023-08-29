@@ -1,131 +1,88 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { useSelector } from 'react-redux';
 
-
-const ModuleQuestions = ({ schPortal, editQuestion, delQuestion, addEdited, displayControl, handleTime }) => {
-    const { moduleId } = useParams();
-    let counter = 1
+const ModuleQuestions = ({ handleFetchQuestions, handleShowQuestion, handleAllChanges, handleDisplay }) => {
     let [question, setQuestion] = useState('')
     let [optionA, setOptionA] = useState('')
     let [optionB, setOptionB] = useState('')
     let [optionC, setOptionC] = useState('')
     let [optionD, setOptionD] = useState('')
     let [answer, setAnswer] = useState('')
-    let [time, setTime] = useState('')
-    let [validate, setVal] = useState('')
-    let [valTwo, setValTwo] = useState('')
-
-
+    let allQuestions = useSelector(state => state.allQuestions)
+    const navigate = useNavigate()
     useEffect(() => {
-        let a = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId && a.display === 'dQuestion') : ''
-        let b = schPortal.questionArray ? schPortal.questionArray.find(a => a.moduleId === moduleId) : ''
-        setVal(a)
-        setValTwo(b)
-    }, [schPortal.questionArray, []])
-
-    const addBtn = (any, index) => {
-        if (any === 'add' && question !== '' && optionA !== '' && optionB !== '' && optionC !== '' && optionD !== '' && answer !== '') {
-            addEdited(index, moduleId, question, optionA, optionB, optionC, optionD, answer)
+        if (allQuestions) {
+            handleFetchQuestions()
         }
+    }, [allQuestions])
 
-        switch (true) {
-            case any === 'send':
-                handleTime(moduleId, time)
-                displayControl({ any: 'dQuestion', moduleId });
+    const handleAmends = (type, id) => {
+        let origin = 'moduleQuestions'
+        switch (type) {
+            case 'edit':
+                handleAllChanges({ origin, type, id })
                 break;
-            case any === 'del':
-                displayControl({ any: '!dQuestion', moduleId });
+            case 'done':
+                let data = { question, optionA, optionB, optionC, optionD, answer }
+                if (data.question) return handleAllChanges({ origin, type, id, data })
+                break;
+            case 'delete':
+                handleAllChanges({ origin, type, id })
+                break;
+            case 'cancel':
+                handleAllChanges({ origin, type, id })
                 break;
         }
     }
 
-    console.log(schPortal)
     return (<Container fluid className='display pb-5'>
         <Navbar bg="black" className="justify-content-around">
 
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
         <Container fluid>
-            <Row className='bg-light mt-1' >
-                <Col className='d-flex justify-content-start align-items-center my-1'>
+            <Row className='mt-1 d-flex justify-content-center align-items-center' >
+                {/* <Col className='d-flex justify-content-start align-items-center my-1'>
                     <Link to={`/questions/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col>
+                </Col> */}
 
-                <hr className='my-0'></hr>
-                <Col className='d-flex  justify-content-center align-items-center'>
-                    Module Questions
-                </Col>
+                {allQuestions.length && <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
+                    <h3>All Assesment Questions</h3>
+                </Col>}
 
-                <Col lg={12} md={12} sm={12} xs={12}>
-                    < Table striped bordered hover className='table-responsive my-1'>
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>QUEST</th>
-                                <th>OPT A</th>
-                                <th>OPT B</th>
-                                <th>OPT C</th>
-                                <th>OPT D</th>
-                                <th>ANS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {schPortal.questionArray ?
-                                schPortal.questionArray.filter(a => a.moduleId === moduleId).map((b, index) => (
-                                    < tr key={index} >
-                                        <td>{counter++}</td>
-                                        <td>{b.question}</td>
-                                        <td>{b.optionA}</td>
-                                        <td>{b.optionB}</td>
-                                        <td>{b.optionC}</td>
-                                        <td>{b.optionD}</td>
-                                        <td>{b.answer}</td>
-                                        <td className='text-center'><button className='btn border rounded py-0' onClick={() => editQuestion({ any: 'edit', index, moduleId })}>edit</button>
-                                            <button className='btn border rounded py-0' onClick={() => delQuestion(index, moduleId)}>del</button></td>
-                                        {
-                                            b.edit === 'edit' ?
-                                                <>
-                                                    <tr className='d-flex justify-content-center'>
-                                                        <td>
-                                                            <input className='border rounded my-1' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} />
-                                                            <input className='border rounded my-1' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} />
-                                                            <input className='border rounded my-1' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} />
-                                                            <input className='border rounded my-1' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} />
-                                                            <input className='border rounded my-1' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} />
-                                                            <input className='border rounded my-1' placeholder='Answer' onInput={(event) => setAnswer(event.target.value)} />
-                                                            <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('add', index)}>Done</button>
-                                                            <button className='btn border rounded py-0 d-block my-1' onClick={() => editQuestion({ any: '!edit', index, moduleId })}>Cancel</button>
-                                                        </td>
-                                                    </tr>
-                                                </>
-                                                : ''
-                                        }
-                                    </tr>
-                                ))
-                                : ''}
 
-                        </tbody>
-                    </Table>
-                    {valTwo ?
-                        !validate ?
-                            <>
-                                <div className='my-2'><input className='text-center rounded border' placeholder='Set Test Duration' onInput={event => setTime(event.target.value)} /></div>
+                {allQuestions.length ?
+                    allQuestions.map((question, index) => (
+                        <Col lg={10} md={10} sm={10} xs={10} className='bg-light py-2' key={index}>
+                            <div className='m-1'><span className='assesmentInput'>{index + 1}. </span><button className='questionBtn m-1' onClick={() => handleShowQuestion(question._id)}><span className='assesmentInput'>{question.testTitle.toUpperCase()}</span></button><button className='amends' onClick={() => handleAmends('delete', question._id)}>Remove</button>
+                                <button onClick={!question.displayForStudents ? () => handleDisplay('displayAssessment', question._id) : () => handleDisplay('!displayAssessment', question._id)}>{!question.displayForStudents ? 'Send Assesment' : 'Unsend Assessment'}</button></div>
 
-                                <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('send')}>Send Questions</button>
-                            </>
-                            : <button className='btn border rounded py-0 d-block my-1' onClick={() => addBtn('del')}>Delete Test Questions</button>
-                        : ''}
-                </Col>
+                            {question.showQuestion && <><div ><span className='assesmentInput'>Duration </span><span>{question.duration}</span></div>
+                                {question.allQuestions ? question.allQuestions.map((quest, index) => (<div key={index}>
+                                    <div className='m-1'><span className='assesmentInput'>Question{index + 1}. </span><span>{!quest.edit ? quest.question : <input className='border rounded my-1' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} />}</span></div >
+                                    <div className='m-1'><span className='assesmentInput'>A. </span><span>{!quest.edit ? quest.optionA : <input className='border rounded my-1' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} />}</span></div>
+                                    <div className='m-1'><span className='assesmentInput'>B. </span><span>{!quest.edit ? quest.optionB : <input className='border rounded my-1' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} />}</span></div>
+                                    <div className='m-1'><span className='assesmentInput'>C. </span><span>{!quest.edit ? quest.optionC : <input className='border rounded my-1' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} />}</span></div>
+                                    <div className='m-1'><span className='assesmentInput'>D. </span><span>{!quest.edit ? quest.optionD : <input className='border rounded my-1' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} />}</span></div>
+                                    <div className='m-1'><span className='assesmentInput'>Solution. </span><span>{!quest.edit ? quest.answer : <input className='border rounded my-1' placeholder='Answer' onInput={(event) => setAnswer(event.target.value)} />}</span></div>
+                                    <div>
+                                        <button className='amends m-1' onClick={!quest.edit ? () => handleAmends('edit', quest._id) : () => handleAmends('done', quest._id)}>{!quest.edit ? 'Edit' : 'Save Changes'} </button>
+                                        {quest.edit && <button className='amends m-1' onClick={() => handleAmends('cancel', quest._id)}>Cancel Changes</button>}
+                                    </div>
+                                </div>)) : null}
+                            </>}
+                        </Col>))
+                    : <Col lg={10} md={10} sm={10} xs={10} className='text-center'><button onClick={() => navigate('/questions')} className='bg-light py-3 px-2 pe-2 my-5 assesmentInput border-0' style={{ fontSize: '1em' }}>No Questions Yet, Click To Add New Question</button> </Col>}
             </Row>
-        </Container>
+        </Container >
 
 
     </Container >)

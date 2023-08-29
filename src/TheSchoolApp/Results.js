@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
@@ -8,19 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { useSelector } from 'react-redux';
 
-const Results = ({ schPortal, displayControl }) => {
-    const { moduleId } = useParams();
-    let [validate, setVal] = useState('')
-    let [valTwo, setValTwo] = useState('')
-    let counter = 1
-
+const Results = ({ handleFetchResults, handleDisplay }) => {
+    let allResults = useSelector(state => state.allResults)
+    const { typeId } = useParams()
     useEffect(() => {
-        let a = schPortal.resultArray ? schPortal.resultArray.find(a => a.display === 'dGrades' && a.moduleId === moduleId) : ''
-        let b = schPortal.resultArray ? schPortal.resultArray.find(a => a.moduleId === moduleId) : ''
-        setValTwo(b)
-        setVal(a)
-    }, [schPortal.resultArray, []])
+        if (allResults) return handleFetchResults(typeId)
+    }, [allResults])
+
 
     return (<Container fluid className='display pb-5'>
         <Navbar bg="black" className="justify-content-around">
@@ -28,48 +24,88 @@ const Results = ({ schPortal, displayControl }) => {
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
-        <Container fluid>
-            <Row className='bg-light mt-2'>
-                <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col>
+        <Row className='d-flex justify-content-center'>
+            {/* <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
+                <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
+            </Col> */}
 
-                <hr className='my-0'></hr>
-                <Col lg={12} md={12} sm={12} className='d-flex  justify-content-center align-items-center'>
-                    Results
-                </Col>
+            <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
 
-                <Col >
-                    {schPortal.resultArray ?
-                        <Table striped bordered hover className='text-center my-2 table-responsive'>
-                            <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Student Number</th>
-                                    <th>Student Score</th>
+                <h3>All Grades</h3>
+            </Col>
+
+            {allResults.length && typeId === 'tutor' &&
+                <Col lg={8} md={10} sm={10} xs={10} className='bg-light'>
+                    <Table striped bordered hover className='text-center my-2 table-responsive'>
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Test Title</th>
+                                <th>Student Name</th>
+                                <th>Student Score</th>
+                            </tr>
+                        </thead>
+
+                        {allResults && allResults.map((grade, index) =>
+                        (<tbody key={index}>
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>
+                                    <button className='m-1 questionBtn' onClick={() => handleDisplay('show', grade.assesmentId)}>Click For <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Grades</button>
+                                    <button className='m-1 questionBtn' onClick={!grade.displayGrade ?
+                                        () => handleDisplay('display', grade.assesmentId) :
+                                        () => handleDisplay('undisplay', grade.assesmentId)}>
+                                        {!grade.displayGrade ? <>Send <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</> : <>Unsend <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</>}
+                                    </button>
+                                </td>
+                            </tr>
+                            {grade.showResults &&
+                                grade.grades.map((grad, i) => (<tr key={i}>
+                                    <td colSpan={2}></td>
+                                    <td>{grad.studentName}</td>
+                                    <td>{grad.grade}</td>
+                                </tr>))}
+                        </tbody>))
+                        }
+                    </Table>
+                </Col>
+            }
+
+            {
+                allResults.length && typeId === 'student' &&
+                <Col lg={8} md={10} sm={10} xs={10} className='bg-light'>
+                    <Table striped bordered hover className='text-center my-2 table-responsive'>
+                        <thead>
+                            <tr>
+                                <th>Module Name</th>
+                                <th>Module Code</th>
+                                <th>Test Title</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allResults.map((res, index) => (
+                                <tr key={index}>
+                                    <td>{res.moduleName}</td>
+                                    <td>{res.moduleCode}</td>
+                                    <td>{res.assesmentTitle}</td>
+                                    <td>{res.grade}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {schPortal.resultArray.filter((a) => a.moduleId === moduleId).map((a, index) =>
-                                (<tr key={index}>
-                                    <td>{counter++}</td>
-                                    <td>{a.studentId}</td>
-                                    <td>{a.finalScore}</td>
-                                </tr>))
-                                }
-                            </tbody>
-                        </Table>
-                        : <Col className='text-center'>No Grades Yet</Col>}
-
-                    {valTwo ?
-                        !validate ?
-                            <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: 'dGrades', moduleId })}>Send Grades</button></div>
-                            : <div className='my-2'><button className='btn my-1 py-0 border rounded' onClick={() => displayControl({ any: '!dGrades', moduleId })}>Delete Grades</button></div>
-                        : ''}
+                            ))}
+                        </tbody>
+                    </Table>
                 </Col>
-            </Row>
-        </Container>
+            }
 
-    </Container>)
+            {
+                typeId === 'student' && !allResults.length || typeId === 'tutor' && !allResults.length ?
+                    <Col lg={7} md={5} sm={8} xs={10} className='d-flex justify-content-center my-2'>
+                        <h3 className='px-1 pe-1 py-2 w-50 text-center results'>No Grades Yet</h3>
+                    </Col> : ''
+            }
+
+        </Row >
+
+    </Container >)
 }
 export default Results;
