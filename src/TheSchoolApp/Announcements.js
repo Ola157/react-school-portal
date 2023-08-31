@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar, Tab } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -65,10 +65,13 @@ const AnnouncementsPage = ({ handleFetchInformations, handle_Add_Information, ha
 
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
+        <Row className='p-3 my-0'>
+            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                <Link to={`/userhomepage/${typeId}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>HomePage</span></Link>
+            </Col>
+        </Row>
+
         <Row className='d-flex justify-content-center'>
-            {/* <Col className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col> */}
 
             <Col lg={6} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
                 <h3 >{typeId === 'tutor' ? 'Announcements' : 'All Announcement'}</h3>
@@ -86,8 +89,8 @@ const AnnouncementsPage = ({ handleFetchInformations, handle_Add_Information, ha
                     />
                     <div className='text-center'><button className='addQuestion my-1 py-0' onClick={() => handleAddInformation()}>Add Information</button> </div>
 
-                    {allInformations.map(info =>
-                        <Col>
+                    {allInformations.map((info, index) =>
+                        <Col key={index}>
                             {!info.edit ? <button className='amends my-1 mx-3 me-3' onClick={() => handleShowInformation(info._id)}> {info.title.toUpperCase()} Click for More!</button> :
                                 <div><span className='assesmentInput me-3'>Title</span><span><input value={titleNew} className='informationInput w-30' onInput={event => setTitleNew(event.target.value)} /></span></div>}
                             <button className='m-1 amends' onClick={!info.displayForStudents ?

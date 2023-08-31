@@ -1,5 +1,3 @@
-import { act } from "react-dom/test-utils"
-
 let schoolData = {
     student: {},
     tutor: {},
@@ -99,10 +97,21 @@ const myReducer = (state = schoolData, action) => {
                 allMyModules: allMyModules
             }
         case "MY_ASSESSMENT":
-            let { myAssessment } = action.payload
-            return {
-                ...state,
-                myAssessment: myAssessment
+            let { myAssessment, duration } = action.payload
+            if (myAssessment) {
+                return {
+                    ...state,
+                    myAssessment: myAssessment
+                }
+            } else if (duration) {
+                console.log(duration)
+                return {
+                    ...state,
+                    myAssessment: state.myAssessment.map(ass => ({
+                        ...ass,
+                        duration: ass.duration = duration
+                    }))
+                }
             }
 
     }

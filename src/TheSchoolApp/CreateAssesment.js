@@ -6,10 +6,11 @@ import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 
 const AllQuestions = ({ handleAddAllQuestion }) => {
     const navigate = useNavigate();
+    const { type } = useParams()
     let [question, setQuestion] = useState('')
     let [optionA, setOptionA] = useState('')
     let [optionB, setOptionB] = useState('')
@@ -79,10 +80,13 @@ const AllQuestions = ({ handleAddAllQuestion }) => {
 
             </Navbar >
 
+            <Row className='p-3 my-0'>
+                <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                    <Link to={`/userhomepage/${type}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>HomePage</span></Link>
+                </Col>
+            </Row>
+
             <Row className='mt-2 py-3 d-flex justify-content-center'>
-                {/* <Col className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col> */}
 
                 <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
                     <h3>Create Assessment Questions</h3>
@@ -96,7 +100,7 @@ const AllQuestions = ({ handleAddAllQuestion }) => {
                     <div className='m-1'> <span className='assesmentInput'>Option C</span> <input className='questInp' value={optionC} onInput={(event) => setOptionC(event.target.value)} /></div>
                     <div className='m-1'> <span className='assesmentInput'>Option D</span> < input className='questInp' value={optionD} onInput={(event) => setOptionD(event.target.value)} /></div>
                     <div className='m-1'> <span className='assesmentInput'>Solution</span> < input className='questInp' style={{ width: '20%' }} value={answer} onInput={(event) => setAnswer(event.target.value)} /></div>
-                    <div className='m-1 text-center'><button className='py-0 addQuestion' onClick={() => handleAddQuestion('add')}>Add Question</button> <button className='addQuestion' onClick={() => navigate('/allAssesment')}>View All Questions</button>
+                    <div className='m-1 text-center'><button className='py-0 addQuestion' onClick={() => handleAddQuestion('add')}>Add Question</button> <button className='addQuestion' onClick={() => navigate(`/allAssesment/${type}`)}>View All Questions</button>
                     </div>
                 </Col >
 

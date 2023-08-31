@@ -6,10 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar, Table } from 'react-bootstrap';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 
 const ModuleDeets = ({ handleFetchModuleData }) => {
     const { moduleId } = useParams()
@@ -20,18 +18,21 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
         handleFetchModuleData(moduleId)
     }, [])
 
+
     return (<Container fluid className='display pb-5'>
         <Navbar bg="black" className="justify-content-around">
 
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
-        <Row className='d-flex justify-content-center'>
-            {/* <Col lg={12} md={12} sm={12} className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to={`/modules/${studentId}`} ><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col> */}
+        <Row className='p-3 my-0'>
+            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                <Link to={`/modules/${'student'}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>My Modules</span></Link>
+            </Col>
+        </Row>
 
-            <Col lg={8} md={8} sm={8} className='d-flex  justify-content-center align-items-center h3headings my-2'>
+        <Row className='d-flex justify-content-center'>
+            <Col lg={5} md={6} sm={7} xs={8} className='d-flex  justify-content-center align-items-center h3headings my-2'>
                 <h3 >Module Data</h3>
             </Col>
         </Row>
@@ -50,14 +51,17 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
                                     </th>
                                 </tr>
                             </thead>
-                            {allQuestions.length > 0 && allQuestions.map((question) => (
-                                <tbody key={question._id}>
-                                    <tr>
-                                        <td>{question.testTitle}</td>
-                                        <td className='text-center'><Link className='modulelink' to={`/assesment/${question._id}`}>Click To Attempt</Link> </td>
-                                    </tr>
-                                </tbody>
-                            ))}
+                            {allQuestions.length &&
+                                allQuestions.map((question, index) => (
+                                    <tbody key={index}>
+                                        <tr>
+                                            <td>{question.testTitle}</td>
+                                            <td className='text-center'>
+                                                <Link className='modulelink' to={`/assesment/${question._id}`}>Click To Attempt</Link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                ))}
                         </Table> :
                         <h6 className='text-center'>No Assessments, Check Back</h6>}
                 </Col>

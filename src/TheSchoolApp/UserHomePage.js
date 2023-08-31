@@ -31,7 +31,6 @@ const UserHomePage = ({ handlePersonalInformation, handleSignOut }) => {
             <button onClick={() => handleLogOut('logout')} className='signOutBtn'>signout</button>
         </Navbar >
 
-
         <Row className='d-flex justify-content-start'>
             <Col className='text-center my-2 mx-3' lg={4} md={3} sm={4} xs={5}>
                 <div className='d-flex justify-content-evenly align-items-center py-0 module'> <span>{type === 'tutor' ? personalInformation.moduleName : <><span>Welcome </span> {personalInformation.firstName}</>}</span> <span>{type === 'tutor' && personalInformation.moduleCode}</span></div>
@@ -39,7 +38,7 @@ const UserHomePage = ({ handlePersonalInformation, handleSignOut }) => {
         </Row>
         <Row className='d-flex justify-content-center align-items-center mt-5 mb-5'>
             <Col className='m-1  d-flex justify-content-center align-items-center p-0' lg={2} md={2} sm={6} xs={6} >
-                <button className='tutorButton' onClick={type === 'student' ? () => navigate('/modules') : () => navigate('/questions')} >{type != 'student' ? 'Questions' : "My Modules"}</button>
+                <button className='tutorButton' onClick={type === 'student' ? () => navigate(`/modules/${'student'}`) : () => navigate(`/questions/${'tutor'}`)} >{type != 'student' ? 'Questions' : "My Modules"}</button>
             </Col>
             <Col className='m-1 d-flex justify-content-center align-items-center p-0' lg={2} md={2} sm={6} xs={6}  >
                 <button className='tutorButton' onClick={() => navigate(`/announcement/${type}`)}>Informations</button>

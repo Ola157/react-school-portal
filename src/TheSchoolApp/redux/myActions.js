@@ -425,8 +425,7 @@ export const handlePullModuleData = (moduleId) => async (dispatch) => {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { allQuestions, allInformations } = response.data
-
-        if (allQuestions && allInformations) {
+        if (allQuestions || allInformations) {
             dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
             dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
         }
@@ -450,10 +449,10 @@ export const handlePullAssesment = (questionId) => async (dispatch) => {
     catch (err) { console.error(err) }
 }
 
-export const handlePushStudentGrade = (modId, studentGrade) => async () => {
+export const handlePushStudentGrade = (studentGrade) => async () => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.post(`http://localhost:9090/student/pushStudentAnswer/${modId}`, { studentGrade }, {
+        await axios.post(`http://localhost:9090/student/pushStudentAnswer`, { studentGrade }, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -501,6 +500,14 @@ export const handleShowResults = (type, id) => async (dispatch) => {
             dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
         }
 
+    } catch (err) { console.error(err) }
+}
+
+export const handleCountdown = (assessmentId) => async (dispatch) => {
+    try {
+        let response = await axios.get(`http://localhost:9090/student/countdown/${assessmentId}`)
+        let { duration } = response.data
+        dispatch({ type: actionTypes.MY_ASSESSMENT, payload: { duration } })
     } catch (err) { console.error(err) }
 }
 

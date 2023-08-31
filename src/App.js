@@ -15,7 +15,7 @@ import PersonalInformation from './TheSchoolApp/PersonalInformation';
 import MyModules from './TheSchoolApp/MyModules';
 import ModuleDeets from './TheSchoolApp/ModuleDeets';
 import { useDispatch } from 'react-redux';
-import { handleAddNewQuestion, handleAllAmendsAct, handleAllQuestions, handleAnnouncementChanges, handleDisplayInformation, handleFetchAllInformation, handleFetchAllResults, handleInformationPush, handleModalClear, handleMyAllModules, handlePersonalChanges, handlePersonalInfoFetch, handlePullAssesment, handlePullModuleData, handlePushStudentGrade, handleQuestionDisplay, handleRegistration, handleSelectModules, handleShowResults, handleSignOutAct, handleStdAttempt } from './TheSchoolApp/redux/myActions';
+import { handleAddNewQuestion, handleAllAmendsAct, handleAllQuestions, handleAnnouncementChanges, handleCountdown, handleDisplayInformation, handleFetchAllInformation, handleFetchAllResults, handleInformationPush, handleModalClear, handleMyAllModules, handlePersonalChanges, handlePersonalInfoFetch, handlePullAssesment, handlePullModuleData, handlePushStudentGrade, handleQuestionDisplay, handleRegistration, handleSelectModules, handleShowResults, handleSignOutAct, handleStdAttempt } from './TheSchoolApp/redux/myActions';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -94,12 +94,16 @@ const App = () => {
     dispatch(handlePullAssesment(questionId))
   }
 
-  const handlePushStdGrade = (modId, studentGrade) => {
-    dispatch(handlePushStudentGrade(modId, studentGrade))
+  const handlePushStdGrade = (studentGrade) => {
+    dispatch(handlePushStudentGrade(studentGrade))
   }
 
   const handleDisplay = (type, id) => {
     dispatch(handleShowResults(type, id))
+  }
+
+  const handleTimeDown = (assessmentId) => {
+    dispatch(handleCountdown(assessmentId))
   }
 
   return (
@@ -108,13 +112,13 @@ const App = () => {
         <Route path='/*' element={<HomePage />} />
         <Route path='/userhomepage/:type' element={<UserHomePage handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} />} />
         <Route path='/admin/:id' element={<Admin handle_login_signup={handle_login_signup} handleModal={handleModal} />} />
-        <Route path='/assesment/:questionId' element={<Test handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
-        <Route path='/questions' element={<AllQuestions handleAddAllQuestion={handleAddAllQuestion} />} />
-        <Route path='/allAssesment' element={<ModuleQuestions handleFetchQuestions={handleFetchQuestions} handleDisplay={handleDisplay} handleShowQuestion={handleShowQuestion} handleAllChanges={handleAllChanges} />} />
+        <Route path='/assesment/:questionId' element={<Test handleTimeDown={handleTimeDown} handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
+        <Route path='/questions/:type' element={<AllQuestions handleAddAllQuestion={handleAddAllQuestion} />} />
+        <Route path='/allAssesment/:type' element={<ModuleQuestions handleFetchQuestions={handleFetchQuestions} handleDisplay={handleDisplay} handleShowQuestion={handleShowQuestion} handleAllChanges={handleAllChanges} />} />
         <Route path='/announcement/:typeId' element={<AnnouncementsPage handleDisplay={handleDisplay} handleShowInformation={handleShowInformation} handle_Add_Information={handle_Add_Information} handleAllChanges={handleAllChanges} handleFetchInformations={handleFetchInformations} />} />
         <Route path='/grades/:typeId' element={<Results handleFetchResults={handleFetchResults} handleDisplay={handleDisplay} />} />
         <Route path='/PersonalInformation/:typeId' element={<PersonalInformation handlePersonalInformation={handlePersonalInformation} handleAllChanges={handleAllChanges} />} />
-        <Route path='modules' element={<MyModules handleFetchMyModules={handleFetchMyModules} handleSelectMyModules={handleSelectMyModules} />} />
+        <Route path='/modules/:type' element={<MyModules handleFetchMyModules={handleFetchMyModules} handleSelectMyModules={handleSelectMyModules} />} />
         <Route path='/moduleDetails/:moduleId' element={<ModuleDeets handleFetchModuleData={handleFetchModuleData} />} />
         <Route path='/guest' element={<GuestPage />} />
       </Routes>

@@ -21,17 +21,17 @@ const HomePage = () => {
 
 
             <Row className='justify-content-center'>
-                <Col className='homepage my-5 px-0 pe-0 rounded border py-1' lg={4} >
-                    <div className='text-center'>Please select a profile</div>
+                <Col className='homepage my-5 p-1' lg={4} >
+                    <div className='text-center btnHomepage py-1'>Please select a profile</div>
                     <hr className='my-1 text-white'></hr>
-                    <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-                    <div className='text-center my-2'>Welcome to MySch - MySch's Student Portal</div>
+                    <div className='d-flex justify-content-center align-items-center logo my-1 py-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
+                    <div className='text-center my-2 btnHomepage py-1'>Welcome to MySch - MySch's Student Portal</div>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate(`/admin/${'student'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Student  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate(`/admin/${'student'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Student  <FontAwesomeIcon icon={faRightToBracket} /></button>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate(`/admin/${'tutor'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Staff  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate(`/admin/${'tutor'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Staff  <FontAwesomeIcon icon={faRightToBracket} /></button>
                     <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btn justify-content-between align-items-center w-100' onClick={() => navigate('guest')} ><FontAwesomeIcon icon={faPeopleLine} />Guest  <FontAwesomeIcon icon={faRightToBracket} /></button>
+                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate('guest')} ><FontAwesomeIcon icon={faPeopleLine} />Guest  <FontAwesomeIcon icon={faRightToBracket} /></button>
                 </Col>
 
             </Row >

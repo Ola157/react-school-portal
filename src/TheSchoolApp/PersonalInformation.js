@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row'
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Navbar } from 'react-bootstrap';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 import { useSelector } from 'react-redux';
 
 
@@ -55,11 +55,14 @@ const PersonalInformation = ({ handlePersonalInformation, handleAllChanges }) =>
 
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
-        <Row className='d-flex justify-content-center p-3'>
 
-            {/* <Col className='d-flex justify-content-start align-items-center my-1'>
-                    <Link to={`/staff/${moduleId}`}><FontAwesomeIcon className='backIcon' icon={faArrowLeft} /></Link>
-                </Col> */}
+        <Row className='p-3 my-0'>
+            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                <Link to={`/userhomepage/${typeId}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>HomePage</span></Link>
+            </Col>
+        </Row>
+
+        <Row className='d-flex justify-content-center p-3'>
 
             <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
                 <h3>Personal Information</h3>

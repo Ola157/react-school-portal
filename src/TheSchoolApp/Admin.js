@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Container } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap'
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 
 
 const Admin = ({ handle_login_signup, handleModal }) => {
@@ -74,11 +75,16 @@ const Admin = ({ handle_login_signup, handleModal }) => {
     }
 
     return (<Container fluid className='display pb-5'>
-        <Navbar bg="black" className="justify-content-around mb-5">
+        <Navbar bg="black" className="justify-content-around mb-1">
 
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
 
         </Navbar >
+        <Row className='p-3 my-0'>
+            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                <Link to={'/'} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>Select Profile</span></Link>
+            </Col>
+        </Row>
 
         {modal &&
             <Row className='d-flex justify-content-center'>
