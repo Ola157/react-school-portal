@@ -23,7 +23,7 @@ export const handleRegistration = (data) => async (dispatch) => {
         let response;
         switch (type) {
             case 'student':
-                response = await axios.post('http://localhost:9090/signInReg/login', { type, email, password }, {
+                response = await axios.post('https://react-school-back-end.vercel.app/signinup/signIn', { type, email, password }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
@@ -35,7 +35,7 @@ export const handleRegistration = (data) => async (dispatch) => {
                 else (dispatch({ type: actionTypes.MODAL_DISPLAY, payload: response.data }))
                 break;
             case 'tutor':
-                response = await axios.post('http://localhost:9090/signInReg/login', { type, email, password }, {
+                response = await axios.post('https://react-school-back-end.vercel.app/signinup/signIn', { type, email, password }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
@@ -48,7 +48,7 @@ export const handleRegistration = (data) => async (dispatch) => {
                     dispatch({ type: actionTypes.MODAL_DISPLAY, payload: response.data }))
                 break;
             case 'tutorsignup':
-                response = await axios.post('http://localhost:9090/signInReg/register',
+                response = await axios.post('https://react-school-back-end.vercel.app/signinup/register',
                     { type, email, password, firstName, lastName, dob, homeAddress, mobileNumber, moduleName, moduleCode }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -61,7 +61,7 @@ export const handleRegistration = (data) => async (dispatch) => {
                 else { dispatch({ type: actionTypes.MODAL_DISPLAY, payload: response.data }) }
                 break;
             case 'studentsignup':
-                response = await axios.post('http://localhost:9090/signInReg/register',
+                response = await axios.post('https://react-school-back-end.vercel.app/signinup/register',
                     { type, email, password, firstName, lastName, dob, homeAddress, mobileNumber },
                     {
                         headers: {
@@ -89,7 +89,7 @@ export const handleSignOutAct = () => (dispatch) => {
 export const handleAllQuestions = () => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get('http://localhost:9090/tutor/fecthQuestions',
+        let response = await axios.get('https://react-school-back-end.vercel.app/tutor/fecthQuestions',
             {
                 headers: {
                     'Authorization': `Bearer ${myJwt}`
@@ -104,7 +104,7 @@ export const handleAllQuestions = () => async (dispatch) => {
 export const handleAddNewQuestion = (data) => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.post('http://localhost:9090/tutor/addquestion', data,
+        let response = await axios.post('https://react-school-back-end.vercel.app/tutor/addquestion', data,
             {
                 headers: {
                     'Authorization': `Bearer ${myJwt}`,
@@ -119,7 +119,7 @@ export const handleAddNewQuestion = (data) => async (dispatch) => {
 export const handleQuestionDisplay = (questionId) => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get(`http://localhost:9090/tutor/displayQuestions/${questionId}`,
+        let response = await axios.get(`https://react-school-back-end.vercel.app/tutor/displayQuestions/${questionId}`,
             { headers: { 'Authorization': `Bearer ${myJwt}` } })
         let { allQuestions } = response.data
         dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
@@ -131,7 +131,7 @@ export const handleAllAmendsAct = (type, id, data) => async (dispatch) => {
     switch (type) {
         case 'edit':
             try {
-                let response = await axios.patch(`http://localhost:9090/tutor/editOneQuestion/${id}`, null,
+                let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/editOneQuestion/${id}`, null,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allQuestions } = response.data
                 dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
@@ -140,7 +140,7 @@ export const handleAllAmendsAct = (type, id, data) => async (dispatch) => {
             break;
         case 'done':
             try {
-                let response = await axios.post(`http://localhost:9090/tutor/editDone/${id}`, data,
+                let response = await axios.post(`https://react-school-back-end.vercel.app/tutor/editDone/${id}`, data,
                     {
                         headers: {
                             'Authorization': `Bearer ${myJwt}`,
@@ -154,7 +154,7 @@ export const handleAllAmendsAct = (type, id, data) => async (dispatch) => {
             break;
         case 'cancel':
             try {
-                let response = await axios.patch(`http://localhost:9090/tutor/cancelEdit/${id}`, null,
+                let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/cancelEdit/${id}`, null,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allQuestions } = response.data
                 dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
@@ -164,7 +164,7 @@ export const handleAllAmendsAct = (type, id, data) => async (dispatch) => {
 
         case 'delete':
             try {
-                let response = await axios.delete(`http://localhost:9090/tutor/removeAssesment/${id}`,
+                let response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/removeAssesment/${id}`,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allQuestions } = response.data
                 dispatch({ type: actionTypes.ALL_QUESTIONS, payload: { allQuestions } })
@@ -178,7 +178,7 @@ export const handleAllAmendsAct = (type, id, data) => async (dispatch) => {
 export const handleInformationPush = (data) => async (dispatch) => {
     try {
         let myJwt = localStorage.getItem('accessToken')
-        let response = await axios.post('http://localhost:9090/tutor/addInformation', data, {
+        let response = await axios.post('https://react-school-back-end.vercel.app/tutor/addInformation', data, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -193,7 +193,7 @@ export const handleFetchAllInformation = (typeId) => async (dispatch) => {
     try {
         if (typeId === 'tutor') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get('http://localhost:9090/tutor/getAllInformations', {
+            let response = await axios.get('https://react-school-back-end.vercel.app/tutor/getAllInformations', {
                 headers: {
                     'Authorization': `Bearer ${myJwt}`,
                 }
@@ -203,7 +203,7 @@ export const handleFetchAllInformation = (typeId) => async (dispatch) => {
         }
         if (typeId === 'student') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get('http://localhost:9090/student/getAllInformations', {
+            let response = await axios.get('https://react-school-back-end.vercel.app/student/getAllInformations', {
                 headers: {
                     'Authorization': `Bearer ${myJwt}`,
                 }
@@ -217,7 +217,7 @@ export const handleFetchAllInformation = (typeId) => async (dispatch) => {
 export const handleDisplayInformation = (infoId) => async (dispatch) => {
     try {
         let myJwt = localStorage.getItem('accessToken')
-        let response = await axios.patch(`http://localhost:9090/tutor/showInformation/${infoId}`, null, {
+        let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/showInformation/${infoId}`, null, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
             }
@@ -232,7 +232,7 @@ export const handleAnnouncementChanges = (type, id, data) => async (dispatch) =>
     switch (type) {
         case 'edit':
             try {
-                let response = await axios.patch(`http://localhost:9090/tutor/editInformation/${id}`, null,
+                let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/editInformation/${id}`, null,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allInformations } = response.data
                 dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
@@ -241,7 +241,7 @@ export const handleAnnouncementChanges = (type, id, data) => async (dispatch) =>
             break;
         case 'done':
             try {
-                let response = await axios.post(`http://localhost:9090/tutor/saveInformation/${id}`, data,
+                let response = await axios.post(`https://react-school-back-end.vercel.app/tutor/saveInformation/${id}`, data,
                     {
                         headers: {
                             'Authorization': `Bearer ${myJwt}`,
@@ -255,7 +255,7 @@ export const handleAnnouncementChanges = (type, id, data) => async (dispatch) =>
             break;
         case 'cancel':
             try {
-                let response = await axios.patch(`http://localhost:9090/tutor/cancelInfoEdit/${id}`, null,
+                let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/cancelInfoEdit/${id}`, null,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allInformations } = response.data
                 dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
@@ -265,7 +265,7 @@ export const handleAnnouncementChanges = (type, id, data) => async (dispatch) =>
 
         case 'delete':
             try {
-                let response = await axios.delete(`http://localhost:9090/tutor/removeInformation/${id}`,
+                let response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/removeInformation/${id}`,
                     { headers: { 'Authorization': `Bearer ${myJwt}` } })
                 let { allInformations } = response.data
                 dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
@@ -280,14 +280,14 @@ export const handleFetchAllResults = (typeId) => async (dispatch) => {
     try {
         if (typeId === 'tutor') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get('http://localhost:9090/tutor/fetchResults',
+            let response = await axios.get('https://react-school-back-end.vercel.app/tutor/fetchResults',
                 { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { allMyResults } = response.data
             dispatch({ type: actionTypes.ALL_RESULTS, payload: { allMyResults } })
         }
         if (typeId === 'student') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get('http://localhost:9090/student/fetchResults',
+            let response = await axios.get('https://react-school-back-end.vercel.app/student/fetchResults',
                 { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { allMyResults } = response.data
 
@@ -301,14 +301,14 @@ export const handlePersonalInfoFetch = (typeId) => async (dispatch) => {
     try {
         if (typeId === 'tutor') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get(`http://localhost:9090/tutor/fetchpInfo`,
+            let response = await axios.get(`https://react-school-back-end.vercel.app/tutor/fetchpInfo`,
                 { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { personalInformation } = response.data
             dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
         }
         if (typeId === 'student') {
             let myJwt = localStorage.getItem('accessToken')
-            let response = await axios.get(`http://localhost:9090/student/fetchpInfo`,
+            let response = await axios.get(`https://react-school-back-end.vercel.app/student/fetchpInfo`,
                 { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { personalInformation } = response.data
             dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
@@ -325,13 +325,13 @@ export const handlePersonalChanges = (type, id, data, typeId) => async (dispatch
             case 'edit':
                 try {
                     if (typeId === 'tutor') {
-                        let response = await axios.patch(`http://localhost:9090/tutor/editPersonalInformation`, null,
+                        let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/editPersonalInformation`, null,
                             { headers: { 'Authorization': `Bearer ${myJwt}` } })
                         let { personalInformation } = response.data
                         dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
                     }
                     if (typeId === 'student') {
-                        let response = await axios.patch(`http://localhost:9090/student/editPersonalInformation`, null,
+                        let response = await axios.patch(`https://react-school-back-end.vercel.app/student/editPersonalInformation`, null,
                             { headers: { 'Authorization': `Bearer ${myJwt}` } })
                         let { personalInformation } = response.data
                         dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
@@ -342,7 +342,7 @@ export const handlePersonalChanges = (type, id, data, typeId) => async (dispatch
             case 'done':
                 try {
                     if (typeId === 'tutor') {
-                        let response = await axios.post(`http://localhost:9090/tutor/savePersonalInformation`, data,
+                        let response = await axios.post(`https://react-school-back-end.vercel.app/tutor/savePersonalInformation`, data,
                             {
                                 headers: {
                                     'Authorization': `Bearer ${myJwt}`,
@@ -353,7 +353,7 @@ export const handlePersonalChanges = (type, id, data, typeId) => async (dispatch
                         dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
                     }
                     if (typeId === 'student') {
-                        let response = await axios.post(`http://localhost:9090/student/savePersonalInformation`, data,
+                        let response = await axios.post(`https://react-school-back-end.vercel.app/student/savePersonalInformation`, data,
                             {
                                 headers: {
                                     'Authorization': `Bearer ${myJwt}`,
@@ -369,13 +369,13 @@ export const handlePersonalChanges = (type, id, data, typeId) => async (dispatch
             case 'cancel':
                 try {
                     if (typeId === 'tutor') {
-                        let response = await axios.patch(`http://localhost:9090/tutor/cancelPersonalEdit`, null,
+                        let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/cancelPersonalEdit`, null,
                             { headers: { 'Authorization': `Bearer ${myJwt}` } })
                         let { personalInformation } = response.data
                         dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
                     }
                     if (typeId === 'student') {
-                        let response = await axios.patch(`http://localhost:9090/student/cancelPersonalEdit`, null,
+                        let response = await axios.patch(`https://react-school-back-end.vercel.app/student/cancelPersonalEdit`, null,
                             { headers: { 'Authorization': `Bearer ${myJwt}` } })
                         let { personalInformation } = response.data
                         dispatch({ type: actionTypes.PERSONAL_INFO, payload: { personalInformation } })
@@ -391,7 +391,7 @@ export const handlePersonalChanges = (type, id, data, typeId) => async (dispatch
 export const handleMyAllModules = () => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get('http://localhost:9090/student/fecthMyModules', {
+        let response = await axios.get('https://react-school-back-end.vercel.app/student/fecthMyModules', {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { allMyModules } = response.data
@@ -405,7 +405,7 @@ export const handleMyAllModules = () => async (dispatch) => {
 export const handleSelectModules = (data) => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.post(`http://localhost:9090/student/selectedModule`, { data }, {
+        let response = await axios.post(`https://react-school-back-end.vercel.app/student/selectedModule`, { data }, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -421,7 +421,7 @@ export const handleSelectModules = (data) => async (dispatch) => {
 export const handlePullModuleData = (moduleId) => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get(`http://localhost:9090/student/pullModuleData/${moduleId}`, {
+        let response = await axios.get(`https://react-school-back-end.vercel.app/student/pullModuleData/${moduleId}`, {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { allQuestions, allInformations } = response.data
@@ -437,7 +437,7 @@ export const handlePullModuleData = (moduleId) => async (dispatch) => {
 export const handlePullAssesment = (questionId) => async (dispatch) => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get(`http://localhost:9090/student/pullAssesment/${questionId}`, {
+        let response = await axios.get(`https://react-school-back-end.vercel.app/student/pullAssesment/${questionId}`, {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { myAssessment } = response.data
@@ -452,7 +452,7 @@ export const handlePullAssesment = (questionId) => async (dispatch) => {
 export const handlePushStudentGrade = (studentGrade) => async () => {
     let myJwt = localStorage.getItem('accessToken')
     try {
-        await axios.post(`http://localhost:9090/student/pushStudentAnswer`, { studentGrade }, {
+        await axios.post(`https://react-school-back-end.vercel.app/student/pushStudentAnswer`, { studentGrade }, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -466,19 +466,19 @@ export const handleShowResults = (type, id) => async (dispatch) => {
     try {
         let myJwt = localStorage.getItem('accessToken')
         if (type === 'display' || type === 'undisplay') {
-            let response = await axios.patch(`http://localhost:9090/tutor/displayResults/${id}`, null
+            let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/displayResults/${id}`, null
                 , { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { allMyResults } = response.data
             dispatch({ type: actionTypes.ALL_RESULTS, payload: { allMyResults } })
         }
         if (type === 'show') {
-            let response = await axios.patch(`http://localhost:9090/tutor/showResults/${id}`, null
+            let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/showResults/${id}`, null
                 , { headers: { 'Authorization': `Bearer ${myJwt}` } })
             let { allMyResults } = response.data
             dispatch({ type: actionTypes.ALL_RESULTS, payload: { allMyResults } })
         }
         if (type === 'displayInfo' || type === '!displayInfo') {
-            let response = await axios.patch(`http://localhost:9090/tutor/displayInfo/${id}`, { type }
+            let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/displayInfo/${id}`, { type }
                 , {
                     headers: {
                         'Authorization': `Bearer ${myJwt}`,
@@ -489,7 +489,7 @@ export const handleShowResults = (type, id) => async (dispatch) => {
             dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
         }
         if (type === 'displayAssessment' || type === '!displayAssessment') {
-            let response = await axios.patch(`http://localhost:9090/tutor/displayAssessment/${id}`, { type }
+            let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/displayAssessment/${id}`, { type }
                 , {
                     headers: {
                         'Authorization': `Bearer ${myJwt}`,
@@ -505,7 +505,7 @@ export const handleShowResults = (type, id) => async (dispatch) => {
 
 export const handleCountdown = (assessmentId) => async (dispatch) => {
     try {
-        let response = await axios.get(`http://localhost:9090/student/countdown/${assessmentId}`)
+        let response = await axios.get(`https://react-school-back-end.vercel.app/student/countdown/${assessmentId}`)
         let { duration } = response.data
         dispatch({ type: actionTypes.MY_ASSESSMENT, payload: { duration } })
     } catch (err) { console.error(err) }
