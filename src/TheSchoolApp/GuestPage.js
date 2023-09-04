@@ -79,7 +79,7 @@ const GuestPage = () => {
 
 
 
-            <Col lg={9} md={9} sm={9} xs={9} className='calendar' >
+            <Col lg={9} md={9} sm={12} xs={12} className='calendar table-responsive' >
                 <div className='d-flex justify-content-evenly py-1 my-1'>
                     <div>
                         <button onClick={() => handleDate('previous')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesLeft} /></button>
@@ -93,14 +93,13 @@ const GuestPage = () => {
                     </div>
 
                 </div>
-                <div className='d-flex justify-content-center py-1'>
-                    <Table bordered className='table-responsive'>
-                        <tbody>
-                            <tr >{weekdays.map((a, i) => <td key={i} className='text-white text-center'>{a}</td>)}</tr>
-                            {tr}
-                        </tbody>
-                    </Table>
-                </div>
+
+                <Table bordered striped hover>
+                    <tbody>
+                        <tr >{weekdays.map((a, i) => <td key={i} className='text-white text-center'>{a}</td>)}</tr>
+                        {tr}
+                    </tbody>
+                </Table>
             </Col>
         </Row>
 
