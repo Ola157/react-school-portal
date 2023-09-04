@@ -98,19 +98,19 @@ const Admin = ({ handle_login_signup, handleModal }) => {
                 <Col>
                     {type === 'studentsignup' || type === 'tutorsignup' ?
                         < div className='d-flex justify-content-between'>
-                            <Col lg={5} md={5} sm={12}>
+                            <Col lg={5} md={5} sm={5} xs={5}>
                                 <input className='inputs m-1 text-center w-100' value={firstName} onInput={(event) => setFirstName(event.target.value)} placeholder='first name' />
                             </Col>
-                            <Col lg={5} md={5} sm={12}>
+                            <Col lg={5} md={5} sm={5} xs={5}>
                                 <input className='inputs m-1 text-center w-100' value={lastName} onInput={(event) => setLastName(event.target.value)} placeholder='last name' />
                             </Col>
                         </div> : null}
                     {type === 'tutorsignup' &&
                         < div className='d-flex justify-content-between'>
-                            <Col lg={5} md={5} sm={12}>
+                            <Col lg={5} md={5} sm={5} xs={5}>
                                 <input className='inputs m-1 text-center w-100' value={moduleName} onInput={(event) => setModuleName(event.target.value)} placeholder='module name' />
                             </Col>
-                            <Col lg={5} md={5} sm={12}>
+                            <Col lg={5} md={5} sm={5} xs={5}>
                                 <input className='inputs m-1 text-center w-100' value={moduleCode} onInput={(event) => setModuleCode(event.target.value)} placeholder='module code' />
                             </Col>
                         </div>}
