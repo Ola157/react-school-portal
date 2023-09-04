@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSchool } from '@fortawesome/free-solid-svg-icons'
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { PiArrowFatLineLeft } from 'react-icons/pi';
 
 
 const GuestPage = () => {
@@ -40,7 +40,7 @@ const GuestPage = () => {
         }
     }
 
-    const td = []
+    const tr = []
     const displayCalendar = () => {
         for (let row = 0; row < numRows; row++) {
             const weekDays = [];
@@ -56,7 +56,7 @@ const GuestPage = () => {
                 }
             }
 
-            td.push(<tr key={row}>{weekDays}</tr>);
+            tr.push(<tr key={row}>{weekDays}</tr>);
         }
     }
     displayCalendar()
@@ -66,18 +66,21 @@ const GuestPage = () => {
             <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
         </Navbar >
 
+        <Row className='p-3 my-0'>
+            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
+                <Link to={'/'} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>Select Profile</span></Link>
+            </Col>
+        </Row>
+
         <Row className='d-flex justify-content-center m-1'>
             <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
                 <h3>Calendar</h3>
             </Col>
 
-            {/* <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-start align-items-center my-1'>
-                <Link to='/'><FontAwesomeIcon className='text-white' icon={faArrowLeft} /></Link>
-            </Col>
-            <hr className='my-0 text-white'></hr> */}
+
 
             <Col lg={9} md={9} sm={9} xs={9} className='calendar' >
-                <Col className='d-flex justify-content-evenly py-1 my-1'>
+                <div className='d-flex justify-content-evenly py-1 my-1'>
                     <div>
                         <button onClick={() => handleDate('previous')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesLeft} /></button>
                     </div>
@@ -89,15 +92,15 @@ const GuestPage = () => {
                         <button onClick={() => handleDate('next')} className='border-0 bg-transparent text-white'><FontAwesomeIcon icon={faAnglesRight} /></button>
                     </div>
 
-                </Col>
-                <Table bordered className='table-responsive'>
-                    <tbody>
-                        <tr >{weekdays.map((a, i) => <td key={i} className='text-white text-center'>{a}</td>)}</tr>
-                        {td}
-                    </tbody>
-                </Table>
-
-
+                </div>
+                <div className='d-flex justify-content-center py-1'>
+                    <Table bordered className='table-responsive'>
+                        <tbody>
+                            <tr >{weekdays.map((a, i) => <td key={i} className='text-white text-center'>{a}</td>)}</tr>
+                            {tr}
+                        </tbody>
+                    </Table>
+                </div>
             </Col>
         </Row>
 

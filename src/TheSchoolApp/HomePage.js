@@ -21,7 +21,7 @@ const HomePage = () => {
 
 
             <Row className='justify-content-center'>
-                <Col className='homepage my-5 p-1' lg={4} >
+                <Col className='homepage my-5 p-1 m-2' lg={4} md={4} sm={4} xs={10}>
                     <div className='text-center btnHomepage py-1'>Please select a profile</div>
                     <hr className='my-1 text-white'></hr>
                     <div className='d-flex justify-content-center align-items-center logo my-1 py-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>

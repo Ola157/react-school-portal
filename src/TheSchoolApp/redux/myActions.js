@@ -54,8 +54,6 @@ export const handleRegistration = (data) => async (dispatch) => {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 })
-                console.log(response.data)
-
                 if (response.data === 'registered') {
                     dispatch({ type: actionTypes.TUTOR_REGISTRATION, payload: response.data })
                 }
@@ -69,6 +67,7 @@ export const handleRegistration = (data) => async (dispatch) => {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     })
+
                 console.log(response.data)
 
                 if (response.data === 'registered') {
