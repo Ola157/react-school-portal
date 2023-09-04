@@ -88,7 +88,7 @@ const Admin = ({ handle_login_signup, handleModal }) => {
 
         {modal &&
             <Row className='d-flex justify-content-center'>
-                <Col lg={4} md={6} sm={6} xs={8} className='text-center myModal'>
+                <Col lg={4} md={5} sm={7} xs={10} className='text-center myModal'>
                     <span className='d-flex justify-content-between'> {modal} <button onClick={handleModal} className='border-0 bg-transparent text-white'>x</button></span>
                 </Col>
             </Row>}
