@@ -442,7 +442,6 @@ export const handlePullAssesment = (questionId) => async (dispatch) => {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { myAssessment } = response.data
-        console.log(myAssessment)
         if (myAssessment) {
             dispatch({ type: actionTypes.MY_ASSESSMENT, payload: { myAssessment } })
         }
