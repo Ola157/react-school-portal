@@ -77,7 +77,7 @@ const AnnouncementsPage = ({ handleFetchInformations, handle_Add_Information, ha
                 <h3 >{typeId === 'tutor' ? 'Announcements' : 'All Announcement'}</h3>
             </Col>
             {typeId === 'tutor' &&
-                <Col lg={10} md={10} sm={10} xs={10} className='bg-light py-5'>
+                <Col lg={8} md={8} sm={10} xs={10} className='bg-light py-5'>
                     <div className='d-flex justify-content-evenly'><span className='assesmentInput'>Information Title</span><input className='informationInput w-50' value={title} onInput={(event) => setTitle(event.target.value)} /></div>
                     <Form.Control
                         as="textarea"
