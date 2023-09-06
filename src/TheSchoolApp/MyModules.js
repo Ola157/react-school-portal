@@ -54,8 +54,8 @@ const MyModules = ({ handleFetchMyModules, handleSelectMyModules }) => {
             </Col>}
 
             {allMyModules.length > 0 &&
-                <Col lg={8} md={8} sm={8} className='d-flex justify-content-evenly personalInfo' >
-                    <Table className='table-responsive' striped hover bordered>
+                <Col lg={8} md={8} sm={8} className='d-flex justify-content-evenly table-responsive m-3' >
+                    <Table striped hover bordered className='personalInfo'>
                         <thead>
                             <tr>
                                 <th>Module Name</th>

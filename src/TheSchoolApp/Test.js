@@ -22,6 +22,7 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
 
     useEffect(() => {
         handleFetchAssesment(questionId)
+        handleCheck()
     }, [])
 
     useEffect(() => {
@@ -81,7 +82,6 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
             return handlePushStdGrade(studentGrade)
         }
     }
-
     return (
         <Container fluid className='display pb-5'>
             <Navbar bg="black" className="justify-content-around">

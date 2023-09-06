@@ -68,7 +68,6 @@ export const handleRegistration = (data) => async (dispatch) => {
                         }
                     })
 
-                console.log(response.data)
 
                 if (response.data === 'registered') {
                     dispatch({ type: actionTypes.STUDENT_REGISTRATION })
@@ -443,6 +442,7 @@ export const handlePullAssesment = (questionId) => async (dispatch) => {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         })
         let { myAssessment } = response.data
+        console.log(myAssessment)
         if (myAssessment) {
             dispatch({ type: actionTypes.MY_ASSESSMENT, payload: { myAssessment } })
         }

@@ -37,13 +37,13 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
             </Col>
         </Row>
 
-        <Row className='d-flex justify-content-evenly' >
+        <Row className='d-flex justify-content-evenly p-3' >
             <Col className='m-1 moduleData py-2' lg={5} md={6} sm={12} xs={12}>
                 <Col lg={12} md={12} sm={12} xs={12} className='text-center'><h5 className='moduleDataHeadings'>Module Assessments</h5></Col>
 
-                <Col>
+                <Col className='table-responsive m-2'>
                     {allQuestions.length > 0 ?
-                        <Table className='table-responsive' striped bordered hover>
+                        <Table striped bordered hover>
                             <thead>
                                 <tr>
                                     <th>
@@ -70,9 +70,9 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
             <Col className='m-1 moduleData py-2' lg={5} md={6} sm={12} xs={12}>
                 <Col lg={12} md={12} sm={12} xs={12} className='text-center'><h5 className='moduleDataHeadings'>Module Informations</h5></Col>
 
-                <Col>
+                <Col className='table-responsive m-2'>
                     {allInformations.length > 0 ?
-                        <Table className='table-responsive' striped bordered hover>
+                        <Table striped bordered hover>
                             <thead>
                                 <tr>
                                     <th>
