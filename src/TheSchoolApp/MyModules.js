@@ -3,10 +3,9 @@ import { Link, useParams } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { faSchool } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { HiBackspace } from 'react-icons/hi';
+import { MdSchool } from 'react-icons/md';
 import { Navbar, Table } from 'react-bootstrap';
-import { PiArrowFatLineLeft } from 'react-icons/pi';
 import { useSelector } from 'react-redux';
 
 
@@ -26,36 +25,44 @@ const MyModules = ({ handleFetchMyModules, handleSelectMyModules }) => {
         handleSelectMyModules(selectedMod)
     }
 
-    return (<Container fluid className='display pb-5'>
-        <Navbar bg="black" className="justify-content-around">
-
-            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-        </Navbar >
+    return (<Container className="school-homepage" fluid>
+        <Navbar bg="dark" className='justify-content-between'>
+            <MdSchool className='school-logo' />
+        </Navbar>
 
         <Row className='p-3 my-0'>
-            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
-                <Link to={`/userhomepage/${'student'}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>HomePage</span></Link>
+            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
+                <Link to={`/userhomepage/${'student'}`} className='return-link' >
+                    <HiBackspace /> <span>HomePage</span>
+                </Link>
             </Col>
         </Row>
 
-        <Row className='d-flex justify-content-center'>
-            <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
+        <Row className='justify-content-center m-1'>
+            <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
                 <h3> {allMyModules.length < 1 ? 'Select From The List Of Modules' : 'My Modules'}</h3>
             </Col>
+        </Row>
 
-            {allMyModules.length < 1 && <Col lg={8} md={8} sm={8} className='bg-light text-center py-2'>
-                {allModules.map((module) => (
-                    <Col lg={12} md={12} sm={12} className=' d-flex justify-content-evenly' key={module._id}>
-                        <label className='m-1' htmlFor={module._id}>{module.moduleName} {module.moduleCode}</label>
-                        <input className='m-1' id={module._id} type='radio' onChange={() => handleModuleSelect(module.moduleId, module.moduleName, module.moduleCode)} />
-                    </Col>
-                ))}
-                <button className='w-20 my-1 border-0 border rounded' onClick={() => handleSelectedModule()}>Add Modules</button>
-            </Col>}
+        <Row className='justify-content-center'>
+            {allMyModules.length < 1 &&
+                <Col lg={8} md={8} sm={8} className='table-col table-responsive text-center' >
+                    <Table>
+                        <tbody>
+                            {allModules.map((module) => (
+                                <tr lg={12} md={12} sm={12} className=' d-flex justify-content-evenly' key={module._id}>
+                                    <td><label className='m-1' htmlFor={module._id}>{module.moduleName} {module.moduleCode}</label></td>
+                                    <td><input className='m-1' id={module._id} type='radio' onChange={() => handleModuleSelect(module.moduleId, module.moduleName, module.moduleCode)} /></td>
+                                </tr>
+                            ))}
+                            <button className='syn-button my-1' onClick={() => handleSelectedModule()}>Add Modules</button>
+                        </tbody>
+                    </Table>
+                </Col>}
 
             {allMyModules.length > 0 &&
-                <Col lg={8} md={8} sm={8} className='d-flex justify-content-evenly table-responsive m-3' >
-                    <Table striped hover bordered className='personalInfo'>
+                <Col lg={8} md={8} sm={8} className='table-col table-responsive text-center' >
+                    <Table bordered>
                         <thead>
                             <tr>
                                 <th>Module Name</th>
@@ -63,11 +70,21 @@ const MyModules = ({ handleFetchMyModules, handleSelectMyModules }) => {
                             </tr>
                         </thead>
                         {allMyModules.length && allMyModules.map((module, index) => (<tbody key={index}>
-                            <tr><td>{module.moduleName}</td><td>{module.moduleCode}</td><td className='text-center'><Link className='modulelink' to={`/moduleDetails/${module.moduleId}`}>Click For More!</Link></td></tr>
+                            <tr><td>{module.moduleName}</td><td>{module.moduleCode}</td><td className='text-center'><Link className='module-link' to={`/moduleDetails/${module.moduleId}`}>Click For More!</Link></td></tr>
                         </tbody>))}
                     </Table>
                 </Col>}
         </Row>
+
+        <footer className="school-footer">
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className="text-center">
+                        <p>&copy; 2023 GoldenGate Academy. All Rights Reserved.</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     </Container >)
 }
 export default MyModules;

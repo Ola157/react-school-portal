@@ -3,11 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Container } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSchool } from '@fortawesome/free-solid-svg-icons'
+import { MdSchool } from 'react-icons/md';
+import { HiBackspace } from 'react-icons/hi';
 import { Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { PiArrowFatLineLeft } from 'react-icons/pi';
+import { MdOutlineCancel } from 'react-icons/md';
 
 
 const Admin = ({ handle_login_signup, handleModal }) => {
@@ -17,10 +17,6 @@ const Admin = ({ handle_login_signup, handleModal }) => {
     let [password, setPassword] = useState('')
     let [moduleName, setModuleName] = useState('')
     let [moduleCode, setModuleCode] = useState('')
-    let edit = false
-    let dob = ''
-    let homeAddress = ''
-    let mobileNumber = ''
     const { id } = useParams()
     let [type, handleType] = useState(id)
     const navigate = useNavigate();
@@ -44,6 +40,10 @@ const Admin = ({ handle_login_signup, handleModal }) => {
     }, [ifRegistered, userLoggedIn, modal])
 
     const handlelogin_signup = () => {
+        let edit = false
+        let dob = ''
+        let homeAddress = ''
+        let mobileNumber = ''
         switch (type) {
             case 'student':
                 handle_login_signup({ type, email, password })
@@ -74,56 +74,88 @@ const Admin = ({ handle_login_signup, handleModal }) => {
         }
     }
 
-    return (<Container fluid className='display pb-5'>
-        <Navbar bg="black" className="justify-content-around mb-1">
+    return (<Container className="school-homepage" fluid>
+        <Navbar bg="dark">
+            <div >
+                <MdSchool className='school-logo' />
+            </div>
+        </Navbar>
 
-            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-
-        </Navbar >
         <Row className='p-3 my-0'>
-            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
-                <Link to={'/'} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>Select Profile</span></Link>
+            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
+                <Link to={'/'} className='return-link' >
+                    <HiBackspace /> <span>Select Profile</span>
+                </Link>
             </Col>
         </Row>
 
         {modal &&
-            <Row className='d-flex justify-content-center'>
-                <Col lg={4} md={5} sm={7} xs={10} className='text-center myModal'>
-                    <span className='d-flex justify-content-between'> {modal} <button onClick={handleModal} className='border-0 bg-transparent text-white'>x</button></span>
+            <Row className='justify-content-center'>
+                <Col lg={4} md={5} sm={7} xs={10} className='text-center modal-col'>
+                    <span>{modal}</span> <button onClick={handleModal} className='border-0'><MdOutlineCancel /></button>
                 </Col>
             </Row>}
-        <Row className='d-flex justify-content-center align-items-center'>
 
-            <Col className='loginCol border rounded m-1' lg={4} md={5} sm={7} xs={10}>
+        <Row className='justify-content-center align-items-center'>
+            <Col className='login-col' lg={6} md={8} sm={10} xs={10}>
                 <Col>
                     {type === 'studentsignup' || type === 'tutorsignup' ?
                         < div className='d-flex justify-content-between'>
                             <Col lg={5} md={5} sm={5} xs={5}>
-                                <input className='inputs m-1 text-center w-100' value={firstName} onInput={(event) => setFirstName(event.target.value)} placeholder='first name' />
+                                <input className='syn-input' value={firstName}
+                                    onInput={(event) => setFirstName(event.target.value)} placeholder='first name' />
                             </Col>
                             <Col lg={5} md={5} sm={5} xs={5}>
-                                <input className='inputs m-1 text-center w-100' value={lastName} onInput={(event) => setLastName(event.target.value)} placeholder='last name' />
+                                <input className='syn-input' value={lastName}
+                                    onInput={(event) => setLastName(event.target.value)} placeholder='last name' />
                             </Col>
                         </div> : null}
                     {type === 'tutorsignup' &&
                         < div className='d-flex justify-content-between'>
                             <Col lg={5} md={5} sm={5} xs={5}>
-                                <input className='inputs m-1 text-center w-100' value={moduleName} onInput={(event) => setModuleName(event.target.value)} placeholder='module name' />
+                                <input className='syn-input' value={moduleName}
+                                    onInput={(event) => setModuleName(event.target.value)} placeholder='module name' />
                             </Col>
                             <Col lg={5} md={5} sm={5} xs={5}>
-                                <input className='inputs m-1 text-center w-100' value={moduleCode} onInput={(event) => setModuleCode(event.target.value)} placeholder='module code' />
+                                <input className='syn-input' value={moduleCode}
+                                    onInput={(event) => setModuleCode(event.target.value)} placeholder='module code' />
                             </Col>
                         </div>}
 
-                    <input className='inputs my-2 text-center w-100' type='email' value={email} onInput={(event) => setEmail(event.target.value)} placeholder='email' />
-                    <input className='inputs my-2 text-center w-100' type='password' value={password} onInput={(event) => setPassword(event.target.value)} placeholder='password' />
-                    <Col className='text-center my-2 py-0' lg={12} md={12} sm={12}>
-                        <button className='py-0 loginbtn' onClick={() => handlelogin_signup(type)}>{type === 'tutor' || type === "student" ? <>Log in</> : <>Sign up</>}</button>
+                    <Col lg={12} md={12} sm={12} xs={12}>
+                        <input className='syn-input w-100' type='email' value={email}
+                            onInput={(event) => setEmail(event.target.value)} placeholder='email' />
                     </Col>
-                    {type === 'tutorsignup' || type === 'studentsignup' ? '' : <div className='text-center my-2'><button className='loginbtn py-0' onClick={type === 'student' ? () => handleType('studentsignup') : () => handleType('tutorsignup')}> signup </button></div>}
+                    <Col lg={12} md={12} sm={12} xs={12}>
+                        <input className='syn-input w-100' type='password' value={password}
+                            onInput={(event) => setPassword(event.target.value)} placeholder='password' />
+                    </Col>
+                    <Col className='d-flex justify-content-center' lg={12} md={12} sm={12}>
+                        <button className='py-0 syn-button'
+                            onClick={() => handlelogin_signup(type)}>
+                            {type === 'tutor' || type === "student" ? <>Sign in</> : <>Register</>}
+                        </button>
+                    </Col>
+                    {type === 'tutorsignup' || type === 'studentsignup' ? null : <div className='text-center my-1'>
+                        <button className='py-0 syn-button'
+                            onClick={type === 'student' ? () => handleType('studentsignup')
+                                : () => handleType('tutorsignup')}>
+                            signup
+                        </button>
+                    </div>}
                 </Col>
             </Col>
         </Row >
+
+        <footer className="school-footer">
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className="text-center">
+                        <p>&copy; 2023 GoldenGate Academy. All Rights Reserved.</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     </Container >)
 }
 export default Admin;

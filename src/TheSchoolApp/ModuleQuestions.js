@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { faSchool } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { HiBackspace } from 'react-icons/hi';
+import { MdSchool } from 'react-icons/md';
 import { Navbar } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useSelector } from 'react-redux';
-import { PiArrowFatLineLeft } from 'react-icons/pi';
 
 
 const ModuleQuestions = ({ handleFetchQuestions, handleShowQuestion, handleAllChanges, handleDisplay }) => {
@@ -47,48 +46,120 @@ const ModuleQuestions = ({ handleFetchQuestions, handleShowQuestion, handleAllCh
         }
     }
 
-    return (<Container fluid className='display pb-5'>
-        <Navbar bg="black" className="justify-content-around">
-
-            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-        </Navbar >
+    return (<Container className="school-homepage" fluid>
+        <Navbar bg="dark" className='justify-content-start'>
+            <MdSchool className='school-logo' />
+        </Navbar>
 
         <Row className='p-3 my-0'>
-            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
-                <Link to={`/questions/${type}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>Assessment</span></Link>
+            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
+                <Link to={`/questions/${type}`} className='return-link' >
+                    <HiBackspace /> <span>Assessment</span>
+                </Link>
+            </Col>
+        </Row>
+
+        <Row className='justify-content-center'>
+            <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
+                <h3 >All Assesment Questions</h3>
             </Col>
         </Row>
 
         <Row className='mt-1 d-flex justify-content-center align-items-center' >
+            {allQuestions.length > 0 ?
+                <Col lg={12} md={10} sm={10} xs={10} className='table-col table-responsive text-center'>
+                    {allQuestions.map((question, index) => (
+                        <Table bordered key={index}>
+                            <thead>
+                                <tr>
+                                    <th colSpan={2}><span className='d-flex justify-content-evenly align-items-center'><span>Title</span><span>{question.testTitle}</span></span></th>
+                                    <th colSpan={2}><span className='d-flex justify-content-evenly align-items-center'><span>Duration</span><span>{question.duration}</span></span></th>
+                                    <th>
+                                        <button className='syn-button'
+                                            onClick={!question.displayForStudents ?
+                                                () => handleDisplay('displayAssessment', question._id) :
+                                                () => handleDisplay('!displayAssessment', question._id)}>
+                                            {!question.displayForStudents ? 'Send Assesment' : 'Unsend Assessment'}</button>
+                                    </th>
 
-            {allQuestions.length && <Col lg={5} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
-                <h3>All Assesment Questions</h3>
-            </Col>}
+                                    <th>
+                                        <button className='syn-button'
+                                            onClick={() => handleAmends('delete', question._id)}>Remove</button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Option A</th>
+                                    <th>Option B</th>
+                                    <th>Option C</th>
+                                    <th>Option D</th>
+                                    <th>Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {question.allQuestions.length > 0 &&
+                                    question.allQuestions.map((quest, index) => (<tr key={index}>
 
+                                        {!quest.edit ? <td>{quest.question}</td> : <td><input className='syn-input' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} /></td>}
+                                        {!quest.edit ? <td>{quest.optionA}</td> : <td><input className='syn-input' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} /></td>}
+                                        {!quest.edit ? <td>{quest.optionB}</td> : <td><input className='syn-input' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} /></td>}
+                                        {!quest.edit ? <td>{quest.optionC}</td> : <td><input className='syn-input' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} /></td>}
+                                        {!quest.edit ? <td>{quest.optionD}</td> : <td><input className='syn-input' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} /></td>}
+                                        {!quest.edit ? <td>{quest.answer}</td> :
+                                            <td className='d-flex justify-content-evenly align-items-center'>
+                                                <span>
+                                                    <label htmlFor='A'>A</label>
+                                                    <input id='A' type='radio' name='answer' className='syn-input' placeholder='Answer' onInput={(event) => setAnswer('A')} />
+                                                </span>
+                                                <span>
+                                                    <label htmlFor='B'>B</label>
+                                                    <input id='B' type='radio' name='answer' className='syn-input' placeholder='Answer' onInput={(event) => setAnswer('B')} />
+                                                </span>
+                                                <span>
+                                                    <label htmlFor='C'>C</label>
+                                                    <input id='C' type='radio' name='answer' className='syn-input' placeholder='Answer' onInput={(event) => setAnswer('C')} />
+                                                </span>
+                                                <span>
+                                                    <label htmlFor='D'>D</label>
+                                                    <input id='D' type='radio' name='answer' className='syn-input' placeholder='Answer' onInput={(event) => setAnswer('D')} />
+                                                </span>
+                                            </td>}
+                                        {!quest.edit ?
+                                            <td>
+                                                <button className='syn-button' onClick={() => handleAmends('edit', quest._id)}>Edit</button>
+                                            </td> :
+                                            <td>
+                                                <button className='save-button' onClick={() => handleAmends('done', quest._id)}>Save Changes</button>
+                                                <button className='cancel-button' onClick={() => handleAmends('cancel', quest._id)}>Cancel Changes</button>
+                                            </td>}
+                                    </tr>))}
+                            </tbody>
+                        </Table>))}
+                </Col>
+                :
+                <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center'>
+                    <Table bordered>
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}>
+                                    No Questions Yet, <button className='border-0 bg-transparent' style={{ color: 'yellow', textDecoration: 'underline' }} onClick={() => navigate(`/questions/${type}`)}> Click To Add New Question</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Col>
+            }
+        </Row >
 
-            {allQuestions.length ?
-                allQuestions.map((question, index) => (
-                    <Col lg={10} md={10} sm={10} xs={10} className='bg-light py-2' key={index}>
-                        <div className='m-1'><span className='assesmentInput'>{index + 1}. </span><button className='questionBtn m-1' onClick={() => handleShowQuestion(question._id)}><span className='assesmentInput'>{question.testTitle.toUpperCase()}</span></button><button className='amends' onClick={() => handleAmends('delete', question._id)}>Remove</button>
-                            <button className='questionBtn m-1' onClick={!question.displayForStudents ? () => handleDisplay('displayAssessment', question._id) : () => handleDisplay('!displayAssessment', question._id)}>{!question.displayForStudents ? 'Send Assesment' : 'Unsend Assessment'}</button></div>
-
-                        {question.showQuestion && <><div ><span className='assesmentInput'>Duration </span><span>{question.duration}</span></div>
-                            {question.allQuestions ? question.allQuestions.map((quest, index) => (<div key={index}>
-                                <div className='m-1'><span className='assesmentInput'>Question{index + 1}. </span><span>{!quest.edit ? quest.question : <input className='border rounded my-1' placeholder='Question' onInput={(event) => setQuestion(event.target.value)} />}</span></div >
-                                <div className='m-1'><span className='assesmentInput'>A. </span><span>{!quest.edit ? quest.optionA : <input className='border rounded my-1' placeholder='Option A' onInput={(event) => setOptionA(event.target.value)} />}</span></div>
-                                <div className='m-1'><span className='assesmentInput'>B. </span><span>{!quest.edit ? quest.optionB : <input className='border rounded my-1' placeholder='Option B' onInput={(event) => setOptionB(event.target.value)} />}</span></div>
-                                <div className='m-1'><span className='assesmentInput'>C. </span><span>{!quest.edit ? quest.optionC : <input className='border rounded my-1' placeholder='Option C' onInput={(event) => setOptionC(event.target.value)} />}</span></div>
-                                <div className='m-1'><span className='assesmentInput'>D. </span><span>{!quest.edit ? quest.optionD : <input className='border rounded my-1' placeholder='Option D' onInput={(event) => setOptionD(event.target.value)} />}</span></div>
-                                <div className='m-1'><span className='assesmentInput'>Solution. </span><span>{!quest.edit ? quest.answer : <input className='border rounded my-1' placeholder='Answer' onInput={(event) => setAnswer(event.target.value)} />}</span></div>
-                                <div>
-                                    <button className='amends m-1' onClick={!quest.edit ? () => handleAmends('edit', quest._id) : () => handleAmends('done', quest._id)}>{!quest.edit ? 'Edit' : 'Save Changes'} </button>
-                                    {quest.edit && <button className='amends m-1' onClick={() => handleAmends('cancel', quest._id)}>Cancel Changes</button>}
-                                </div>
-                            </div>)) : null}
-                        </>}
-                    </Col>))
-                : <Col lg={10} md={10} sm={10} xs={10} className='text-center'><button onClick={() => navigate('/questions')} className='bg-light py-3 px-2 pe-2 my-5 assesmentInput border-0' style={{ fontSize: '1em' }}>No Questions Yet, Click To Add New Question</button> </Col>}
-        </Row>
+        <footer className="school-footer">
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className="text-center">
+                        <p>&copy; 2023 GoldenGate Academy. All Rights Reserved.</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     </Container >)
 }
 export default ModuleQuestions;

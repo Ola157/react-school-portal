@@ -4,14 +4,12 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import Form from 'react-bootstrap/Form';
-import { faSchool } from '@fortawesome/free-solid-svg-icons'
-import { PiArrowFatLineLeft } from 'react-icons/pi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Navbar, Tab } from 'react-bootstrap';
+import { HiBackspace } from 'react-icons/hi';
+import { MdSchool } from 'react-icons/md';
+import { Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-const AnnouncementsPage = ({ handleFetchInformations, handle_Add_Information, handleShowInformation, handleAllChanges, handleDisplay }) => {
+const AnnouncementsPage = ({ handleSignOut, handleFetchInformations, handle_Add_Information, handleAllChanges, handleDisplay }) => {
     const { typeId } = useParams()
     let [information, setInfo] = useState('')
     let [title, setTitle] = useState('')
@@ -60,85 +58,157 @@ const AnnouncementsPage = ({ handleFetchInformations, handle_Add_Information, ha
         }
     }
 
-    return (<Container fluid className='display pb-5'>
-        <Navbar bg="black" className="justify-content-around">
+    return (<Container className="school-homepage" fluid>
+        <Navbar bg="dark" className='justify-content-between'>
+            <MdSchool className='school-logo' />
+        </Navbar>
 
-            <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-        </Navbar >
         <Row className='p-3 my-0'>
-            <Col lg={2} md={2} sm={2} xs={2} className='px-0 pe-0'>
-                <Link to={`/userhomepage/${typeId}`} className='bg-white d-flex justify-content-center align-items-center pe-0 px-0 mx-0 me-0 backLink' ><PiArrowFatLineLeft className='mx-1' style={{ fontSize: '1.3em' }} /> <span>HomePage</span></Link>
+            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
+                <Link to={`/userhomepage/${typeId}`} className='return-link' >
+                    <HiBackspace /> <span>HomePage</span>
+                </Link>
             </Col>
         </Row>
 
-        <Row className='d-flex justify-content-center'>
-
-            <Col lg={6} md={6} sm={7} xs={8} className='d-flex justify-content-center align-items-center h3headings my-3'>
-                <h3 >{typeId === 'tutor' ? 'Announcements' : 'All Announcement'}</h3>
+        <Row className='justify-content-center m-1'>
+            <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
+                <h3 className='text-center'>{typeId === 'tutor' ? 'Announcements' : 'All Announcement'}</h3>
             </Col>
-            {typeId === 'tutor' &&
-                <Col lg={8} md={8} sm={10} xs={10} className='bg-light py-5'>
-                    <div className='d-flex justify-content-evenly'><span className='assesmentInput'>Information Title</span><input className='informationInput w-50' value={title} onInput={(event) => setTitle(event.target.value)} /></div>
-                    <Form.Control
-                        as="textarea"
-                        placeholder="Send an Information here"
-                        onInput={event => setInfo(event.target.value)}
-                        style={{ height: '5em' }}
-                        value={information}
-                        className='my-1 informationInput my-1'
-                    />
-                    <div className='text-center'><button className='addQuestion my-1 py-0' onClick={() => handleAddInformation()}>Add Information</button> </div>
+        </Row>
 
-                    {allInformations.map((info, index) =>
-                        <Col key={index}>
-                            {!info.edit ? <button className='amends my-1 mx-3 me-3' onClick={() => handleShowInformation(info._id)}> {info.title.toUpperCase()} Click for More!</button> :
-                                <div><span className='assesmentInput me-3'>Title</span><span><input value={titleNew} className='informationInput w-30' onInput={event => setTitleNew(event.target.value)} /></span></div>}
-                            <button className='m-1 amends' onClick={!info.displayForStudents ?
-                                () => handleDisplay('displayInfo', info._id) :
-                                () => handleDisplay('!displayInfo', info._id)}>
-                                {!info.displayForStudents ? <>Send Information</> : <>Unsend Information</>}
-                            </button>
-                            {info.showInformation && <div className='information my-1 p-3 py-1'><span className='assesmentInput me-3'>Information </span><span>{!info.edit ? info.information :
-                                <Form.Control
-                                    as="textarea"
-                                    placeholder="Send an Information here"
-                                    onInput={event => setInfoNew(event.target.value)}
-                                    style={{ height: '5em', width: '40%' }}
-                                    value={informationNew}
-                                    className='my-1 informationInput'
-                                />}</span></div>}
-                            {info.showInformation && <div><button className='amends m-1 my-1 mx-3 me-3' onClick={!info.edit ? () => handleChanges('edit', info._id) : () => handleChanges('done', info._id)}>{!info.edit ? 'Edit' : 'Save Changes'}</button>{info.edit && <button className='amends m-1' onClick={() => handleChanges('cancel', info._id)}>Cancel Changes</button>}<button className='amends m-1' onClick={() => handleChanges('delete', info._id)}>delete</button></div>}
 
-                        </Col>
-                    )}
-                </Col>}
+        {typeId === 'tutor' &&
+            <>
+                <Row className='justify-content-center'>
+                    <Col lg={8} md={8} sm={10} xs={10} className='announcement-col'>
+                        <div className='d-flex justify-content-evenly align-items-center'>
+                            <label className='assesmentInput' htmlFor='titleInput'>Information Title</label>
+                            <input id='titleInput' placeholder='Information title' className='anouncementtitleInput w-50 text-start' value={title} onInput={(event) => setTitle(event.target.value)} />
+                        </div>
 
+                        <input
+                            placeholder="Send an Information here"
+                            onInput={event => setInfo(event.target.value)}
+                            value={information}
+                            className='anouncementInput text-start'
+                        />
+                        <div className='text-center'>
+                            <button className='syn-button'
+                                onClick={() => handleAddInformation()}>Add Information</button>
+                        </div>
+                    </Col>
+                </Row>
+
+                <Row className='justify-content-center'>
+                    {allInformations.length > 0 &&
+                        <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-center'>
+                            <Table bordered>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Information</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {allInformations.map((info, index) =>
+                                        <tr key={index}>
+                                            {!info.edit ?
+                                                <td>{info.title}</td> :
+                                                <td>
+                                                    <input
+                                                        placeholder="title"
+                                                        onInput={event => setTitleNew(event.target.value)}
+                                                        value={information}
+                                                        className='syn-input text-start'
+                                                    />
+                                                </td>}
+
+                                            {!info.edit ?
+                                                <td>{info.information}</td> :
+                                                <td  >
+                                                    <input
+                                                        placeholder="Send an Information here"
+                                                        onInput={event => setInfoNew(event.target.value)}
+                                                        value={information}
+                                                        className='anouncementInput text-start'
+                                                    />
+                                                </td>}
+                                            {!info.edit &&
+                                                <td  >
+                                                    <button className=' syn-button' onClick={!info.displayForStudents ?
+                                                        () => handleDisplay('displayInfo', info._id) :
+                                                        () => handleDisplay('!displayInfo', info._id)}>
+                                                        {!info.displayForStudents ? <>Send Information</> : <>Unsend Information</>}
+                                                    </button>
+                                                </td>}
+
+                                            {!info.edit ?
+                                                <td className='d-flex justify-content-around align-items-center'>
+                                                    <button className=' syn-button' onClick={() => handleChanges('edit', info._id)}>Edit</button>
+                                                    <button className=' syn-button' onClick={() => handleChanges('delete', info._id)}>Delete</button>
+                                                </td>
+                                                : <td>
+                                                    <button className='save-button' onClick={() => handleChanges('done', info._id)}>save changes</button>
+                                                    <button className='cancel-button' onClick={() => handleChanges('cancel', info._id)}>cancel</button>
+                                                </td>}
+                                        </tr>)}
+                                </tbody>
+                            </Table>
+                        </Col>}
+                </Row>
+            </>}
+
+        <Row className='justify-content-center'>
             {typeId === 'student' &&
-                allInformations.length &&
-                <Col lg={8} md={7} sm={7} xs={10} className='bg-light py-2 text-center'>
-                    <Table className='table-responsive' striped hover bordered>
+                allInformations.length > 0 &&
+                <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-center'>
+                    <Table bordered>
                         <thead>
                             <tr>
-                                <th className='text-center'>Title</th>
-                                <th className='text-center'>Information</th>
+                                <th>Module Name</th>
+                                <th>Title</th>
+                                <th>Information</th>
                             </tr>
                         </thead>
                         {allInformations.map((info, index) =>
                         (<tbody key={index} >
-                            <tr><td className='text-center'>{info.title}</td><td className='text-center'>{info.information}</td></tr>
+
+                            <tr><td>{info.moduleName}</td><td>{info.title}</td><td>{info.information}</td></tr>
                         </tbody>))}
                     </Table>
-                </Col>}
+                </Col>
+            }
+        </Row >
 
-            {typeId === 'student' && !allInformations.length &&
-                <Col lg={7} md={5} sm={8} xs={10} className='d-flex justify-content-center my-2'>
-                    <h3 className='px-1 pe-1 py-2 w-50 text-center results'>No Informations, Check Back</h3>
+        <Row className='justify-content-center'>
+            {typeId === 'student' && !allInformations.length > 0 &&
+                <Col lg={7} md={5} sm={8} xs={10} className='table-col-col d-flex justify-content-center text-center'>
+                    <Table bordered>
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}>No Informations, Check Back</td>
+                            </tr>
+                        </tbody>
+                    </Table>
                 </Col>
             }
 
 
 
         </Row>
+
+        <footer className="school-footer">
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className="text-center">
+                        <p>&copy; 2023 GoldenGate Academy. All Rights Reserved.</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     </Container >
     )
 }

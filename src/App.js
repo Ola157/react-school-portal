@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './TheSchoolApp/HomePage';
 import UserHomePage from './TheSchoolApp/UserHomePage';
@@ -19,6 +19,7 @@ import { handleAddNewQuestion, handleAllAmendsAct, handleAllQuestions, handleAnn
 
 const App = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handle_login_signup = (data) => {
     dispatch(handleRegistration(data))
@@ -29,6 +30,8 @@ const App = () => {
   }
 
   const handleSignOut = () => {
+    localStorage.removeItem('accessToken')
+    navigate('/')
     dispatch(handleSignOutAct())
   }
 
@@ -50,10 +53,6 @@ const App = () => {
 
   const handleFetchInformations = (typeId) => {
     dispatch(handleFetchAllInformation(typeId))
-  }
-
-  const handleShowInformation = (infoId) => {
-    dispatch(handleDisplayInformation(infoId))
   }
 
   const handleAllChanges = (alldata) => {
@@ -112,12 +111,12 @@ const App = () => {
         <Route path='/*' element={<HomePage />} />
         <Route path='/userhomepage/:type' element={<UserHomePage handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} />} />
         <Route path='/admin/:id' element={<Admin handle_login_signup={handle_login_signup} handleModal={handleModal} />} />
-        <Route path='/assesment/:questionId' element={<Test handleTimeDown={handleTimeDown} handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
+        <Route path='/assesment/:questionId' element={<Test handleSignOut={handleSignOut} handleTimeDown={handleTimeDown} handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
         <Route path='/questions/:type' element={<AllQuestions handleAddAllQuestion={handleAddAllQuestion} />} />
         <Route path='/allAssesment/:type' element={<ModuleQuestions handleFetchQuestions={handleFetchQuestions} handleDisplay={handleDisplay} handleShowQuestion={handleShowQuestion} handleAllChanges={handleAllChanges} />} />
-        <Route path='/announcement/:typeId' element={<AnnouncementsPage handleDisplay={handleDisplay} handleShowInformation={handleShowInformation} handle_Add_Information={handle_Add_Information} handleAllChanges={handleAllChanges} handleFetchInformations={handleFetchInformations} />} />
-        <Route path='/grades/:typeId' element={<Results handleFetchResults={handleFetchResults} handleDisplay={handleDisplay} />} />
-        <Route path='/PersonalInformation/:typeId' element={<PersonalInformation handlePersonalInformation={handlePersonalInformation} handleAllChanges={handleAllChanges} />} />
+        <Route path='/announcement/:typeId' element={<AnnouncementsPage handleSignOut={handleSignOut} handleDisplay={handleDisplay} handle_Add_Information={handle_Add_Information} handleAllChanges={handleAllChanges} handleFetchInformations={handleFetchInformations} />} />
+        <Route path='/grades/:typeId' element={<Results handleSignOut={handleSignOut} handleFetchResults={handleFetchResults} handleDisplay={handleDisplay} />} />
+        <Route path='/PersonalInformation/:typeId' element={<PersonalInformation handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} handleAllChanges={handleAllChanges} />} />
         <Route path='/modules/:type' element={<MyModules handleFetchMyModules={handleFetchMyModules} handleSelectMyModules={handleSelectMyModules} />} />
         <Route path='/moduleDetails/:moduleId' element={<ModuleDeets handleFetchModuleData={handleFetchModuleData} />} />
         <Route path='/guest' element={<GuestPage />} />

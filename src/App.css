@@ -1,242 +1,321 @@
-.display {
+.school-homepage {
   background-image: url('/src/TheSchoolApp/assets/schoolCamp2.jpg');
-  background-position: center;
   background-size: cover;
-  font-size: 17px;
-  background-color: rgba(211, 211, 211, .6);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: yellow;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.homepage {
-  background-color: rgba(0, 0, 0);
-  box-shadow: inset 0em -1em 3em 0.5em rgba(64, 63, 63, .5);
-  color: goldenrod;
-  border-radius: 5px;
+.school-footer {
+  background-color: #333;
+  color: yellow;
+  padding: 10px 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
 }
 
-.btnHomepage {
-  color: goldenrod;
-  background-color: transparent;
-  border: none;
-  font-weight: 600;
+.homepage-card,
+.login-col {
+  background-color: rgba(51, 51, 51, .9);
+  color: yellow;
+  text-align: center;
+  padding: 20px;
+  border-radius: 2px;
+  margin: 8%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
-  color: rgba(243, 188, 49, 0.7);
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
-.loginbtn {
-  background-color: rgba(12, 12, 12, .9);
-  color: goldenrod;
-  border-radius: 2px;
+.homepage-button {
+  background-color: yellow;
+  color: #333;
   border: none;
-  height: 2.5em;
-  width: 70%;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 10px;
+}
+
+.homepage-button:hover {
+  background-color: #333;
+  color: yellow;
+}
+
+.homepage-intro {
+  text-align: center;
   font-weight: bold;
   font-size: 1em;
 }
 
-.inputs {
-  height: 2.5em;
-  border-radius: 3px;
+.school-logo {
+  height: 2em;
+  width: 2em;
+}
+
+.homepage-button:focus {
+  outline: none;
+}
+
+.homepage-card button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1rem;
+}
+
+hr {
+  border-color: white;
+}
+
+.return-link {
+  color: yellow;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 5px;
+  background-color: #333;
+  width: fit-content;
+}
+
+.return-link:hover {
+  text-decoration: underline;
+  color: yellow;
+  background-color: rgba(51, 51, 51, .8);
+}
+
+.modal-col {
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  width: fit-content;
+  margin-top: 20px;
+  padding: .1em 1em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-col button {
+  color: yellow;
+}
+
+.login-col {
+  background-color: #333;
+  color: yellow;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.syn-input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid yellow;
+  border-radius: 4px;
+  background-color: transparent;
+  color: yellow;
+  text-align: center;
+}
+
+.syn-button {
+  background-color: yellow;
+  color: #333;
   border: none;
-  background-color: rgb(187, 184, 184);
+  border-radius: 4px;
+  padding: .3em .4em;
+  margin: .3em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.inputs:hover {
-  border: 2px solid black;
+.syn-button:hover {
+  color: yellow;
+  background-color: #222;
 }
 
-.loginbtn:hover {
-  background-color: rgb(17, 16, 16);
-  border: 1px solid gray;
+.syn-input::placeholder {
+  color: yellow;
 }
 
-.loginCol {
-  height: 20em;
-  background-position: center;
-  background-size: cover;
-  box-shadow: inset 1em 1em 3em 2em rgba(24, 24, 24, 0.9);
+.login-btn:focus {
+  outline: none;
+}
+
+.modal-col button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-col button:focus {
+  outline: none;
+}
+
+.modal-col button:hover {
+  color: #f00;
+}
+
+.guest-intro-col {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-bottom: 4em;
 }
 
-.myModal {
-  border: 2px solid red;
-  background-color: rgba(68, 67, 67, .7);
-  border-radius: 3px;
-  font-style: oblique;
-  color: white;
-}
-
-.module {
-  height: 3em;
-  font-size: 1.5em;
-  font-weight: bold;
-  background-color: rgba(206, 202, 202, .7);
-}
-
-.module:hover {
-  height: 3em;
-  font-size: 1.5em;
-  font-weight: bolder;
-  background-color: white;
-}
-
-
-.assesmentInput {
-  font-size: 1em;
-  font-weight: bold
-}
-
-.addQuestion {
-  width: 10em;
-  height: 2.5em;
-  font-size: 1em;
-  font-weight: bold;
-  background-color: rgba(83, 82, 82, .7);
-  border-radius: 3px;
-}
-
-.addQuestion:hover {
-  background-color: rgba(83, 82, 82, .4);
-}
-
-.questionBtn {
-  border: 1px solid black;
-  border-radius: 3px;
-  background-color: rgb(12, 12, 12);
-  color: white;
-}
-
-.amends {
-  border: none;
-  background-color: gray;
-  color: white;
-  border: none;
-  border-radius: 3px;
-}
-
-.amends:hover {
-  text-decoration: underline;
-}
-
-.editDelete {
-  width: 10em;
-  height: 1.5em;
-  font-size: 1em;
-  font-weight: bold;
-  background-color: rgba(83, 82, 82, .7);
-  border-radius: 3px;
-}
-
-.informationInput {
-  border-radius: 3px;
-  border: 1px solid black;
-}
-
-.informationInput:hover {
-  border: 2px solid black;
-}
-
-.signOutBtn {
-  border: none;
-  color: rgba(245, 241, 241, 0.5);
-  background-color: transparent;
-}
-
-.signOutBtn:hover {
-  border: none;
-  color: white;
-  background-color: transparent;
-}
-
-.results {
-  background-color: rgba(245, 237, 237, .7);
-  font-weight: bolder;
-}
-
-.personalInfo {
-  background-color: rgba(238, 236, 236, .8);
-}
-
-.tutorButton {
-  height: 7em;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.8);
-  width: 100%;
-  color: rgba(248, 247, 247, 0.6);
-  border: 1px solid rgba(220, 188, 7, .5);
-  font-weight: bold;
-}
-
-.tutorButton:hover {
-  color: white;
-  border-color: gold;
-  transition: 20ms;
-  background-color: black;
-}
-
-.questInp {
-  border-radius: 3px;
-  border: 1px solid black;
-  width: 80%;
-}
-
-.modulelink {
-  text-decoration: none;
-  color: black;
-}
-
-.modulelink:hover {
-  text-decoration: underline;
-  color: black;
-}
-
-.h3headings {
-  color: gold;
-  background-color: rgba(14, 14, 14, .9);
-}
-
-.moduleData {
-  background-color: rgba(243, 242, 242, .7);
+.heading-col h3 {
+  background-color: #333;
+  color: yellow;
+  padding: .2em 3em;
+  width: fit-content;
 }
 
 .moduleDataHeadings {
-  font-weight: bolder;
+  background-color: #333;
+  color: yellow;
+  padding: .2em 3em;
+  width: fit-content;
 }
 
-.submitButton {
-  border-radius: 3px;
-  border: 1px solid black;
-  background-color: black;
-  color: white;
+.user-intro-col h5 {
+  background-color: #333;
+  color: yellow;
+  padding: .2em 1em;
+  width: fit-content;
 }
 
-.calendar {
-  background-color: rgba(245, 236, 224, .4);
+.table-col table {
+  background-color: rgb(51, 51, 51);
+  color: yellow;
+  padding: .4em .6em;
+  border-color: yellow;
+  border-color: yellow;
 }
 
-.backLink {
+.calendar-col button {
+  color: yellow;
+}
+
+
+.navigation-col .tutorButton {
+  background-color: rgb(51, 51, 51);
+  color: yellow;
+  border: none;
+  border-radius: 2px;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  height: 8em;
+  width: 15em;
+  font-weight: 700;
   font-size: 1em;
-  font-weight: bold;
-  width: 9em;
-  height: 2em;
-  color: black;
+}
+
+.tutorButton:hover {
+  background-color: rgba(250, 250, 13, .7);
+  color: #333;
+}
+
+.signout-Btn,
+.module-link {
+  background-color: transparent;
+  color: rgba(250, 250, 13, .7);
+  border: none;
   text-decoration: none;
 }
 
-.backLink:hover {
-  color: black;
+.module-link:hover {
+  color: rgba(250, 250, 13, .7);
   text-decoration: underline;
 }
 
-.calendar {
-  background-color: rgba(64, 63, 63, 0.9);
-  color: black;
+.cancel-button {
+  background-color: rgb(250, 53, 53);
+  border-radius: 3px;
+  color: white;
+  border: none;
+  margin: .4em .5em;
+  padding: .3em 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.guestGrid {
-  background-color: rgba(251, 245, 245, 0.9);
+.cancel-button:hover {
+  background-color: #f00;
+}
+
+.save-button {
+  background-color: green;
+  border-radius: 3px;
+  color: white;
+  border: none;
+  margin: .4em .5em;
+  padding: .3em 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: rgb(4, 108, 4);
+}
+
+.syn-input {
+  border: 1px solid yellow;
+  border-radius: 2px;
+  background-color: transparent;
+  color: yellow;
+  text-align: center;
+  width: auto;
+  height: 2em;
+  margin: .3em;
+}
+
+.announcement-col {
+  background-color: #333;
+  padding: 1em;
+}
+
+.anouncementInput {
+  height: 7em;
+  color: yellow;
+  width: 100%;
+  border: 1px solid yellow;
+  border-radius: 2px;
+  background-color: transparent;
+}
+
+.anouncementtitleInput {
+  color: yellow;
+  border-color: yellow;
+  border-radius: 2px;
+  background-color: transparent;
+  text-align: center;
+  margin: .5em;
+}
+
+.anouncementInput::placeholder,
+.anouncementtitleInput::placeholder {
+  color: yellow;
+  font-weight: 100;
 }

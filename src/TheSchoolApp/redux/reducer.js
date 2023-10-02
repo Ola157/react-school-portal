@@ -104,7 +104,6 @@ const myReducer = (state = schoolData, action) => {
                     myAssessment: myAssessment
                 }
             } else if (duration) {
-                console.log(duration)
                 return {
                     ...state,
                     myAssessment: state.myAssessment.map(ass => ({

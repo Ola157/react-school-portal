@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPeopleLine } from '@fortawesome/free-solid-svg-icons'
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
-import { faSchool } from '@fortawesome/free-solid-svg-icons'
+import { MdArrowForwardIos } from 'react-icons/md';
+import { BsFillPersonFill } from 'react-icons/bs';
+import { MdSchool } from 'react-icons/md';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -11,30 +10,61 @@ import { Navbar } from 'react-bootstrap';
 
 const HomePage = () => {
     const navigate = useNavigate();
-    return (
-        <Container className='display pb-5' fluid >
-            <Navbar bg="black" className="justify-content-around">
+    return (<Container className="school-homepage" fluid>
+        <Navbar bg="dark">
+            <div >
+                <MdSchool className='school-logo' />
+            </div>
+        </Navbar>
 
-                <div className='d-flex justify-content-center align-items-center logo my-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
+        <Row className="justify-content-center">
+            <Col lg={6} md={6} sm={8} xs={10} className="homepage-card">
+                <div className="text-center homepage-intro">
+                    Welcome to GoldenGate Academy
+                </div>
+                <hr className="my-1 text-white" />
+                <div className="d-flex justify-content-center my-2">
+                    <MdSchool className='school-logo' />
+                </div>
+                <div className="text-center homepage-intro">
+                    Your Gateway to Excellence - The Ultimate Student Portal
+                </div>
+                <hr className="my-1 text-white" />
+                <button
+                    className="homepage-button"
+                    onClick={() => navigate(`/admin/student`)}
+                >
+                    <BsFillPersonFill /> Student
+                    <MdArrowForwardIos />
+                </button>
+                <button
+                    className="homepage-button"
+                    onClick={() => navigate(`/admin/tutor`)}
+                >
+                    <BsFillPersonFill /> Staff
+                    <MdArrowForwardIos />
+                </button>
+                <button
+                    className="homepage-button"
+                    onClick={() => navigate("/guest")}
+                >
+                    <BsFillPersonFill /> Guest
+                    <MdArrowForwardIos />
+                </button>
+            </Col>
+        </Row>
 
-            </Navbar >
-
-
-            <Row className='justify-content-center'>
-                <Col className='homepage my-5 p-1 m-2' lg={4} md={4} sm={4} xs={10}>
-                    <div className='text-center btnHomepage py-1'>Please select a profile</div>
-                    <hr className='my-1 text-white'></hr>
-                    <div className='d-flex justify-content-center align-items-center logo my-1 py-1' ><FontAwesomeIcon icon={faSchool} size="2xl" /><span>MySch</span></div>
-                    <div className='text-center my-2 btnHomepage py-1'>Welcome to MySch - MySch's Student Portal</div>
-                    <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate(`/admin/${'student'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Student  <FontAwesomeIcon icon={faRightToBracket} /></button>
-                    <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate(`/admin/${'tutor'}`)} ><FontAwesomeIcon icon={faPeopleLine} />Staff  <FontAwesomeIcon icon={faRightToBracket} /></button>
-                    <hr className='my-0 text-white'></hr>
-                    <button className='d-flex btnHomepage justify-content-between align-items-center w-100 py-1' onClick={() => navigate('guest')} ><FontAwesomeIcon icon={faPeopleLine} />Guest  <FontAwesomeIcon icon={faRightToBracket} /></button>
-                </Col>
-
-            </Row >
-        </Container >)
+        <footer className="school-footer">
+            <Container fluid>
+                <Row>
+                    <Col lg={12} className="text-center">
+                        <p>&copy; 2023 GoldenGate Academy. All Rights Reserved.</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
+    </Container>
+    );
 }
+
 export default HomePage;
