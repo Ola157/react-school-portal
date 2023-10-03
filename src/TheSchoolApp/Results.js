@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import { HiBackspace } from 'react-icons/hi';
 import { MdSchool } from 'react-icons/md';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Tab } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 const Results = ({ handleFetchResults, handleDisplay }) => {
     let allResults = useSelector(state => state.allResults)
     const { typeId } = useParams()
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (allResults) return handleFetchResults(typeId)
@@ -40,44 +39,39 @@ const Results = ({ handleFetchResults, handleDisplay }) => {
         <Row className='justify-content-center'>
             {allResults.length > 0 && typeId === 'tutor' &&
                 <Col lg={8} md={8} sm={10} xs={10} className='table-responsive table-col text-center'>
-                    <Table bordered>
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Test Title</th>
-                                <th>Student Name</th>
-                                <th>Student Score</th>
-                            </tr>
-                        </thead>
-
-                        {allResults && allResults.map((grade, index) =>
-                        (<tbody key={index}>
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>
-                                    <button className='syn-button' onClick={() => handleDisplay('show', grade.assesmentId)}>Click For <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Grades</button>
-                                    <button className='syn-button' onClick={!grade.displayGrade ?
-                                        () => handleDisplay('display', grade.assesmentId) :
-                                        () => handleDisplay('undisplay', grade.assesmentId)}>
-                                        {!grade.displayGrade ? <>Send <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</> : <>Unsend <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</>}
-                                    </button>
-                                </td>
-                            </tr>
-                            {grade.showResults &&
-                                grade.grades.map((grad, i) => (<tr key={i}>
-                                    <td colSpan={2}></td>
+                    {allResults &&
+                        allResults.map((grade, index) =>
+                        (<Table bordered key={index}>
+                            <thead>
+                                <tr>
+                                    <th colSpan={2}>{grade.assesmentTitle}</th>
+                                    <th>
+                                        <button className='syn-button' onClick={!grade.displayGrade ?
+                                            () => handleDisplay('display', grade.assesmentId) :
+                                            () => handleDisplay('undisplay', grade.assesmentId)}>
+                                            {!grade.displayGrade ? <>Send <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</> : <>Unsend <span style={{ fontWeight: 'bold' }}>{grade.assesmentTitle}</span> Results</>}
+                                        </button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Student Name</th>
+                                    <th>Student Score</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                {grade.grades.map((grad, i) => (<tr key={i}>
+                                    <td>{i + 1}</td>
                                     <td>{grad.studentName}</td>
                                     <td>{grad.grade}</td>
                                 </tr>))}
-                        </tbody>))
-                        }
-                    </Table>
+                            </tbody>
+                        </Table>))}
                 </Col>
             }
 
-            {
-                allResults.length > 0 && typeId === 'student' &&
-                <Col lg={8} md={8} sm={10} xs={10} className='table-responsive table-col'>
+            {allResults.length > 0 && typeId === 'student' &&
+                <Col lg={8} md={8} sm={10} xs={10} className='table-responsive table-col text-center'>
                     <Table bordered>
                         <thead>
                             <tr>

@@ -54,12 +54,16 @@ const myReducer = (state = schoolData, action) => {
                 tutor: {},
                 allQuestions: [],
                 allInformations: [],
-                testDurations: [],
-                resultArray: [],
+                allResults: [],
                 userRegistered: false,
                 userLoggedIn: false,
-                modal: ''
+                modal: '',
+                personalInformation: {},
+                allMyModules: [],
+                allModules: [],
+                myAssessment: []
             }
+
         case "ALL_QUESTIONS":
             let { allQuestions } = action.payload
             return {

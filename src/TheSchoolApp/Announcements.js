@@ -185,7 +185,7 @@ const AnnouncementsPage = ({ handleSignOut, handleFetchInformations, handle_Add_
 
         <Row className='justify-content-center'>
             {typeId === 'student' && !allInformations.length > 0 &&
-                <Col lg={7} md={5} sm={8} xs={10} className='table-col-col d-flex justify-content-center text-center'>
+                <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center'>
                     <Table bordered>
                         <tbody>
                             <tr>

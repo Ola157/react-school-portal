@@ -28,6 +28,7 @@ export const handleRegistration = (data) => async (dispatch) => {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 })
+                console.log(response.data)
                 if (response.data.accessToken) {
                     localStorage.setItem('accessToken', response.data.accessToken)
                     dispatch({ type: actionTypes.STUDENT_LOGIN, payload: response.data.studentData })
@@ -212,19 +213,6 @@ export const handleFetchAllInformation = (typeId) => async (dispatch) => {
             let { allInformations } = response.data
             dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
         }
-    } catch (err) { console.error(err) }
-}
-
-export const handleDisplayInformation = (infoId) => async (dispatch) => {
-    try {
-        let myJwt = localStorage.getItem('accessToken')
-        let response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/showInformation/${infoId}`, null, {
-            headers: {
-                'Authorization': `Bearer ${myJwt}`,
-            }
-        })
-        let { allInformations } = response.data
-        dispatch({ type: actionTypes.ALL_INFORMATIONS, payload: { allInformations } })
     } catch (err) { console.error(err) }
 }
 

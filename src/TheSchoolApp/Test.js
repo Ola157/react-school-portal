@@ -104,12 +104,12 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
                     <Table bordered>
                         <tbody>
                             <tr>
-                                <td>Assesment Title: {myAssessment.testTitle} </td>
-                                <td>Assesment Duration: {countDown} Secs </td>
+                                <td className='text-center'>Assesment Title: {myAssessment.testTitle} </td>
+                                <td className='text-center'>Assesment Duration: {countDown} Secs </td>
                             </tr>
                             {!startTime &&
                                 <tr>
-                                    <td>
+                                    <td colSpan={2} className=' text-center'>
                                         <button className='syn-button' onClick={() => handleAssesmentBegin()}>Click To Start</button>
                                     </td>
                                 </tr>}
