@@ -14,7 +14,11 @@ const UserHomePage = ({ handlePersonalInformation, handleSignOut }) => {
     let personalInformation = useSelector(state => state.personalInformation)
 
     useEffect(() => {
-        if (personalInformation) return handlePersonalInformation(type)
+        let accessToken = localStorage.getItem('accessToken')
+        if (accessToken) {
+            if (personalInformation) return handlePersonalInformation(type)
+        }
+        else { navigate('/') }
     }, [personalInformation])
 
 
