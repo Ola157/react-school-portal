@@ -10,87 +10,98 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 
-const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
-    const { questionId } = useParams();
-    const myAssessment = useSelector(state => state.myAssessment)
+const Test = ({
+    handleGetAssessment,
+    handlePushGrade,
+    handleNavigation,
+    handleOpacity
+}) => {
+
+    const { assessmentId } = useParams();
+    const test = useSelector(state => state.test)
     let [startTime, handleStartTime] = useState(false)
     let [countDown, setCountDown] = useState('')
-    let [studentGrade, setStdGrade] = useState([])
-    let [chectStdAttempt, setAttempt] = useState('')
-    const navigate = useNavigate()
+    let [grade, setGrade] = useState('')
+    const opaCity = useSelector(state => state.opacity)
+    let [message, setMessage] = useState('')
 
     useEffect(() => {
-        handleFetchAssesment(questionId)
-        handleCheck()
+        checkStudentAttempt()
     }, [])
 
     useEffect(() => {
-        handleCheck()
-        if (myAssessment.duration && !countDown) {
-            setCountDown(myAssessment.duration)
+        if (test) {
+            setCountDown(test.duration)
         }
+    }, [test])
+
+    useEffect(() => {
         let timeOut
+
         if (countDown > 0 && startTime) {
             timeOut = setTimeout(() => {
                 setCountDown(prev => prev - 1)
             }, 1000)
         }
-        if (countDown < 1 && startTime) {
-            handleCheck()
+
+        else if (countDown < 1 && startTime) {
             handleStartTime(false)
             clearTimeout(timeOut)
-            setCountDown(myAssessment.duration)
+            setCountDown(test.duration)
             handleSubmit()
         }
+    }, [countDown, startTime])
 
-    }, [countDown, startTime, myAssessment])
 
-    const handleCheck = async () => {
-        let myJwt = localStorage.getItem('accessToken')
-        try {
-            let response = await axios.get(`https://react-school-back-end.vercel.app/student/validateStudentAttempt/${questionId}`, {
-                headers: {
-                    'Authorization': `Bearer ${myJwt}`,
-                }
-            })
-            setAttempt(response.data)
-        }
-        catch (err) { console.error(err) }
+    const checkStudentAttempt = () => {
+        const myJwt = localStorage.getItem('accessToken')
+        axios.get(`https://react-school-back-end.vercel.app/student/assessmentAttempt/${assessmentId}`, {
+            // axios.get(`http://localhost:9090/student/assessmentAttempt/${assessmentId}`, {
+            headers: {
+                'Authorization': `Bearer ${myJwt}`,
+            }
+        }).then((response) => {
+            const { message } = response.data
+            if (message == 'unattempted') {
+                handleOpacity()
+                return handleGetAssessment(assessmentId)
+            }
+            setMessage(message)
+            handleOpacity()
+        }).catch((err) => { console.error(err) })
     }
 
     const handleAnswer = (assessmentId, questionId, answer) => {
-        setStdGrade([...studentGrade, { assessmentId, questionId, answer }])
-    }
-
-    const handleAssesmentBegin = () => {
-        handleTimeDown(myAssessment._id)
-        handleStartTime(true)
+        setGrade([...grade, { assessmentId, questionId, answer }])
     }
 
     const handleSubmit = () => {
-        handleCheck()
-        handleStartTime(false)
-        if (!studentGrade.length && myAssessment.allQuestions) {
-            for (const allq of myAssessment.allQuestions) {
-                studentGrade.push({ assessmentId: myAssessment._id, questionId: 0, answer: 0 })
+        if (!Array.isArray(grade)) {
+            let grade = []
+            const { allQuestions } = test
+            for (let i = 0; i < allQuestions.length; i++) {
+                grade.push({ assessmentId: test._id, questionId: 0, answer: 0 })
             }
-            return handlePushStdGrade(studentGrade)
+            return handlePushGrade(grade)
+        } else if (Array.isArray(grade)) {
+            return handlePushGrade(grade)
         }
-        if (studentGrade.length) {
-            return handlePushStdGrade(studentGrade)
-        }
+        handleStartTime(false)
+        setMessage(true)
     }
 
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
 
         <Row className='p-3 my-0'>
             <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <Link to={`/moduleDetails/${myAssessment.moduleId}`} className='return-link' >
+                <button onClick={() => handleNavigation(`/moduleDetails/${test.moduleId}`)} className='return-link' >
                     <HiBackspace /> <span>Module Data</span>
-                </Link>
+                </button>
             </Col>
         </Row>
 
@@ -99,25 +110,26 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
                 <h3 className='text-center'>My Assesment</h3>
             </Col>
 
-            {chectStdAttempt === 'unattempted' &&
+            {!message &&
                 <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-start'>
                     <Table bordered>
                         <tbody>
                             <tr>
-                                <td className='text-center'>Assesment Title: {myAssessment.testTitle} </td>
-                                <td className='text-center'>Assesment Duration: {countDown} Secs </td>
+                                <td className='text-center'>Assessment Title: {test.assessmentTitle} </td>
+                                <td className='text-center'>Assessment Duration: {countDown} Secs </td>
                             </tr>
                             {!startTime &&
                                 <tr>
                                     <td colSpan={2} className=' text-center'>
-                                        <button className='syn-button' onClick={() => handleAssesmentBegin()}>Click To Start</button>
+                                        <button className='syn-button' onClick={() => handleStartTime(true)
+                                        }>Click To Start</button>
                                     </td>
                                 </tr>}
                         </tbody>
                     </Table>
 
-                    {myAssessment.allQuestions && startTime &&
-                        myAssessment.allQuestions.map((quest, i) => (
+                    {test.allQuestions && startTime &&
+                        test.allQuestions.map((quest, i) => (
                             <Table bordered key={i}>
                                 <thead>
                                     <tr>
@@ -132,25 +144,25 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input onClick={() => handleAnswer(myAssessment._id, quest._id, 'A')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                            <input onClick={() => handleAnswer(test._id, quest._id, 'A')} type='radio' className='m-1' name={quest._id} id={quest._id} />
                                             <label htmlFor={quest._id}>{quest.optionA}</label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input onClick={() => handleAnswer(myAssessment._id, quest._id, 'B')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                            <input onClick={() => handleAnswer(test._id, quest._id, 'B')} type='radio' className='m-1' name={quest._id} id={quest._id} />
                                             <label htmlFor={quest._id}>{quest.optionB}</label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input onClick={() => handleAnswer(myAssessment._id, quest._id, 'C')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                            <input onClick={() => handleAnswer(test._id, quest._id, 'C')} type='radio' className='m-1' name={quest._id} id={quest._id} />
                                             <label htmlFor={quest._id}>{quest.optionC}</label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input onClick={() => handleAnswer(myAssessment._id, quest._id, 'D')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                            <input onClick={() => handleAnswer(test._id, quest._id, 'D')} type='radio' className='m-1' name={quest._id} id={quest._id} />
                                             <label htmlFor={quest._id}>{quest.optionD}</label>
                                         </td>
                                     </tr>
@@ -159,7 +171,7 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
                         ))}
 
 
-                    {myAssessment.allQuestions && startTime &&
+                    {test.allQuestions && startTime &&
                         <Table bordered>
                             <tbody>
                                 <tr>
@@ -172,11 +184,11 @@ const Test = ({ handleFetchAssesment, handlePushStdGrade, handleTimeDown }) => {
 
         <Row className='justify-content-center'>
             <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center table-responsive'>
-                {chectStdAttempt === 'attempted' &&
+                {message &&
                     <Table bordered>
                         <tbody>
                             <tr>
-                                <td colSpan={2}>Assesment Attempted</td>
+                                <td colSpan={2}>Assessment Attempted</td>
                             </tr>
                         </tbody>
                     </Table>}

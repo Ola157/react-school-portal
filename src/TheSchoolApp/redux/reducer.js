@@ -1,99 +1,128 @@
 let schoolData = {
-    student: {},
-    tutor: {},
-    allQuestions: [],
-    allInformations: [],
-    allResults: [],
-    userRegistered: false,
-    userLoggedIn: false,
+    assessments: [],
+    informations: [],
+    grades: [],
+    isRegistered: false,
+    isLogged: false,
     modal: '',
-    personalInformation: {},
-    allMyModules: [],
-    allModules: [],
-    myAssessment: []
+    bioData: {},
+    modules: [],
+    test: []
 }
 
 const myReducer = (state = schoolData, action) => {
+    console.log(action.type)
+
     switch (action.type) {
-        case "STUDENT_LOGIN":
+
+        case "OPACITY":
+            const { value } = action.payload
             return {
                 ...state,
-                student: action.payload,
-                userLoggedIn: true
+                opacity: value
             }
-        case "TUTOR_LOGIN":
+
+
+        case "IS_LOGGED":
             return {
                 ...state,
-                tutor: action.payload,
-                userLoggedIn: true
+                isLogged: true
             }
-        case "TUTOR_REGISTRATION":
+
+        case "IS_REGISTERED":
             return {
                 ...state,
-                userRegistered: true
+                isRegistered: true
             }
-        case "STUDENT_REGISTRATION":
+
+        case "MESSAGE":
+            const { message } = action.payload
             return {
                 ...state,
-                userRegistered: true
+                message
             }
-        case "MODAL_DISPLAY":
+
+        case "ERROR":
+            const { error } = action.payload
             return {
                 ...state,
-                modal: action.payload
+                error
             }
+
+        case "MODULE_INFORMATION":
+            const { moduleInformation } = action.payload
+            return {
+                ...state,
+                moduleInformation
+            }
+
+        case "ASSESSMENTS":
+            let { assessments } = action.payload
+            return {
+                ...state,
+                assessments
+            }
+
+        case "MODULES":
+            let { modules } = action.payload
+            return {
+                ...state,
+                modules
+            }
+
+        case "INFORMATIONS":
+            const { informations } = action.payload
+            return {
+                ...state,
+                informations
+            }
+
+        case "GRADES":
+            const { grades } = action.payload
+            return {
+                ...state,
+                grades
+            }
+
+        case "BIO_DATA":
+            const { bioData } = action.payload
+            return {
+                ...state,
+                bioData
+            }
+
+        case "TEST":
+            let { test } = action.payload
+            return {
+                ...state,
+                test
+            }
+
         case "MODAL_CLEAR":
             return {
                 ...state,
                 modal: ''
             }
-        case "HANDLE_SIGNOUT":
+        case "SIGNOUT":
             return {
                 ...state,
                 student: {},
                 tutor: {},
-                allQuestions: [],
-                allInformations: [],
-                allResults: [],
-                userRegistered: false,
-                userLoggedIn: false,
-                modal: '',
-                personalInformation: {},
-                allMyModules: [],
-                allModules: [],
-                myAssessment: []
+                assesments: [],
+                informations: [],
+                grades: [],
+                isRegistered: false,
+                isLogged: false,
+                bioData: {}
             }
 
-        case "ALL_QUESTIONS":
-            let { allQuestions } = action.payload
-            return {
-                ...state,
-                allQuestions: allQuestions
-            }
-        case "ALL_INFORMATIONS":
-            let { allInformations } = action.payload
-            return {
-                ...state,
-                allInformations: allInformations
-            }
-        case "ALL_RESULTS":
-            let { allMyResults } = action.payload
-            return {
-                ...state,
-                allResults: allMyResults
-            }
-        case "PERSONAL_INFO":
-            let { personalInformation } = action.payload
-            return {
-                ...state,
-                personalInformation: personalInformation
-            }
-        case "ALL_MODULES":
-            let { allModules } = action.payload
-            return {
-                ...state,
-                allModules: allModules
-            }
+
+
+
+
+
+
+
         case "ALL_MYMODULES":
             let { allMyModules } = action.payload
             return {

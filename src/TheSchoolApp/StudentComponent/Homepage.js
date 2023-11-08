@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,67 +6,66 @@ import { MdSchool } from 'react-icons/md';
 import { Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-const UserHomePage = ({ handlePersonalInformation, handleSignOut }) => {
+const StudentHomePage = ({
+    handleBioData,
+    handleSignOut,
+    handleNavigation,
+    handleOpacity }) => {
 
-    const navigate = useNavigate();
-    const { type } = useParams()
-    let personalInformation = useSelector(state => state.personalInformation)
+    const bioData = useSelector(state => state.bioData)
+    const isLogged = useSelector(state => state.isLogged)
+    const opaCity = useSelector(state => state.opacity)
+
 
     useEffect(() => {
-        let accessToken = localStorage.getItem('accessToken')
-        if (accessToken) {
-            if (personalInformation) return handlePersonalInformation(type)
-        }
-        else { navigate('/') }
-    }, [personalInformation])
+        if (!isLogged) return handleNavigation('/')
+
+        handleBioData('student')
+        handleOpacity()
+
+    }, [])
 
 
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
             <button onClick={() => handleSignOut()} className='signout-Btn'>signout</button>
         </Navbar>
 
         <Row className='d-flex justify-content-start'>
-            <Col className='text-center user-intro-col m-1' lg={4} md={3} sm={4} xs={5}>
-                {type === 'tutor' ?
-                    <h5>{personalInformation.moduleName} {personalInformation.moduleCode}</h5>
-                    :
-                    <h5>Welcome {personalInformation.firstName}</h5>}
-            </Col>
+            {bioData && <Col className='text-center user-intro-col m-1' lg={4} md={3} sm={4} xs={5}>
+                <h5>Welcome {bioData.firstName}</h5>
+            </Col>}
         </Row>
 
         <Row className="justify-content-center align-items-center my-5">
             <Col className="navigation-col m-1" lg={2} md={4} sm={6} xs={6}>
                 <button
                     className="tutorButton"
-                    onClick={
-                        type === "student"
-                            ? () => navigate(`/modules/${"student"}`)
-                            : () => navigate(`/questions/${"tutor"}`)
-                    }
-                >
-                    <h5>{type !== "student" ? 'Questions' : "My Modules"}</h5>
+                    onClick={() => handleNavigation(`/modules`)}>
+                    <h5>My Modules</h5>
                 </button>
             </Col>
             <Col className="navigation-col m-1" lg={2} md={4} sm={6} xs={6}>
                 <button
                     className="tutorButton"
-                    onClick={() => navigate(`/announcement/${type}`)}
+                    onClick={() => handleNavigation(`/studentinformation`)}
                 >
-                    <h5>Info</h5>
+                    <h5>Informations</h5>
                 </button>
             </Col>
             <Col className="navigation-col m-1" lg={2} md={4} sm={6} xs={6}>
                 <button className="tutorButton"
-                    onClick={() => navigate(`/grades/${type}`)}>
+                    onClick={() => handleNavigation(`/studentgrades`)}>
                     <h5>Grades</h5>
                 </button>
             </Col>
             <Col className="navigation-col m-1" lg={2} md={4} sm={6} xs={6}>
                 <button
                     className="tutorButton"
-                    onClick={() => navigate(`/PersonalInformation/${type}`)}
+                    onClick={() => handleNavigation(`/studentbio`)}
                 >
                     <h5>Profile</h5>
                 </button>
@@ -86,4 +84,4 @@ const UserHomePage = ({ handlePersonalInformation, handleSignOut }) => {
     </Container >
     )
 }
-export default UserHomePage;
+export default StudentHomePage;

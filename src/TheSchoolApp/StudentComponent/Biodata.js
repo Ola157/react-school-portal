@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
@@ -10,57 +10,47 @@ import { Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 
-const PersonalInformation = ({ handlePersonalInformation, handleAllChanges }) => {
+const StdBioDataPage = ({
+    handleBioData,
+    handleBiodataChanges,
+    handleNavigation,
+    handleOpacity
+}) => {
+
     let [firstName, setFirstName] = useState('')
     let [lastName, setLastName] = useState('')
     let [dob, setdob] = useState('')
     let [homeAddy, setHomeAddy] = useState('')
     let [mobileNumber, setMobNumber] = useState('')
     let [email, setEmail] = useState('')
-    let personalInformation = useSelector(state => state.personalInformation)
-    const { typeId } = useParams()
-    const navigate = useNavigate()
+    const bioData = useSelector(state => state.bioData)
+    const opaCity = useSelector(state => state.opacity)
+
 
     useEffect(() => {
-        if (personalInformation) return handlePersonalInformation(typeId)
-    }, [personalInformation])
+        handleBioData('student')
+        handleOpacity()
 
-    const handleChanges = (type, id) => {
-        let origin = 'personalInformation'
-        switch (type) {
-            case 'edit':
-                handleAllChanges({ origin, type, id, typeId })
-                break;
-            case 'done':
-                let data = { firstName, lastName, dob, homeAddy, mobileNumber, email }
-                if (firstName && lastName) return handleAllChanges({ origin, type, id, data, typeId })
-                setFirstName('')
-                setLastName('')
-                setdob('')
-                setHomeAddy('')
-                setMobNumber('')
-                break;
-            case 'cancel':
-                handleAllChanges({ origin, type, id, typeId })
-                setFirstName('')
-                setLastName('')
-                setdob('')
-                setHomeAddy('')
-                break;
-        }
+    }, [])
+
+
+    const handleChanges = (type) => {
+        const data = { firstName, lastName, dob, homeAddy, mobileNumber, email }
+        handleBiodataChanges({ type, data, page: 'student' })
     }
 
-
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
 
         <Row className='p-3 my-0'>
             <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <Link to={`/userhomepage/${typeId}`} className='return-link' >
+                <button onClick={() => handleNavigation(`/studentHomepage`)} className='return-link' >
                     <HiBackspace /> <span>HomePage</span>
-                </Link>
+                </button>
             </Col>
         </Row>
 
@@ -74,55 +64,53 @@ const PersonalInformation = ({ handlePersonalInformation, handleAllChanges }) =>
             <Col lg={8} md={8} sm={10} xs={10} className='table-col table-responsive'>
                 <Table bordered className='text-center'>
                     <tbody>
-                        {typeId === 'tutor' && <tr><td  >Module Name</td><td>{personalInformation.moduleName}</td></tr>}
-                        {typeId === 'tutor' && <tr><td  >Module Code</td><td>{personalInformation.moduleCode}</td></tr>}
                         <tr>
                             <td>Email</td>
-                            <td>{!personalInformation.edit ? personalInformation.email
+                            <td>{bioData && !bioData.edit ? bioData.email
                                 : <input className='syn-input' type='text'
                                     onInput={(event) => setEmail(event.target.value)} />}</td>
                         </tr>
                         <tr>
                             <td>First Name</td>
-                            <td>{!personalInformation.edit ? personalInformation.firstName
+                            <td>{bioData && !bioData.edit ? bioData.firstName
                                 : <input className='syn-input' type='text'
                                     onInput={(event) => setFirstName(event.target.value)} />}</td>
                         </tr>
                         <tr>
                             <td>Last Name</td>
-                            <td>{!personalInformation.edit ? personalInformation.lastName
+                            <td>{bioData && !bioData.edit ? bioData.lastName
                                 : <input className='syn-input' type='text'
                                     onInput={(event) => setLastName(event.target.value)} />}</td>
                         </tr>
                         <tr>
-                            <td>Date Of Birth</td><td>{!personalInformation.edit ? personalInformation.dob
+                            <td>Date Of Birth</td><td>{bioData && !bioData.edit ? bioData.dob
                                 : <input className='syn-input' type='date'
                                     onInput={(event) => setdob(event.target.value)} />}</td>
                         </tr>
                         <tr>
                             <td>Home Address</td>
-                            <td>{!personalInformation.edit ? personalInformation.homeAddress
+                            <td>{bioData && !bioData.edit ? bioData.homeAddress
                                 : <input className='syn-input' type='text'
                                     onInput={(event) => setHomeAddy(event.target.value)} />}</td>
                         </tr>
                         <tr>
                             <td>Mobile Number</td>
-                            <td>{!personalInformation.edit ? personalInformation.mobileNumber
+                            <td>{bioData && !bioData.edit ? bioData.mobileNumber
                                 : <input className='syn-input' type='text'
                                     onInput={(event) => setMobNumber(event.target.value)} />}</td>
                         </tr>
                         <tr>
                             <td colSpan={2}>
-                                {!personalInformation.edit &&
+                                {bioData && !bioData.edit &&
                                     <button className='syn-button'
-                                        onClick={() => handleChanges('edit', personalInformation._id)}>
+                                        onClick={() => handleChanges('edit')}>
                                         Edit
                                     </button>}
-                                {personalInformation.edit && <>
+                                {bioData && bioData.edit && <>
                                     <button className='save-button'
-                                        onClick={() => handleChanges('done', personalInformation._id)}>Save Changes</button>
+                                        onClick={() => handleChanges('save')}>Save Changes</button>
                                     <button className='cancel-button'
-                                        onClick={() => handleChanges('cancel', personalInformation._id)}>Cancel</button>
+                                        onClick={() => handleChanges('cancel')}>Cancel</button>
                                 </>}
                             </td>
                         </tr>
@@ -142,4 +130,4 @@ const PersonalInformation = ({ handlePersonalInformation, handleAllChanges }) =>
         </footer>
     </Container >)
 }
-export default PersonalInformation;
+export default StdBioDataPage;

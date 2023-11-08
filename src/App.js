@@ -1,124 +1,303 @@
-import React, { useReducer } from 'react';
-import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './TheSchoolApp/HomePage';
-import UserHomePage from './TheSchoolApp/UserHomePage';
-import Admin from './TheSchoolApp/Admin';
-import Test from './TheSchoolApp/Test';
-import AllQuestions from './TheSchoolApp/CreateAssesment';
-import AnnouncementsPage from './TheSchoolApp/Announcements';
-import Results from './TheSchoolApp/Results';
+import Admin from './TheSchoolApp/AuthenTicationComponent/Admin';
+import Test from './TheSchoolApp/StudentComponent/Test';
 import GuestPage from './TheSchoolApp/GuestPage';
 import './App.css';
-import ModuleQuestions from './TheSchoolApp/ModuleQuestions';
-import PersonalInformation from './TheSchoolApp/PersonalInformation';
-import MyModules from './TheSchoolApp/MyModules';
-import ModuleDeets from './TheSchoolApp/ModuleDeets';
 import { useDispatch } from 'react-redux';
-import { handleAddNewQuestion, handleAllAmendsAct, handleAllQuestions, handleAnnouncementChanges, handleCountdown, handleDisplayInformation, handleFetchAllInformation, handleFetchAllResults, handleInformationPush, handleModalClear, handleMyAllModules, handlePersonalChanges, handlePersonalInfoFetch, handlePullAssesment, handlePullModuleData, handlePushStudentGrade, handleQuestionDisplay, handleRegistration, handleSelectModules, handleShowResults, handleSignOutAct, handleStdAttempt } from './TheSchoolApp/redux/myActions';
+import {
+  addAssessment,
+  addInformation,
+  assessmentChanges,
+  authenticationHandler,
+  chooseModules,
+  clearOpacity,
+  deleteAssessment,
+  getAssesment,
+  getAssessment,
+  getModuleData,
+  getModuleInfo,
+  getModules,
+  getStudentBioData,
+  getStudentGrades,
+  getStudentInformations,
+  getStudentModules,
+  getTutorBioData,
+  getTutorGrades,
+  getTutorInformations,
+  informationChanges,
+  opacityHandler,
+  pushGrade,
+  sendAssessment,
+  sendInformation,
+  sendStatus,
+  setOpacity,
+  signOut,
+  studentBioChanges,
+  tutorBioChanges
+} from './TheSchoolApp/redux/myActions';
+
+import CreateAssessment from './TheSchoolApp/TutorComponent/CreateAssesment';
+import ModuleAssessments from './TheSchoolApp/TutorComponent/ModuleAssesments';
+import TutorInformation from './TheSchoolApp/TutorComponent/InformationsPage';
+import ModulesPage from './TheSchoolApp/StudentComponent/Modules';
+import TutorBioDataPage from './TheSchoolApp/TutorComponent/BioData';
+import StdBioDataPage from './TheSchoolApp/StudentComponent/Biodata';
+import TutorGradesPage from './TheSchoolApp/TutorComponent/GradesPage';
+import StudGradesPage from './TheSchoolApp/StudentComponent/GradesPage';
+import StudentInformation from './TheSchoolApp/StudentComponent/InformationPage';
+import ModuleInformation from './TheSchoolApp/StudentComponent/ModuleInfoPage';
+import TutorHomePage from './TheSchoolApp/TutorComponent/Homepage'
+import StudentHomePage from './TheSchoolApp/StudentComponent/Homepage';
+
 
 const App = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const handle_login_signup = (data) => {
-    dispatch(handleRegistration(data))
+  const handleOpacity = () => {
+    const opacityTimeOut = setTimeout(() => {
+      dispatch(setOpacity(1))
+    }, 300)
+
+    return () => {
+      clearTimeout(opacityTimeOut)
+    }
   }
 
-  const handleModal = () => {
-    dispatch(handleModalClear())
+  const handleNavigation = (page) => {
+    dispatch(setOpacity(0))
+    navigate(page)
   }
 
-  const handleSignOut = () => {
-    localStorage.removeItem('accessToken')
-    navigate('/')
-    dispatch(handleSignOutAct())
+  const handleAuthentication = (data) => {
+    dispatch(authenticationHandler(data))
   }
 
-  const handleFetchQuestions = () => {
-    dispatch(handleAllQuestions())
+  const handleModuleInformation = () => {
+    dispatch(getModuleInfo())
   }
 
-  const handleAddAllQuestion = (data) => {
-    dispatch(handleAddNewQuestion(data))
+  const handleAddAssessment = (data) => {
+    dispatch(addAssessment(data))
   }
 
-  const handleShowQuestion = (id) => {
-    dispatch(handleQuestionDisplay(id))
+  const handleGetAssessments = () => {
+    dispatch(getAssessment())
   }
 
-  const handle_Add_Information = (data) => {
-    dispatch(handleInformationPush(data))
+  const handleAssessmentChanges = (getdata) => {
+    dispatch(assessmentChanges(getdata))
+    setTimeout(() => {
+      handleGetAssessments()
+    }, 1000)
   }
 
-  const handleFetchInformations = (typeId) => {
-    dispatch(handleFetchAllInformation(typeId))
+  const handleSendAssesment = (type, assessmentId) => {
+    dispatch(sendAssessment(type, assessmentId))
+    setTimeout(() => {
+      handleGetAssessments()
+    }, 500)
   }
 
-  const handleAllChanges = (alldata) => {
-    let { origin, type, id, data, typeId } = alldata
-    switch (origin) {
-      case "personalInformation":
-        dispatch(handlePersonalChanges(type, id, data, typeId))
+  const handleDeleteAssesment = (assessmentId) => {
+    dispatch(deleteAssessment(assessmentId))
+    setTimeout(() => {
+      handleGetAssessments()
+    }, 1000)
+  }
+
+
+  const handleAddInformation = (data) => {
+    dispatch(addInformation(data))
+    setTimeout(() => { handleGetInformations('tutor') }, 300)
+  }
+
+  const handleGetInformations = (user) => {
+    switch (user) {
+      case 'tutor':
+        dispatch(getTutorInformations());
         break;
-      case "AnnouncementPage":
-        dispatch(handleAnnouncementChanges(type, id, data))
-        break;
-      case "moduleQuestions":
-        dispatch(handleAllAmendsAct(type, id, data))
+      case 'student':
+        dispatch(getStudentInformations());
         break;
     }
   }
 
-  const handleFetchResults = (typeId) => {
-    dispatch(handleFetchAllResults(typeId))
+  const handleInformationChanges = (data) => {
+    dispatch(informationChanges(data))
+    setTimeout(() => { handleGetInformations('tutor') }, 300)
   }
 
-  const handlePersonalInformation = (typeId) => {
-    dispatch(handlePersonalInfoFetch(typeId))
+  const handleSendInformation = (type, infoId) => {
+    dispatch(sendInformation(type, infoId))
+    setTimeout(() => { handleGetInformations('tutor') }, 300)
   }
 
-  const handleFetchMyModules = () => {
-    dispatch(handleMyAllModules())
-  }
-  const handleSelectMyModules = (data) => {
-    dispatch(handleSelectModules(data))
+  const handleTutorGrades = () => {
+    dispatch(getTutorGrades())
   }
 
-  const handleFetchModuleData = (moduleId) => {
-    dispatch(handlePullModuleData(moduleId))
+  const handleSendGrade = (type, id) => {
+    dispatch(sendStatus(type, id))
+    setTimeout(() => { handleTutorGrades() }, 300)
   }
 
-  const handleFetchAssesment = (questionId) => {
-    dispatch(handlePullAssesment(questionId))
+  const handleBioData = (page) => {
+    switch (page) {
+      case 'tutor':
+        dispatch(getTutorBioData());
+        break;
+      case 'student':
+        dispatch(getStudentBioData());
+        break;
+    }
   }
 
-  const handlePushStdGrade = (studentGrade) => {
-    dispatch(handlePushStudentGrade(studentGrade))
+  const handleBiodataChanges = (getData) => {
+    const { type, data, page } = getData
+    switch (page) {
+      case "tutor":
+        dispatch(tutorBioChanges(type, data))
+        setTimeout(() => { handleBioData('tutor') }, 1500)
+        break;
+      case "student":
+        dispatch(studentBioChanges(type, data))
+        setTimeout(() => { handleBioData('student') }, 1500)
+        break;
+    }
   }
 
-  const handleDisplay = (type, id) => {
-    dispatch(handleShowResults(type, id))
+  const handleGetModules = () => {
+    dispatch(getModules())
   }
 
-  const handleTimeDown = (assessmentId) => {
-    dispatch(handleCountdown(assessmentId))
+  const handleSelectModules = (data) => {
+    dispatch(chooseModules(data))
   }
+
+  const handleStudentModules = () => {
+    dispatch(getStudentModules())
+  }
+
+  const handleModuleData = (moduleId) => {
+    dispatch(getModuleData(moduleId))
+  }
+
+  const handleGetAssessment = (assessmentId) => {
+    dispatch(getAssesment(assessmentId))
+  }
+
+  const handleGetGrades = () => {
+    dispatch(getStudentGrades())
+  }
+
+  const handlePushGrade = (studentGrade) => {
+    dispatch(pushGrade(studentGrade))
+  }
+
+  const handleSignOut = () => {
+    localStorage.removeItem('accessToken')
+    handleNavigation('/')
+    dispatch(signOut())
+  }
+
 
   return (
     <>
       <Routes>
         <Route path='/*' element={<HomePage />} />
-        <Route path='/userhomepage/:type' element={<UserHomePage handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} />} />
-        <Route path='/admin/:id' element={<Admin handle_login_signup={handle_login_signup} handleModal={handleModal} />} />
-        <Route path='/assesment/:questionId' element={<Test handleSignOut={handleSignOut} handleTimeDown={handleTimeDown} handleFetchAssesment={handleFetchAssesment} handlePushStdGrade={handlePushStdGrade} />} />
-        <Route path='/questions/:type' element={<AllQuestions handleAddAllQuestion={handleAddAllQuestion} />} />
-        <Route path='/allAssesment/:type' element={<ModuleQuestions handleFetchQuestions={handleFetchQuestions} handleDisplay={handleDisplay} handleShowQuestion={handleShowQuestion} handleAllChanges={handleAllChanges} />} />
-        <Route path='/announcement/:typeId' element={<AnnouncementsPage handleSignOut={handleSignOut} handleDisplay={handleDisplay} handle_Add_Information={handle_Add_Information} handleAllChanges={handleAllChanges} handleFetchInformations={handleFetchInformations} />} />
-        <Route path='/grades/:typeId' element={<Results handleSignOut={handleSignOut} handleFetchResults={handleFetchResults} handleDisplay={handleDisplay} />} />
-        <Route path='/PersonalInformation/:typeId' element={<PersonalInformation handleSignOut={handleSignOut} handlePersonalInformation={handlePersonalInformation} handleAllChanges={handleAllChanges} />} />
-        <Route path='/modules/:type' element={<MyModules handleFetchMyModules={handleFetchMyModules} handleSelectMyModules={handleSelectMyModules} />} />
-        <Route path='/moduleDetails/:moduleId' element={<ModuleDeets handleFetchModuleData={handleFetchModuleData} />} />
+
+        <Route path='/tutorhomepage' element={<TutorHomePage
+          handleSignOut={handleSignOut}
+          handleModuleInformation={handleModuleInformation}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/admin/:id' element={<Admin
+          handleAuthentication={handleAuthentication}
+          handleNavigation={handleNavigation}
+        />} />
+
+        <Route path='/CreateAssessment'
+          element={<CreateAssessment
+            handleAddAssessment={handleAddAssessment}
+            handleOpacity={handleOpacity}
+            handleNavigation={handleNavigation} />} />
+
+        <Route path='/assessments' element={<ModuleAssessments
+          handleGetAssessments={handleGetAssessments}
+          handleSendAssesment={handleSendAssesment}
+          handleDeleteAssesment={handleDeleteAssesment}
+          handleAssessmentChanges={handleAssessmentChanges}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation}
+        />} />
+
+        <Route path='/tutorinformation' element={<TutorInformation
+          handleAddInformation={handleAddInformation}
+          handleSendInformation={handleSendInformation}
+          handleInformationChanges={handleInformationChanges}
+          handleGetInformations={handleGetInformations}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/tutorgrades' element={<TutorGradesPage
+          handleTutorGrades={handleTutorGrades}
+          handleSendGrade={handleSendGrade}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/tutorbiodata' element={<TutorBioDataPage
+          handleBioData={handleBioData}
+          handleBiodataChanges={handleBiodataChanges}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+
+        <Route path='/studenthomepage' element={<StudentHomePage
+          handleSignOut={handleSignOut}
+          handleBioData={handleBioData}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/modules' element={<ModulesPage
+          handleGetModules={handleGetModules}
+          handleStudentModules={handleStudentModules}
+          handleSelectModules={handleSelectModules}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/moduleDetails/:moduleId'
+          element={<ModuleInformation handleModuleData={handleModuleData}
+            handleOpacity={handleOpacity}
+            handleNavigation={handleNavigation} />} />
+
+        <Route path='/studentinformation' element={<StudentInformation
+          handleGetInformations={handleGetInformations}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/studentgrades' element={<StudGradesPage
+          handleTutorGrades={handleTutorGrades}
+          handleGetGrades={handleGetGrades}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/studentbio' element={<StdBioDataPage
+          handleBioData={handleBioData}
+          handleBiodataChanges={handleBiodataChanges}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
+        <Route path='/test/:assessmentId' element={<Test
+          handleGetAssessment={handleGetAssessment}
+          handlePushGrade={handlePushGrade}
+          handleOpacity={handleOpacity}
+          handleNavigation={handleNavigation} />} />
+
         <Route path='/guest' element={<GuestPage />} />
       </Routes>
     </>

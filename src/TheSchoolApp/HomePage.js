@@ -10,6 +10,7 @@ import { Navbar } from 'react-bootstrap';
 
 const HomePage = () => {
     const navigate = useNavigate();
+
     return (<Container className="school-homepage" fluid>
         <Navbar bg="dark">
             <div >
@@ -17,7 +18,7 @@ const HomePage = () => {
             </div>
         </Navbar>
 
-        <Row className="justify-content-center">
+        <Row className="justify-content-center py-5">
             <Col lg={6} md={6} sm={8} xs={10} className="homepage-card">
                 <div className="text-center homepage-intro">
                     Welcome to GoldenGate Academy

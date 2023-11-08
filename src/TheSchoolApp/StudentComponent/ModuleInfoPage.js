@@ -8,26 +8,33 @@ import { MdSchool } from 'react-icons/md';
 import { Navbar, Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-const ModuleDeets = ({ handleFetchModuleData }) => {
+const ModuleInformation = ({
+    handleModuleData,
+    handleNavigation,
+    handleOpacity }) => {
+
     const { moduleId } = useParams()
-    let allQuestions = useSelector(state => state.allQuestions)
-    let allInformations = useSelector(state => state.allInformations)
+    const assessments = useSelector(state => state.assessments)
+    const informations = useSelector(state => state.informations)
+    const opaCity = useSelector(state => state.opacity)
 
     useEffect(() => {
-        handleFetchModuleData(moduleId)
+        handleModuleData(moduleId)
+        handleOpacity()
     }, [])
 
 
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: opaCity ? '1' : '0', transition: '800ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
-
         <Row className='p-3 my-0'>
             <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <Link to={`/modules/${'student'}`} className='return-link' >
+                <button onClick={() => handleNavigation(`/modules`)} className='return-link' >
                     <HiBackspace /> <span>My Modules</span>
-                </Link>
+                </button>
             </Col>
         </Row>
 
@@ -45,7 +52,7 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
                 </Col>
 
                 <Col className='table-responsive table-col text-center'>
-                    {allQuestions.length > 0 ?
+                    {assessments.length > 0 ?
                         <Table bordered >
                             <thead>
                                 <tr>
@@ -54,17 +61,17 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
                                     </th>
                                 </tr>
                             </thead>
-                            {allQuestions.length &&
-                                allQuestions.map((question, index) => (
-                                    <tbody key={index}>
-                                        <tr>
-                                            <td>{question.testTitle}</td>
-                                            <td className='text-center'>
-                                                <Link className='module-link' to={`/assesment/${question._id}`}>Click To Attempt</Link>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                ))}
+                            {assessments.map((assess, index) => (
+                                <tbody key={index}>
+                                    <tr>
+                                        <td>{assess.assessmentTitle}</td>
+                                        <td className='text-center'>
+                                            <button className='module-link'
+                                                onClick={() => handleNavigation(`/test/${assess._id}`)}>Click To Attempt</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            ))}
                         </Table>
                         :
                         <Table bordered>
@@ -83,7 +90,7 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
                 </Col>
 
                 <Col className='table-responsive table-col text-center d-flex justify-content-center'>
-                    {allInformations.length > 0 ?
+                    {informations.length > 0 ?
                         <Table bordered >
                             <thead>
                                 <tr>
@@ -95,7 +102,7 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
                                     </th>
                                 </tr>
                             </thead>
-                            {allInformations.length > 0 && allInformations.map((info, i) => (
+                            {informations.map((info, i) => (
                                 <tbody key={i}><tr><td>{info.title}</td><td className='text-center'>{info.information}</td></tr></tbody>
                             ))}
                         </Table>
@@ -121,4 +128,4 @@ const ModuleDeets = ({ handleFetchModuleData }) => {
         </footer>
     </Container >)
 }
-export default ModuleDeets;
+export default ModuleInformation;

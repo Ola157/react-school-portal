@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,20 +6,19 @@ import { HiBackspace } from 'react-icons/hi';
 import { MdSchool } from 'react-icons/md';
 import { Navbar, Table } from 'react-bootstrap';
 
-const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
-    const navigate = useNavigate();
-    const { type } = useParams()
+const CreateAssessment = ({ handleAddAssessment,
+    handleNavigation }) => {
+
     let [question, setQuestion] = useState('')
     let [optionA, setOptionA] = useState('')
     let [optionB, setOptionB] = useState('')
     let [optionC, setOptionC] = useState('')
     let [optionD, setOptionD] = useState('')
     let [answer, setAnswer] = useState('')
-    let [testTitle, setTestTitle] = useState('')
+    let [assessmentTitle, setTitle] = useState('')
     let [duration, setDuration] = useState('')
     let edit = false
-    let showQuestion = false
-    let displayForStudents = false
+    let sendAssessment = false
     let [allQuestions, setAllQuestion] = useState('')
     let [questionNew, setQuestionNew] = useState('')
     let [optionANew, setOptionANew] = useState('')
@@ -43,21 +41,22 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
                 }
                 break;
             case 'pushAllQuestion':
-                handleAddAllQuestion({ testTitle, showQuestion, duration, allQuestions, displayForStudents });
-                setTestTitle('')
+                handleAddAssessment({ assessmentTitle, duration, allQuestions, sendAssessment });
+                setTitle('')
                 setAllQuestion('')
                 setDuration('')
                 break;
         }
     }
-    const handleEditDelete = (type, i) => {
+
+    const handleChanges = (type, i) => {
         let amendQuestions = [...allQuestions]
         switch (type) {
             case 'edit':
                 amendQuestions[i].edit = true
                 break;
-            case 'done':
-                if (questionNew != '' && optionANew != '' && optionBNew != '' && optionCNew != '' && optionDNew != '' && answerNew != '') {
+            case 'save':
+                if (questionNew && optionANew && optionBNew && optionCNew && optionDNew && answerNew) {
                     amendQuestions[i].question = questionNew
                     amendQuestions[i].optionA = optionANew
                     amendQuestions[i].optionB = optionBNew
@@ -77,16 +76,16 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
         setAllQuestion(amendQuestions)
     }
 
-    return (<Container className="school-homepage pb-5" fluid>
+    return (<Container className="school-homepage pb-5" fluid    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
 
         <Row className='p-3 my-0'>
             <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <Link to={`/userhomepage/${type}`} className='return-link' >
-                    <HiBackspace /> <span>HomePage</span>
-                </Link>
+                <button onClick={() => handleNavigation(`/assessments`)} className='return-link' >
+                    <HiBackspace /> <span>Assesments</span>
+                </button>
             </Col>
         </Row>
 
@@ -103,9 +102,14 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
                     <tbody>
                         <tr>
                             <td><label htmlFor='title'>Assessment Title</label></td>
-                            <td><input className='syn-input w-50' id='title' value={testTitle}
-                                onInput={(event) => setTestTitle(event.target.value)} /></td>
+                            <td><input className='syn-input w-50' id='title' value={assessmentTitle}
+                                onInput={(event) => setTitle(event.target.value)} /></td>
                         </tr>
+                    </tbody>
+                </Table>
+
+                <Table>
+                    <tbody>
                         <tr>
                             <td><label htmlFor='title'>Question</label></td>
                             <td><input className='syn-input w-50' id='title' value={question}
@@ -136,32 +140,27 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
                             <td className='d-flex justify-content-evenly'>
                                 <span className='d-flex align-items-center'>
                                     <label className='m-1' htmlFor='A'>A</label>
-                                    <input className='syn-input' type='radio' name='answer' id='A' onClick={() => setAnswer('A')} />
+                                    <input className='syn-input' value={answer} type='radio' name='answer' id='A' onClick={() => setAnswer('A')} />
                                 </span>
                                 <span className='d-flex align-items-center'>
                                     <label className='m-1' htmlFor='B'>B</label>
-                                    <input className='syn-input' type='radio' name='answer' id='B' onClick={() => setAnswer('B')} />
+                                    <input className='syn-input' value={answer} type='radio' name='answer' id='B' onClick={() => setAnswer('B')} />
                                 </span>
                                 <span className='d-flex align-items-center'>
                                     <label className='m-1' htmlFor='C'>C</label>
-                                    <input className='syn-input' type='radio' name='answer' id='C' onClick={() => setAnswer('C')} />
+                                    <input className='syn-input' value={answer} type='radio' name='answer' id='C' onClick={() => setAnswer('C')} />
                                 </span>
                                 <span className='d-flex align-items-center'>
                                     <label className='m-1' htmlFor='D'>D</label>
-                                    <input className='syn-input' type='radio' name='answer' id='D' onClick={() => setAnswer('D')} />
+                                    <input className='syn-input' value={answer} type='radio' name='answer' id='D' onClick={() => setAnswer('D')} />
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td colSpan={2}>
-                                <span className='d-flex justify-content-evenly'>
-                                    <button className='syn-button'
-                                        onClick={() => handleAddQuestion('add')}>Add Question
-                                    </button>
-                                    <button className='syn-button'
-                                        onClick={() => navigate(`/allAssesment/${type}`)}>View Questions
-                                    </button>
-                                </span>
+                                <button className='syn-button'
+                                    onClick={() => handleAddQuestion('add')}>Add Question
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -248,11 +247,11 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
                                     <td colSpan={2}>
                                         <span className='d-flex justify-content-evenly'>
                                             <button className='syn-button'
-                                                onClick={() => handleEditDelete('edit', i)}>
+                                                onClick={() => handleChanges('edit', i)}>
                                                 Edit
                                             </button>
                                             <button className='syn-button'
-                                                onClick={() => handleEditDelete('delete', i)}>
+                                                onClick={() => handleChanges('delete', i)}>
                                                 delete
                                             </button>
                                         </span>
@@ -261,11 +260,11 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
                                     <td colSpan={2}>
                                         <span className='d-flex justify-content-evenly'>
                                             <button className='save-button'
-                                                onClick={() => handleEditDelete('done', i)}>
+                                                onClick={() => handleChanges('save', i)}>
                                                 Save changes
                                             </button>
                                             <button className='cancel-button'
-                                                onClick={() => handleEditDelete('cancel', i)}>
+                                                onClick={() => handleChanges('cancel', i)}>
                                                 Cancel
                                             </button>
                                         </span>
@@ -310,4 +309,4 @@ const AllQuestions = ({ handleAddAllQuestion, handleSignOut }) => {
     </Container >
     )
 }
-export default AllQuestions;
+export default CreateAssessment;

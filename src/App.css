@@ -101,7 +101,7 @@ hr {
   background-color: rgba(51, 51, 51, .8);
 }
 
-.modal-col {
+.message-col {
   background-color: #333;
   display: flex;
   align-items: center;
@@ -112,9 +112,7 @@ hr {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.modal-col button {
-  color: yellow;
-}
+
 
 .login-col {
   background-color: #333;
@@ -134,6 +132,7 @@ hr {
   background-color: transparent;
   color: yellow;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .syn-button {
@@ -159,21 +158,6 @@ hr {
 
 .login-btn:focus {
   outline: none;
-}
-
-.modal-col button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.modal-col button:focus {
-  outline: none;
-}
-
-.modal-col button:hover {
-  color: #f00;
 }
 
 .guest-intro-col {
@@ -318,4 +302,14 @@ hr {
 .anouncementtitleInput::placeholder {
   color: yellow;
   font-weight: 100;
+}
+
+.message-row .visible {
+  opacity: 1;
+  transition: 500ms ease-in-out;
+}
+
+.message-row .hidden {
+  opacity: 0;
+  transition: 500ms ease-in-out;
 }
