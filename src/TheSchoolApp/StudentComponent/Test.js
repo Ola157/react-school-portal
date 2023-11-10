@@ -57,7 +57,6 @@ const Test = ({
             })
 
             const { assessmentAttempt } = response.data
-            console.log(response)
             if (assessmentAttempt) {
                 handleAttempt(false)
                 handleGetAssessment(assessmentId)
@@ -112,7 +111,7 @@ const Test = ({
             handlePushGrade(grade)
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         checkStudentAttempt();
     }
