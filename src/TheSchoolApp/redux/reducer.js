@@ -14,15 +14,6 @@ const myReducer = (state = schoolData, action) => {
     console.log(action.type)
 
     switch (action.type) {
-
-        case "OPACITY":
-            const { value } = action.payload
-            return {
-                ...state,
-                opacity: value
-            }
-
-
         case "IS_LOGGED":
             return {
                 ...state,

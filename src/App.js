@@ -13,7 +13,6 @@ import {
   assessmentChanges,
   authenticationHandler,
   chooseModules,
-  clearOpacity,
   deleteAssessment,
   getAssesment,
   getAssessment,
@@ -28,12 +27,10 @@ import {
   getTutorGrades,
   getTutorInformations,
   informationChanges,
-  opacityHandler,
   pushGrade,
   sendAssessment,
   sendInformation,
   sendStatus,
-  setOpacity,
   signOut,
   studentBioChanges,
   tutorBioChanges
@@ -57,18 +54,7 @@ const App = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const handleOpacity = () => {
-    const opacityTimeOut = setTimeout(() => {
-      dispatch(setOpacity(1))
-    }, 300)
-
-    return () => {
-      clearTimeout(opacityTimeOut)
-    }
-  }
-
   const handleNavigation = (page) => {
-    dispatch(setOpacity(0))
     navigate(page)
   }
 
@@ -213,7 +199,6 @@ const App = () => {
         <Route path='/tutorhomepage' element={<TutorHomePage
           handleSignOut={handleSignOut}
           handleModuleInformation={handleModuleInformation}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/admin/:id' element={<Admin
@@ -224,7 +209,6 @@ const App = () => {
         <Route path='/CreateAssessment'
           element={<CreateAssessment
             handleAddAssessment={handleAddAssessment}
-            handleOpacity={handleOpacity}
             handleNavigation={handleNavigation} />} />
 
         <Route path='/assessments' element={<ModuleAssessments
@@ -232,7 +216,6 @@ const App = () => {
           handleSendAssesment={handleSendAssesment}
           handleDeleteAssesment={handleDeleteAssesment}
           handleAssessmentChanges={handleAssessmentChanges}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation}
         />} />
 
@@ -241,61 +224,51 @@ const App = () => {
           handleSendInformation={handleSendInformation}
           handleInformationChanges={handleInformationChanges}
           handleGetInformations={handleGetInformations}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/tutorgrades' element={<TutorGradesPage
           handleTutorGrades={handleTutorGrades}
           handleSendGrade={handleSendGrade}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/tutorbiodata' element={<TutorBioDataPage
           handleBioData={handleBioData}
           handleBiodataChanges={handleBiodataChanges}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
 
         <Route path='/studenthomepage' element={<StudentHomePage
           handleSignOut={handleSignOut}
           handleBioData={handleBioData}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/modules' element={<ModulesPage
           handleGetModules={handleGetModules}
           handleStudentModules={handleStudentModules}
           handleSelectModules={handleSelectModules}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/moduleDetails/:moduleId'
           element={<ModuleInformation handleModuleData={handleModuleData}
-            handleOpacity={handleOpacity}
             handleNavigation={handleNavigation} />} />
 
         <Route path='/studentinformation' element={<StudentInformation
           handleGetInformations={handleGetInformations}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/studentgrades' element={<StudGradesPage
           handleTutorGrades={handleTutorGrades}
           handleGetGrades={handleGetGrades}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/studentbio' element={<StdBioDataPage
           handleBioData={handleBioData}
           handleBiodataChanges={handleBiodataChanges}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/test/:assessmentId' element={<Test
           handleGetAssessment={handleGetAssessment}
           handlePushGrade={handlePushGrade}
-          handleOpacity={handleOpacity}
           handleNavigation={handleNavigation} />} />
 
         <Route path='/guest' element={<GuestPage />} />

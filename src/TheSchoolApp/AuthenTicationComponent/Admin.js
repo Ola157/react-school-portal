@@ -89,11 +89,11 @@ const Admin = ({
             </div>
         </Navbar>
 
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={5} xs={7} className='px-0 pe-0'>
-                <Link to={'/'} className='return-link' >
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => navigate(`/`)}  >
                     <HiBackspace /> <span>Select Profile</span>
-                </Link>
+                </button>
             </Col>
         </Row>
 
@@ -108,7 +108,7 @@ const Admin = ({
         </div>
 
 
-        <div className='d-none d-md-block py-5'>
+        <div className='d-none d-md-block py-5 m-1'>
             <AuthLgMd handleAuth={handleAuth}
                 firstName={firstName}
                 setFirstName={setFirstName}
@@ -127,7 +127,7 @@ const Admin = ({
             />
         </div>
 
-        <div className='d-block d-md-none py-5'>
+        <div className='d-block d-md-none py-5 m-1'>
             <AuthXsSm handleAuth={handleAuth}
                 firstName={firstName}
                 setFirstName={setFirstName}

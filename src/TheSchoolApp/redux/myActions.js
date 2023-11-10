@@ -1,7 +1,6 @@
 import axios from "axios"
 
 const actionTypes = {
-    OPACITY: "OPACITY",
     IS_LOGGED: "IS_LOGGED",
     IS_REGISTERED: "IS_REGISTERED",
     MESSAGE: "MESSAGE",
@@ -15,10 +14,6 @@ const actionTypes = {
     BIO_DATA: 'BIO_DATA',
     MODULES: "MODULES",
     TEST: 'TEST'
-}
-
-export const setOpacity = (value) => (dispatch) => {
-    dispatch({ type: actionTypes.OPACITY, payload: { value } })
 }
 
 export const authenticationHandler = (data) => async (dispatch) => {
@@ -101,7 +96,7 @@ export const getModuleInfo = (type) => async (dispatch) => {
 export const getAssessment = () => async (dispatch) => {
     const myJwt = localStorage.getItem('accessToken')
     try {
-        let response = await axios.get('https://react-school-back-end.vercel.app/tutor/getQuestions', {
+        let response = await axios.get('https://react-school-back-end.vercel.app/tutor/getAssessments', {
             // const response = await axios.get('http://localhost:9090/tutor/getAssessments', {
             headers: { 'Authorization': `Bearer ${myJwt}` }
         });
@@ -115,8 +110,8 @@ export const getAssessment = () => async (dispatch) => {
 export const addAssessment = (data) => async () => {
     const myJwt = localStorage.getItem('accessToken')
     try {
-        await axios.post('https://react-school-back-end.vercel.app/tutor/addQuestions', data,
-            // await axios.post('http://localhost:9090/tutor/addQuestions', data,
+        // await axios.post('https://react-school-back-end.vercel.app/tutor/addAssessment', data,
+        await axios.post('http://localhost:9090/tutor/addAssessment', data,
 
             {
                 headers: {
@@ -383,7 +378,7 @@ export const getModules = () => async (dispatch) => {
 export const getStudentModules = () => async (dispatch) => {
     const myJwt = localStorage.getItem('accessToken')
     try {
-        const response = await axios.get('https://react-school-back-end.vercel.app/student/getmodules',
+        const response = await axios.get('https://react-school-back-end.vercel.app/student/getstudentmodules',
             // const response = await axios.get('http://localhost:9090/student/getstudentmodules',
             { headers: { 'Authorization': `Bearer ${myJwt}` } })
 
@@ -463,6 +458,7 @@ export const chooseModules = (data) => async (dispatch) => {
     const myJwt = localStorage.getItem('accessToken')
     try {
         let response = await axios.post(`https://react-school-back-end.vercel.app/student/chooseModules`, { data }, {
+            // let response = await axios.post(`http://localhost:9090/student/chooseModules`, { data }, {
             headers: {
                 'Authorization': `Bearer ${myJwt}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -502,7 +498,6 @@ export const getAssesment = (assessmentId) => async (dispatch) => {
 
 export const pushGrade = (studentGrade) => async () => {
     const myJwt = localStorage.getItem('accessToken')
-    console.log(studentGrade)
     try {
         await axios.post(`https://react-school-back-end.vercel.app/student/pushgrade`, { studentGrade }, {
             // await axios.post(`http://localhost:9090/student/pushgrade`, { studentGrade }, {
@@ -521,19 +516,6 @@ export const signOut = () => (dispatch) => {
     dispatch({ type: actionTypes.SIGNOUT })
 }
 
-
-
-
-
-
-
-export const handleCountdown = (assessmentId) => async (dispatch) => {
-    try {
-        let response = await axios.get(`https://react-school-back-end.vercel.app/student/countdown/${assessmentId}`)
-        let { duration } = response.data
-        dispatch({ type: actionTypes.MY_ASSESSMENT, payload: { duration } })
-    } catch (err) { console.error(err) }
-}
 
 
 

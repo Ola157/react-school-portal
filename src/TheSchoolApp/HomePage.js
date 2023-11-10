@@ -18,7 +18,7 @@ const HomePage = () => {
             </div>
         </Navbar>
 
-        <Row className="justify-content-center py-5">
+        <Row className="justify-content-center py-5 m-0">
             <Col lg={6} md={6} sm={8} xs={10} className="homepage-card">
                 <div className="text-center homepage-intro">
                     Welcome to GoldenGate Academy

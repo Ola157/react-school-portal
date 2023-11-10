@@ -10,29 +10,25 @@ import { useSelector } from 'react-redux';
 
 const ModuleInformation = ({
     handleModuleData,
-    handleNavigation,
-    handleOpacity }) => {
+    handleNavigation }) => {
 
     const { moduleId } = useParams()
     const assessments = useSelector(state => state.assessments)
     const informations = useSelector(state => state.informations)
-    const opaCity = useSelector(state => state.opacity)
 
     useEffect(() => {
         handleModuleData(moduleId)
-        handleOpacity()
     }, [])
 
 
-    return (<Container className="school-homepage" fluid
-        style={{ opacity: opaCity ? '1' : '0', transition: '800ms ease-in-out' }}
-    >
+    return (<Container className="school-homepage" fluid    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <button onClick={() => handleNavigation(`/modules`)} className='return-link' >
+
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => handleNavigation(`/modules`)}  >
                     <HiBackspace /> <span>My Modules</span>
                 </button>
             </Col>
@@ -45,78 +41,78 @@ const ModuleInformation = ({
         </Row>
 
 
-        <Row className='d-flex justify-content-evenly p-3' >
-            <Col lg={5} md={6} sm={12} xs={12}>
-                <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-center'>
-                    <h5 className='moduleDataHeadings'>Module Assessments</h5>
-                </Col>
-
-                <Col className='table-responsive table-col text-center'>
-                    {assessments.length > 0 ?
-                        <Table bordered >
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Assesment Title
-                                    </th>
-                                </tr>
-                            </thead>
-                            {assessments.map((assess, index) => (
-                                <tbody key={index}>
-                                    <tr>
-                                        <td>{assess.assessmentTitle}</td>
-                                        <td className='text-center'>
-                                            <button className='module-link'
-                                                onClick={() => handleNavigation(`/test/${assess._id}`)}>Click To Attempt</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </Table>
-                        :
-                        <Table bordered>
-                            <tbody>
-                                <tr>
-                                    <td colSpan={2}>No Assessments, Check Back</td>
-                                </tr>
-                            </tbody>
-                        </Table>}
-                </Col>
+        <Row className='justify-content-center p-3 mx-0 me-0 mt-3' >
+            <Col lg={12} md={12} sm={7} xs={10} className='heading-col d-flex justify-content-center'>
+                <h5 className='moduleDataHeadings'>Assessments</h5>
             </Col>
 
-            <Col lg={5} md={6} sm={12} xs={12}>
-                <Col lg={12} md={12} sm={12} xs={12} className='d-flex justify-content-center'>
-                    <h5 className='moduleDataHeadings'>Module Informations</h5>
-                </Col>
-
-                <Col className='table-responsive table-col text-center d-flex justify-content-center'>
-                    {informations.length > 0 ?
-                        <Table bordered >
-                            <thead>
+            <Col lg={5} md={5} sm={12} xs={12} className='table-responsive table-col text-center'>
+                {assessments.length > 0 ?
+                    <Table bordered >
+                        <thead>
+                            <tr>
+                                <th>
+                                    Assesment Title
+                                </th>
+                            </tr>
+                        </thead>
+                        {assessments.map((assess, index) => (
+                            <tbody key={index}>
                                 <tr>
-                                    <th>
-                                        Title
-                                    </th>
-                                    <th>
-                                        Information
-                                    </th>
-                                </tr>
-                            </thead>
-                            {informations.map((info, i) => (
-                                <tbody key={i}><tr><td>{info.title}</td><td className='text-center'>{info.information}</td></tr></tbody>
-                            ))}
-                        </Table>
-                        :
-                        <Table bordered>
-                            <tbody>
-                                <tr>
-                                    <td colSpan={2}>No Informations, Check Back</td>
+                                    <td>{assess.assessmentTitle}</td>
+                                    <td className='text-center'>
+                                        <button className='module-link'
+                                            onClick={() => handleNavigation(`/test/${assess._id}`)}>Click To Attempt</button>
+                                    </td>
                                 </tr>
                             </tbody>
-                        </Table>}
-                </Col>
+                        ))}
+                    </Table>
+                    :
+                    <Table bordered>
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}>No Assessments, Check Back</td>
+                            </tr>
+                        </tbody>
+                    </Table>}
             </Col>
         </Row>
+
+        <Row className='justify-content-center p-3 mx-0 me-0 mt-3' >
+            <Col lg={12} md={12} sm={7} xs={10} className='heading-col d-flex justify-content-center'>
+                <h5 className='moduleDataHeadings'>Informations</h5>
+            </Col>
+
+            <Col lg={5} md={6} sm={12} xs={12} className='table-responsive table-col text-center d-flex justify-content-center'>
+                {informations.length > 0 ?
+                    <Table bordered >
+                        <thead>
+                            <tr>
+                                <th>
+                                    Title
+                                </th>
+                                <th>
+                                    Information
+                                </th>
+                            </tr>
+                        </thead>
+                        {informations.map((info, i) => (
+                            <tbody key={i}><tr><td>{info.title}</td><td className='text-center'>{info.information}</td></tr></tbody>
+                        ))}
+                    </Table>
+                    :
+                    <Table bordered>
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}>No Informations, Check Back</td>
+                            </tr>
+                        </tbody>
+                    </Table>}
+            </Col>
+        </Row>
+
+
         <footer className="school-footer">
             <Container fluid>
                 <Row>

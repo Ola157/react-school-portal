@@ -3,50 +3,45 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import { HiBackspace } from 'react-icons/hi';
 import { MdSchool } from 'react-icons/md';
-import { Navbar, Tab } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useSelector } from 'react-redux';
 
 const StudGradesPage = ({
     handleGetGrades,
-    handleNavigation,
-    handleOpacity
+    handleNavigation
 }) => {
 
     const grades = useSelector(state => state.grades)
-    const opaCity = useSelector(state => state.opacity)
 
     useEffect(() => {
         handleGetGrades()
-
-        handleOpacity()
     }, [])
 
-    return (<Container className="school-homepage" fluid
-        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
-    >
+
+    return (<Container className="school-homepage" fluid>
 
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
 
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <button onClick={() => handleNavigation(`/studentHomepage`)} className='return-link' >
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => handleNavigation(`/studentHomepage`)}  >
                     <HiBackspace /> <span>HomePage</span>
                 </button>
             </Col>
         </Row>
 
         <Row className='justify-content-center m-1'>
-            <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
-                <h3 className='text-center'>All Grades</h3>
+            <Col lg={5} md={6} sm={7} xs={10} className='heading-col d-flex justify-content-center'>
+                <h3 className='text-center'>Grades</h3>
             </Col>
         </Row>
 
 
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center mt-5 mx-0 me-0'>
             {grades.length > 0 &&
                 <Col lg={8} md={8} sm={10} xs={10} className='table-responsive table-col text-center'>
                     <Table bordered>

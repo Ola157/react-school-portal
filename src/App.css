@@ -7,6 +7,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: 0 !important;
 }
 
 .school-footer {
@@ -83,19 +84,29 @@ hr {
 }
 
 .return-link {
-  color: yellow;
-  text-decoration: none;
+  padding: 4px 2px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 1px 0 !important;
+  color: black;
+}
+
+.return-link button {
+  color: yellow;
+  text-decoration: none;
+  border: none;
   font-size: 1em;
   font-weight: bold;
   padding: 5px;
-  background-color: #333;
+  background-color: black;
   width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.return-link:hover {
+.return-link button:hover {
   text-decoration: underline;
   color: yellow;
   background-color: rgba(51, 51, 51, .8);
@@ -140,7 +151,7 @@ hr {
   color: #333;
   border: none;
   border-radius: 4px;
-  padding: .3em .4em;
+  padding: 0 .4em;
   margin: .3em;
   font-size: 1em;
   cursor: pointer;
@@ -154,6 +165,10 @@ hr {
 
 .syn-input::placeholder {
   color: yellow;
+}
+
+.syn-input:focus {
+  outline: 1px solid yellow;
 }
 
 .login-btn:focus {
@@ -171,6 +186,7 @@ hr {
   color: yellow;
   padding: .2em 3em;
   width: fit-content;
+  text-align: center;
 }
 
 .moduleDataHeadings {
@@ -178,6 +194,7 @@ hr {
   color: yellow;
   padding: .2em 3em;
   width: fit-content;
+  text-align: center;
 }
 
 .user-intro-col h5 {
@@ -199,19 +216,24 @@ hr {
   color: yellow;
 }
 
+.homepage-row {
+  display: flex;
+  justify-content: center;
+  margin: 5em 0;
+}
 
-.navigation-col .tutorButton {
+.tutorButton {
   background-color: rgb(51, 51, 51);
   color: yellow;
   border: none;
   border-radius: 2px;
   padding: 1em 2em;
-  cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   height: 8em;
-  width: 15em;
+  width: 100%;
   font-weight: 700;
   font-size: 1em;
+  margin: 1px;
 }
 
 .tutorButton:hover {
@@ -293,6 +315,7 @@ hr {
   color: yellow;
   border-color: yellow;
   border-radius: 2px;
+  border: 1px solid yellow;
   background-color: transparent;
   text-align: center;
   margin: .5em;
@@ -302,6 +325,11 @@ hr {
 .anouncementtitleInput::placeholder {
   color: yellow;
   font-weight: 100;
+}
+
+.anouncementInput:focus,
+.anouncementtitleInput:focus {
+  outline: .1px solid yellow;
 }
 
 .message-row .visible {

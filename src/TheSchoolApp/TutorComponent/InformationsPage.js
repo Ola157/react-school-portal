@@ -14,8 +14,8 @@ const TutorInformation = ({
     handleAddInformation,
     handleInformationChanges,
     handleSendInformation,
-    handleNavigation,
-    handleOpacity }) => {
+    handleNavigation
+}) => {
 
     let [information, setInfo] = useState('')
     let [title, setTitle] = useState('')
@@ -24,12 +24,10 @@ const TutorInformation = ({
     const informations = useSelector(state => state.informations)
     let [informationNew, setInfoNew] = useState('')
     let [titleNew, setTitleNew] = useState('')
-    const opaCity = useSelector(state => state.opacity)
 
 
     useEffect(() => {
         handleGetInformations('tutor')
-        handleOpacity()
     }, [])
 
     const addInformation = () => {
@@ -45,16 +43,14 @@ const TutorInformation = ({
         handleInformationChanges({ type, id, data })
     }
 
-    return (<Container className="school-homepage" fluid
-        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
-    >
+    return (<Container className="school-homepage" fluid>
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
 
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <button onClick={() => handleNavigation(`/tutorhomepage`)} className='return-link' >
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => handleNavigation(`/tutorHomepage`)}  >
                     <HiBackspace /> <span>HomePage</span>
                 </button>
             </Col>
@@ -66,11 +62,11 @@ const TutorInformation = ({
             </Col>
         </Row>
 
-        <Row className='justify-content-center'>
-            <Col lg={8} md={8} sm={10} xs={10} className='announcement-col'>
+        <Row className='justify-content-center mt-5 mx-0 me-0'>
+            <Col lg={10} md={10} sm={10} xs={10} className='announcement-col'>
                 <div className='d-flex justify-content-evenly align-items-center'>
                     <label className='assesmentInput' htmlFor='titleInput'>Information Title</label>
-                    <input id='titleInput' placeholder='Information title' className='anouncementtitleInput w-50 text-start'
+                    <input id='titleInput' placeholder='title' className='anouncementtitleInput w-50 text-start'
                         value={title} onInput={(event) => setTitle(event.target.value)} />
                 </div>
 
@@ -87,7 +83,7 @@ const TutorInformation = ({
             </Col>
         </Row>
 
-        <Row className='justify-content-center my-3'>
+        <Row className='justify-content-center mb-5 mx-0 me-0'>
             {informations.length > 0 &&
                 <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-center'>
                     <Table bordered>
@@ -129,7 +125,7 @@ const TutorInformation = ({
                                             <button className=' syn-button' onClick={!info.sendInformation ?
                                                 () => handleSendInformation('send', info._id) :
                                                 () => handleSendInformation('cancel', info._id)}>
-                                                {!info.sendInformation ? <>Send Information</> : <>Unsend Information</>}
+                                                {!info.sendInformation ? <>Send</> : <>Unsend</>}
                                             </button>
                                         </td>}
 

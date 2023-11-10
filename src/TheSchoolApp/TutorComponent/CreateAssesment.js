@@ -81,33 +81,37 @@ const CreateAssessment = ({ handleAddAssessment,
             <MdSchool className='school-logo' />
         </Navbar>
 
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <button onClick={() => handleNavigation(`/assessments`)} className='return-link' >
-                    <HiBackspace /> <span>Assesments</span>
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => handleNavigation(`/assessments`)}  >
+                    <HiBackspace /> <span>Assessments</span>
                 </button>
             </Col>
         </Row>
 
 
-        <Row className='justify-content-center'>
-            <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
-                <h3 >Create Assessment Questions</h3>
+        <Row className='justify-content-center m-1'>
+            <Col lg={6} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
+                <h3 >Add Assessment</h3>
             </Col>
         </Row>
 
-        <Row className='justify-content-center'>
-            <Col lg={8} md={8} sm={8} xs={8} className='table-col text-center table-responsive'>
+        <Row className='justify-content-center mt-5 mx-0 me-0'>
+            <Col lg={10} md={10} sm={10} xs={10} className='table-col text-center table-responsive'>
                 <Table bordered>
                     <tbody>
                         <tr>
-                            <td><label htmlFor='title'>Assessment Title</label></td>
+                            <td><label htmlFor='title'>Title</label></td>
                             <td><input className='syn-input w-50' id='title' value={assessmentTitle}
                                 onInput={(event) => setTitle(event.target.value)} /></td>
                         </tr>
                     </tbody>
                 </Table>
+            </Col >
+        </Row>
 
+        <Row className='justify-content-center mx-0 me-0'>
+            <Col lg={10} md={10} sm={10} xs={10} className='table-col text-center table-responsive'>
                 <Table>
                     <tbody>
                         <tr>
@@ -136,22 +140,28 @@ const CreateAssessment = ({ handleAddAssessment,
                                 onInput={(event) => setOptionD(event.target.value)} /></td>
                         </tr>
                         <tr>
-                            <td>Answer</td>
-                            <td className='d-flex justify-content-evenly'>
+                            <td className='pt-1'>
+                                Answer
+                            </td>
+
+                            <td className='d-flex justify-content-center py-0'>
                                 <span className='d-flex align-items-center'>
-                                    <label className='m-1' htmlFor='A'>A</label>
+                                    <label className='mx-1 me-1' htmlFor='A'>A</label>
                                     <input className='syn-input' value={answer} type='radio' name='answer' id='A' onClick={() => setAnswer('A')} />
                                 </span>
+
                                 <span className='d-flex align-items-center'>
-                                    <label className='m-1' htmlFor='B'>B</label>
+                                    <label className='mx-1 me-1' htmlFor='B'>B</label>
                                     <input className='syn-input' value={answer} type='radio' name='answer' id='B' onClick={() => setAnswer('B')} />
                                 </span>
+
                                 <span className='d-flex align-items-center'>
-                                    <label className='m-1' htmlFor='C'>C</label>
+                                    <label className='mx-1 me-1' htmlFor='C'>C</label>
                                     <input className='syn-input' value={answer} type='radio' name='answer' id='C' onClick={() => setAnswer('C')} />
                                 </span>
+
                                 <span className='d-flex align-items-center'>
-                                    <label className='m-1' htmlFor='D'>D</label>
+                                    <label className='mx-1 me-1' htmlFor='D'>D</label>
                                     <input className='syn-input' value={answer} type='radio' name='answer' id='D' onClick={() => setAnswer('D')} />
                                 </span>
                             </td>
@@ -168,9 +178,9 @@ const CreateAssessment = ({ handleAddAssessment,
             </Col >
         </Row>
 
-        <Row className='justify-content-center mb-4'>
+        <Row className='justify-content-center mx-0 me-0'>
             {allQuestions.length > 0 &&
-                <Col lg={8} md={8} sm={8} xs={8} className='table-col text-center' >
+                <Col lg={10} md={10} sm={10} xs={10} className='table-col text-center table-responsive' >
                     <Table bordered >
                         <thead>
                             <tr className='text-center'><th colSpan={2}>Questions</th></tr>
@@ -220,10 +230,12 @@ const CreateAssessment = ({ handleAddAssessment,
                                 </td>
                             </tr>
                             <tr>
-                                <td>Answer</td>
+                                <td>
+                                    Answer
+                                </td>
 
                                 {!question.edit ? <td>{question.answer}</td> :
-                                    <td className='d-flex justify-content-evenly'>
+                                    <td className='d-flex justify-content-evenly py-0'>
                                         <span>
                                             <label className='mx-1' htmlFor='A'>A</label>
                                             <input type='radio' name='newanswer' id='A' onClick={() => setAnswerNew('A')} />
@@ -272,15 +284,20 @@ const CreateAssessment = ({ handleAddAssessment,
                             </tr>
                         </tbody>))}
                     </Table>
+                </Col>}
+        </Row>
 
+        {allQuestions.length > 0 &&
+            <Row className='justify-content-center mb-5 mx-0 me-0'>
+                <Col lg={10} md={10} sm={8} xs={10} className='table-col text-center table-responsive' >
                     <Table bordered>
                         <tbody>
                             <tr>
-                                <td>
-                                    <label htmlFor='duration'>Duration</label>
+                                <td className='pt-2'>
+                                    <label htmlFor='duration'>Time</label>
                                 </td>
-                                <td>
-                                    <input className='syn-input text-center' id='duration' name='duration'
+                                <td className='py-0'>
+                                    <input className='syn-input text-center w-50' id='duration' name='duration'
                                         value={duration}
                                         onInput={(event) => setDuration(event.target.value)} />
                                 </td>
@@ -288,14 +305,13 @@ const CreateAssessment = ({ handleAddAssessment,
                             <tr>
                                 <td colSpan={2}>
                                     <button className='syn-button text-center'
-                                        onClick={() => handleAddQuestion('pushAllQuestion')}>Push All Questions</button>
+                                        onClick={() => handleAddQuestion('pushAllQuestion')}>Push Assessment</button>
                                 </td>
                             </tr>
                         </tbody>
                     </Table>
-                </Col>}
-
-        </Row>
+                </Col>
+            </Row >}
 
         <footer className="school-footer">
             <Container fluid>

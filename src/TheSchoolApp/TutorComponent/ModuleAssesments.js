@@ -14,8 +14,7 @@ const ModuleAssessments = ({
     handleAssessmentChanges,
     handleDeleteAssesment,
     handleSendAssesment,
-    handleNavigation,
-    handleOpacity
+    handleNavigation
 }) => {
 
     let [question, setQuestion] = useState('')
@@ -25,13 +24,9 @@ const ModuleAssessments = ({
     let [optionD, setOptionD] = useState('')
     let [answer, setAnswer] = useState('')
     const assessments = useSelector(state => state.assessments)
-    const opaCity = useSelector(state => state.opacity)
-
 
     useEffect(() => {
         handleGetAssessments()
-        handleOpacity()
-
     }, [])
 
     const handleAmends = (type, id) => {
@@ -39,55 +34,65 @@ const ModuleAssessments = ({
         handleAssessmentChanges({ type, id, data })
     }
 
-    return (<Container className="school-homepage" fluid
-        style={{ opacity: opaCity ? '1' : '0', transition: '500ms ease-in-out' }}
-    >
+    return (<Container className="school-homepage" fluid>
         <Navbar bg="dark" className='justify-content-start'>
             <MdSchool className='school-logo' />
         </Navbar>
 
-        <Row className='p-3 my-0'>
-            <Col lg={2} md={3} sm={4} xs={4} className='px-0 pe-0'>
-                <button onClick={() => handleNavigation(`/tutorHomepage`)} className='return-link' >
+        <Row className='m-0 justify-content-start'>
+            <Col lg={2} md={3} sm={4} xs={4} className='return-link'>
+                <button onClick={() => handleNavigation(`/tutorHomepage`)}  >
                     <HiBackspace /> <span>HomePage</span>
                 </button>
             </Col>
         </Row>
 
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center m-1'>
             <Col lg={5} md={6} sm={7} xs={8} className='heading-col d-flex justify-content-center'>
-                <h3 >All Assesment Questions</h3>
+                <h3 >Assessments</h3>
             </Col>
         </Row>
 
-        <Row className='mt-1 d-flex justify-content-center align-items-center' >
+        <Row className='mt-1 d-flex justify-content-center align-items-center mt-5 mx-0 me-0' >
             {assessments.length > 0 ?
-                <Col lg={12} md={10} sm={10} xs={10} className='table-col table-responsive text-center'>
+                <Col lg={10} md={10} sm={10} xs={10} className='table-col table-responsive text-center'>
                     {assessments.map((assessment, index) => (
                         <Table bordered key={index}>
                             <thead>
                                 <tr>
-                                    <th colSpan={2}><span className='d-flex justify-content-evenly align-items-center'><span>Title</span><span>{assessment.assessmentTitle}</span></span></th>
-                                    <th colSpan={2}><span className='d-flex justify-content-evenly align-items-center'><span>Duration</span><span>{assessment.duration}</span></span></th>
-                                    <th>
-                                        <button className='syn-button'
-                                            onClick={!assessment.sendAssessment ?
-                                                () => handleSendAssesment('send', assessment._id) :
-                                                () => handleSendAssesment('cancel', assessment._id)}>
-                                            {!assessment.sendAssessment ? 'Send Assessment' : 'Unsend Assessment'}</button>
+                                    <th colSpan={2}>
+                                        <span className='d-flex justify-content-evenly align-items-center'>
+                                            <span className='mx-1'>Title</span>
+                                            <span className='me-1'>{assessment.assessmentTitle}</span>
+                                        </span>
+                                    </th>
+
+                                    <th colSpan={2}>
+                                        <span className='d-flex justify-content-evenly align-items-center'>
+                                            <span className='mx-1'>Duration</span>
+                                            <span className='me-1'>{assessment.duration}</span>
+                                        </span>
                                     </th>
 
                                     <th>
-                                        <button className='syn-button'
+                                        <button className='syn-button py-0'
+                                            onClick={!assessment.sendAssessment ?
+                                                () => handleSendAssesment('send', assessment._id) :
+                                                () => handleSendAssesment('cancel', assessment._id)}>
+                                            {!assessment.sendAssessment ? 'Send' : 'Unsend'}</button>
+                                    </th>
+
+                                    <th>
+                                        <button className='syn-button py-0'
                                             onClick={() => handleDeleteAssesment(assessment._id)}>Remove</button>
                                     </th>
                                 </tr>
                                 <tr>
                                     <th>Question</th>
-                                    <th>Option A</th>
-                                    <th>Option B</th>
-                                    <th>Option C</th>
-                                    <th>Option D</th>
+                                    <th> A</th>
+                                    <th> B</th>
+                                    <th> C</th>
+                                    <th> D</th>
                                     <th>Answer</th>
                                 </tr>
                             </thead>
@@ -120,24 +125,24 @@ const ModuleAssessments = ({
                                         </td>}
                                     {!quest.edit ?
                                         <td>
-                                            <button className='syn-button' onClick={() => handleAmends('edit', quest._id)}>Edit</button>
-                                            <button className='syn-button' onClick={() => handleAmends('delete', quest._id)}>Delete</button>
+                                            <button className='syn-button py-0' onClick={() => handleAmends('edit', quest._id)}>Edit</button>
+                                            <button className='syn-button py-0' onClick={() => handleAmends('delete', quest._id)}>Delete</button>
                                         </td> :
                                         <td>
-                                            <button className='save-button' onClick={() => handleAmends('save', quest._id)}>Save Changes</button>
-                                            <button className='cancel-button' onClick={() => handleAmends('cancel', quest._id)}>Cancel Changes</button>
+                                            <button className='save-button py-0' onClick={() => handleAmends('save', quest._id)}>Save Changes</button>
+                                            <button className='cancel-button py-0' onClick={() => handleAmends('cancel', quest._id)}>Cancel Changes</button>
                                         </td>}
                                 </tr>))}
                             </tbody>
                         </Table>))}
                 </Col>
                 :
-                <Col lg={6} md={6} sm={10} xs={10} className='table-col table-responsive text-center'>
+                <Col lg={6} md={6} sm={10} xs={10} className='table-col table-responsive text-center mx-0 me-0'>
                     <Table bordered>
                         <tbody>
                             <tr>
                                 <td colSpan={2}>
-                                    No Assesment Available
+                                    No Assessment Available
                                 </td>
                             </tr>
                         </tbody>
@@ -147,14 +152,14 @@ const ModuleAssessments = ({
 
 
 
-            <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center'>
+            <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center mx-0 me-0'>
                 <Table bordered>
                     <tbody>
                         <tr>
                             <td colSpan={2}>
                                 <button className='border-0 bg-transparent'
                                     style={{ color: 'yellow' }}
-                                    onClick={() => handleNavigation(`/createassessment`)}> Click Here To Add Assesment Questions</button>
+                                    onClick={() => handleNavigation(`/createassessment`)}>Add Assessment</button>
                             </td>
                         </tr>
                     </tbody>
