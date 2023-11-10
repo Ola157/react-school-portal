@@ -145,8 +145,8 @@ const Test = ({
                     <Table bordered>
                         <tbody>
                             <tr>
-                                <td className='text-center'>Assessment Title: {test.assessmentTitle} </td>
-                                <td className='text-center'>Assessment Duration: {duration} Secs </td>
+                                <td className='text-center'>Title: {test.assessmentTitle} </td>
+                                <td className='text-center'>Duration: {duration} Secs </td>
                             </tr>
 
                             <tr>
