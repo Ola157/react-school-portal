@@ -49,7 +49,7 @@ const Test = ({
 
     const checkStudentAttempt = async () => {
         try {
-            const response = axios.get(`https://react-school-back-end.vercel.app/student/assessmentAttempt/${assessmentId}`, {
+            const response = await axios.get(`https://react-school-back-end.vercel.app/student/assessmentAttempt/${assessmentId}`, {
                 // const response = await axios.get(`http://localhost:9090/student/assessmentAttempt/${assessmentId}`, {
                 headers: {
                     'Authorization': `Bearer ${myJwt}`,
@@ -57,7 +57,7 @@ const Test = ({
             })
 
             const { assessmentAttempt } = response.data
-
+            console.log(response)
             if (assessmentAttempt) {
                 handleAttempt(false)
                 handleGetAssessment(assessmentId)
