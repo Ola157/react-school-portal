@@ -57,17 +57,16 @@ const Test = ({
             })
 
             const { assessmentAttempt } = response.data
-            if (assessmentAttempt) {
-                handleAttempt(false)
+            if (assessmentAttempt.start && !assessmentAttempt.finish) {
                 handleGetAssessment(assessmentId)
                 setDuration(assessmentAttempt.duration)
-                if (assessmentAttempt.start) {
-                    setStart(true)
-                }
-            } else if (!assessmentAttempt) {
+                handleStart()
+            } else if (!assessmentAttempt.start && !assessmentAttempt.finish) {
+                handleGetAssessment(assessmentId)
+                setDuration(assessmentAttempt.duration)
+            } else if (assessmentAttempt.start && assessmentAttempt.finish) {
                 handleAttempt(true)
             }
-
         } catch (err) { console.error(err) }
     }
 
@@ -115,7 +114,6 @@ const Test = ({
 
         checkStudentAttempt();
     }
-
 
     return (<Container className="school-homepage" fluid>
         <Navbar bg="dark" className='justify-content-between'>
