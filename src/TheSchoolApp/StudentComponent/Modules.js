@@ -75,7 +75,7 @@ const ModulesPage = ({
 
         <Row className='justify-content-center mt-5 mx-0 me-0'>
             {message === 'courses unRegistered' &&
-                <Col lg={8} md={8} sm={8} className='table-col table-responsive text-center dropdownTable' >
+                <Col lg={8} md={8} sm={8} className='table-col table-responsive text-center mb-5' >
                     <Table>
                         <tbody>
                             {modules.map((module) => (
