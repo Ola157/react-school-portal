@@ -21,7 +21,7 @@ const ModuleInformation = ({
     }, [])
 
 
-    return (<Container className="school-homepage" fluid    >
+    return (<Container className="school-homepage" fluid>
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>

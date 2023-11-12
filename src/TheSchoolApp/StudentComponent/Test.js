@@ -21,7 +21,7 @@ const Test = ({
     let [duration, setDuration] = useState('')
     let [grade, setGrade] = useState('')
     let [attempt, handleAttempt] = useState('')
-    let [start, setStart] = useState('')
+    let [start, setStart] = useState('!start')
     const myJwt = localStorage.getItem('accessToken')
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const Test = ({
     useEffect(() => {
         let timeOut;
 
-        if (start) {
+        if (start === 'start') {
             if (duration < 1) {
                 handleSubmit()
             } else if (duration > 0) {
@@ -52,31 +52,35 @@ const Test = ({
             const response = await axios.get(`https://react-school-back-end.vercel.app/student/assessmentAttempt/${assessmentId}`, {
                 // const response = await axios.get(`http://localhost:9090/student/assessmentAttempt/${assessmentId}`, {
                 headers: {
-                    'Authorization': `Bearer ${myJwt}`,
-                }
-            })
+                    Authorization: `Bearer ${myJwt}`,
+                },
+            });
 
-            const { assessmentAttempt } = response.data
+            const { assessmentAttempt } = response.data;
+
             if (assessmentAttempt.start && !assessmentAttempt.finish) {
-                handleGetAssessment(assessmentId)
-                setDuration(assessmentAttempt.duration)
-                handleStart()
+                handleGetAssessment(assessmentId);
+                setDuration(assessmentAttempt.duration);
+                handleAttempt('unattempted');
+                handleStart();
             } else if (!assessmentAttempt.start && !assessmentAttempt.finish) {
-                handleGetAssessment(assessmentId)
-                setDuration(assessmentAttempt.duration)
+                handleGetAssessment(assessmentId);
+                setDuration(assessmentAttempt.duration);
+                handleAttempt('unattempted');
             } else if (assessmentAttempt.start && assessmentAttempt.finish) {
-                handleAttempt(true)
+                handleAttempt('attempted');
             }
-        } catch (err) { console.error(err) }
-    }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const handleAnswer = (assessmentId, questionId, answer) => {
-        console.log(answer)
         setGrade([...grade, { assessmentId, questionId, answer }])
     }
 
     const handleStart = async () => {
-        setStart(true)
+        setStart('start')
         try {
             await axios.get(`https://react-school-back-end.vercel.app/student/startAttempt/${assessmentId}`, {
                 // await axios.get(`http://localhost:9090/student/startAttempt/${assessmentId}`, {
@@ -89,35 +93,34 @@ const Test = ({
     }
 
     const handleSubmit = async () => {
-        setStart(false)
+        setStart('finish');
 
-        if (!Array.isArray(grade)) {
-            let grade = []
-            const { allQuestions } = test
-            for (let i = 0; i < allQuestions.length; i++) {
-                grade.push({ assessmentId: test._id, questionId: 0, answer: 0 })
-            }
-            handlePushGrade(grade)
-        } else if (Array.isArray(grade)) {
-            handlePushGrade(grade)
-        }
+        let updatedGrade = Array.isArray(grade)
+            ? grade
+            : Array.from({ length: test.allQuestions.length }, () => ({
+                assessmentId: test._id,
+                questionId: 0,
+                answer: 0,
+            }));
+
+        handlePushGrade(updatedGrade);
 
         try {
             await axios.get(`https://react-school-back-end.vercel.app/student/finishAttempt/${assessmentId}`, {
-                // axios.get(`http://localhost:9090/student/finishAttempt/${assessmentId}`, {
+                // await axios.get(`http://localhost:9090/student/finishAttempt/${assessmentId}`, {
                 headers: {
-                    'Authorization': `Bearer ${myJwt}`,
-                }
-            })
+                    Authorization: `Bearer ${myJwt}`,
+                },
+            });
+        } catch (err) {
+            console.error(err);
         }
-        catch (err) { console.error(err) }
+    };
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        checkStudentAttempt();
-    }
-
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: attempt == 'attempted' || attempt == 'unattempted' ? 1 : 0, transition: '500ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
@@ -137,87 +140,105 @@ const Test = ({
             </Col>
         </Row>
 
-        {!attempt ?
-            <Row className='justify-content-center mt-5 mx-0 me-0'>
 
-                <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-start'>
-                    <Table bordered>
-                        <tbody>
-                            <tr>
-                                <td className='text-center'>Title: {test.assessmentTitle} </td>
-                                <td className='text-center'>Duration: {duration} Secs </td>
-                            </tr>
+        {attempt === 'unattempted' &&
 
-                            <tr>
-                                {!start &&
-                                    <td colSpan={2} className=' text-center'>
-                                        <button className='syn-button' onClick={() => handleStart()
-                                        }>Start</button>
-                                    </td>}
-                            </tr>
-                        </tbody>
-                    </Table>
+            (duration > 0 ?
+                <Row className='justify-content-center mt-5 mx-0 me-0'>
+
+                    <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col my-3 text-start'>
+                        <Table bordered>
+                            <tbody>
+                                <tr>
+                                    <td className='text-center'>Title: {test.assessmentTitle} </td>
+                                    <td className='text-center'>Duration: {duration} Secs </td>
+                                </tr>
+
+                                <tr>
+                                    {start === '!start' &&
+                                        <td colSpan={2} className=' text-center'>
+                                            <button className='syn-button' onClick={() => handleStart()
+                                            }>Start</button>
+                                        </td>}
+                                </tr>
+                            </tbody>
+                        </Table>
 
 
-                    {start &&
-                        <Col>
-                            {test.allQuestions.map((quest, i) => (
-                                <Table bordered key={i}>
-                                    <thead>
-                                        <tr>
-                                            <th>Question {i + 1}</th>
-                                        </tr>
-                                    </thead>
+                        {start === 'start' &&
+                            <Col>
+                                {test.allQuestions.map((quest, i) => (
+                                    <Table bordered key={i}>
+                                        <thead>
+                                            <tr>
+                                                <th>Question {i + 1}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label name={quest._id} htmlFor={quest._id}> {quest.question}</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input onClick={() => handleAnswer(test._id, quest._id, 'A')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                                    <label htmlFor={quest._id}>{quest.optionA}</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input onClick={() => handleAnswer(test._id, quest._id, 'B')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                                    <label htmlFor={quest._id}>{quest.optionB}</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input onClick={() => handleAnswer(test._id, quest._id, 'C')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                                    <label htmlFor={quest._id}>{quest.optionC}</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input onClick={() => handleAnswer(test._id, quest._id, 'D')} type='radio' className='m-1' name={quest._id} id={quest._id} />
+                                                    <label htmlFor={quest._id}>{quest.optionD}</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+                                ))}
+
+
+                                <Table bordered>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <label name={quest._id} htmlFor={quest._id}> {quest.question}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input onClick={() => handleAnswer(test._id, quest._id, 'A')} type='radio' className='m-1' name={quest._id} id={quest._id} />
-                                                <label htmlFor={quest._id}>{quest.optionA}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input onClick={() => handleAnswer(test._id, quest._id, 'B')} type='radio' className='m-1' name={quest._id} id={quest._id} />
-                                                <label htmlFor={quest._id}>{quest.optionB}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input onClick={() => handleAnswer(test._id, quest._id, 'C')} type='radio' className='m-1' name={quest._id} id={quest._id} />
-                                                <label htmlFor={quest._id}>{quest.optionC}</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input onClick={() => handleAnswer(test._id, quest._id, 'D')} type='radio' className='m-1' name={quest._id} id={quest._id} />
-                                                <label htmlFor={quest._id}>{quest.optionD}</label>
-                                            </td>
+                                            <td className='text-center'><button className='syn-button' onClick={() => handleSubmit()}>Submit</button></td>
                                         </tr>
                                     </tbody>
                                 </Table>
-                            ))}
+                            </Col>}
+
+                    </Col>
+                </Row >
+
+                :
+
+                <Row className='justify-content-center m-0'>
+                    <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center table-responsive'>
+                        <Table bordered>
+                            <tbody>
+                                <tr>
+                                    <td colSpan={2}>Your Time Is Up</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>)
+        }
 
 
-                            <Table bordered>
-                                <tbody>
-                                    <tr>
-                                        <td className='text-center'><button className='syn-button' onClick={() => handleSubmit()}>Submit</button></td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </Col>}
-
-                </Col>
-            </Row >
-
-            :
-
-            <Row className='justify-content-center'>
+        {attempt === 'attempted' &&
+            <Row className='justify-content-center m-0'>
                 <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center table-responsive'>
                     <Table bordered>
                         <tbody>

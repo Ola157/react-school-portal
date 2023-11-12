@@ -497,7 +497,6 @@ export const getAssesment = (assessmentId) => async (dispatch) => {
 }
 
 export const pushGrade = (studentGrade) => async () => {
-    console.log(studentGrade)
     const myJwt = localStorage.getItem('accessToken')
     try {
         await axios.post(`https://react-school-back-end.vercel.app/student/pushgrade`, { studentGrade }, {

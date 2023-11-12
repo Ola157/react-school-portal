@@ -68,7 +68,7 @@ const StudGradesPage = ({
             }
         </Row >
 
-        <Row className='justify-content-center'>
+        <Row className='justify-content-center m-0'>
             {!grades.length ?
                 <Col lg={7} md={5} sm={8} xs={10} className='table-col d-flex justify-content-center text-center'>
                     <Table bordered>

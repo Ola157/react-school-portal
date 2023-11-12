@@ -54,7 +54,9 @@ const ModulesPage = ({
         }, 500)
     }
 
-    return (<Container className="school-homepage" fluid>
+    return (<Container className="school-homepage" fluid
+        style={{ opacity: modules.length ? 1 : 0, transition: '500ms ease-in-out' }}
+    >
         <Navbar bg="dark" className='justify-content-between'>
             <MdSchool className='school-logo' />
         </Navbar>
