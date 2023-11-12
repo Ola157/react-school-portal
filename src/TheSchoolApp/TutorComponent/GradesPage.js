@@ -41,7 +41,7 @@ const TutorGradesPage = ({
         </Row>
 
         <Row className='justify-content-center my-5 mx-0 me-0'>
-            {grades.length > 0 &&
+            {grades &&
                 <Col lg={10} md={10} sm={10} xs={10} className='table-responsive table-col text-center mb-5'>
                     {grades.map((grade, index) =>
                     (<Table bordered key={index}>

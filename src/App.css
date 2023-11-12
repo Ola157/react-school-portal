@@ -235,6 +235,7 @@ hr {
   font-weight: 700;
   font-size: 1em;
   margin: 1px;
+  text-align: center;
 }
 
 .tutorButton:hover {

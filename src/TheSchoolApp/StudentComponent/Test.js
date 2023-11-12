@@ -71,6 +71,7 @@ const Test = ({
     }
 
     const handleAnswer = (assessmentId, questionId, answer) => {
+        console.log(answer)
         setGrade([...grade, { assessmentId, questionId, answer }])
     }
 
@@ -89,15 +90,6 @@ const Test = ({
 
     const handleSubmit = async () => {
         setStart(false)
-        try {
-            await axios.get(`https://react-school-back-end.vercel.app/student/finishAttempt/${assessmentId}`, {
-                // axios.get(`http://localhost:9090/student/finishAttempt/${assessmentId}`, {
-                headers: {
-                    'Authorization': `Bearer ${myJwt}`,
-                }
-            })
-        }
-        catch (err) { console.error(err) }
 
         if (!Array.isArray(grade)) {
             let grade = []
@@ -109,6 +101,16 @@ const Test = ({
         } else if (Array.isArray(grade)) {
             handlePushGrade(grade)
         }
+
+        try {
+            await axios.get(`https://react-school-back-end.vercel.app/student/finishAttempt/${assessmentId}`, {
+                // axios.get(`http://localhost:9090/student/finishAttempt/${assessmentId}`, {
+                headers: {
+                    'Authorization': `Bearer ${myJwt}`,
+                }
+            })
+        }
+        catch (err) { console.error(err) }
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
