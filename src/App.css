@@ -343,3 +343,7 @@ hr {
   opacity: 0;
   transition: 500ms ease-in-out;
 }
+
+.fixed-margin {
+  margin-top: 25%;
+}

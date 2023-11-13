@@ -144,6 +144,8 @@ const TutorInformation = ({
                 </Col>}
         </Row>
 
+        <div className="fixed-margin">
+        </div>
 
         <footer className="school-footer">
             <Container fluid>

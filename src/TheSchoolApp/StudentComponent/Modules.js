@@ -48,7 +48,10 @@ const ModulesPage = ({
     }
 
     const handleSelectedModule = () => {
+        if (!module.length) return
+
         handleSelectModules(module)
+
         setTimeout(() => {
             validateCourses()
         }, 500)
@@ -81,10 +84,11 @@ const ModulesPage = ({
                     <Table>
                         <tbody>
                             {modules.map((module) => (
-                                <tr lg={12} md={12} sm={12} className=' d-flex justify-content-evenly' key={module._id}>
-                                    <td><label className='m-1' htmlFor={module._id}>{module.moduleName} {module.moduleCode}</label></td>
-                                    <td><input className='m-1' id={module._id} type='radio'
-                                        onClick={() => handleModuleSelect(module._id, module.moduleName, module.moduleCode)} /></td>
+                                <tr lg={12} md={12} sm={12} key={module._id}>
+                                    <td className='d-flex justify-content-between align-items-center p-4'>
+                                        <label htmlFor={module._id}>{module.moduleName} {module.moduleCode}</label>
+                                        <input id={module._id} type='radio' onClick={() => handleModuleSelect(module._id, module.moduleName, module.moduleCode)} />
+                                    </td>
                                 </tr>
                             ))}
                             <tr><td>
@@ -96,7 +100,7 @@ const ModulesPage = ({
 
             {message === 'courses registered' &&
                 <Col lg={8} md={8} sm={8} className='table-col table-responsive text-center' >
-                    <Table bordered>
+                    <Table>
                         <thead>
                             <tr>
                                 <th>Module Name</th>
@@ -115,6 +119,9 @@ const ModulesPage = ({
                     </Table>
                 </Col>}
         </Row>
+
+        <div className="fixed-margin">
+        </div>
 
         <footer className="school-footer">
             <Container fluid>

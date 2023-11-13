@@ -76,29 +76,21 @@ const App = () => {
 
   const handleAssessmentChanges = (getdata) => {
     dispatch(assessmentChanges(getdata))
-    setTimeout(() => {
-      handleGetAssessments()
-    }, 1000)
+
   }
 
   const handleSendAssesment = (type, assessmentId) => {
     dispatch(sendAssessment(type, assessmentId))
-    setTimeout(() => {
-      handleGetAssessments()
-    }, 500)
+
   }
 
   const handleDeleteAssesment = (assessmentId) => {
     dispatch(deleteAssessment(assessmentId))
-    setTimeout(() => {
-      handleGetAssessments()
-    }, 1000)
   }
 
 
   const handleAddInformation = (data) => {
     dispatch(addInformation(data))
-    setTimeout(() => { handleGetInformations('tutor') }, 300)
   }
 
   const handleGetInformations = (user) => {
@@ -114,12 +106,10 @@ const App = () => {
 
   const handleInformationChanges = (data) => {
     dispatch(informationChanges(data))
-    setTimeout(() => { handleGetInformations('tutor') }, 300)
   }
 
   const handleSendInformation = (type, infoId) => {
     dispatch(sendInformation(type, infoId))
-    setTimeout(() => { handleGetInformations('tutor') }, 300)
   }
 
   const handleTutorGrades = () => {
@@ -128,7 +118,6 @@ const App = () => {
 
   const handleSendGrade = (type, id) => {
     dispatch(sendStatus(type, id))
-    setTimeout(() => { handleTutorGrades() }, 300)
   }
 
   const handleBioData = (page) => {
@@ -147,11 +136,9 @@ const App = () => {
     switch (page) {
       case "tutor":
         dispatch(tutorBioChanges(type, data))
-        setTimeout(() => { handleBioData('tutor') }, 1500)
         break;
       case "student":
         dispatch(studentBioChanges(type, data))
-        setTimeout(() => { handleBioData('student') }, 1500)
         break;
     }
   }
