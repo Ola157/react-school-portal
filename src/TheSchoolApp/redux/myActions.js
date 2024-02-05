@@ -111,7 +111,7 @@ export const addAssessment = (data) => async (dispatch) => {
     const myJwt = localStorage.getItem('accessToken')
     try {
         const response = await axios.post('https://react-school-back-end.vercel.app/tutor/addAssessment', data,
-            // await axios.post('http://localhost:9090/tutor/addAssessment', data,
+            // const response = await axios.post('http://localhost:9090/tutor/addAssessment', data,
 
             {
                 headers: {
@@ -181,11 +181,16 @@ export const assessmentChanges = (getdata) => async (dispatch) => {
 }
 
 export const sendAssessment = (type, assessmentId) => async (dispatch) => {
+    const myJwt = localStorage.getItem('accessToken')
+
     try {
         const response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/sendAssessment/${assessmentId}`, { type },
+            // const response = await axios.patch(`http://localhost:9090/tutor/sendAssessment/${assessmentId}`, { type },
+
             {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Bearer ${myJwt}`
                 }
             })
         const { assessments } = response.data
@@ -196,8 +201,11 @@ export const sendAssessment = (type, assessmentId) => async (dispatch) => {
 }
 
 export const deleteAssessment = (assessmentId) => async (dispatch) => {
+    const myJwt = localStorage.getItem('accessToken')
+
     try {
-        const response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/deleteAssessment/${assessmentId}`)
+        const response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/deleteAssessment/${assessmentId}`,
+            { headers: { 'Authorization': `Bearer ${myJwt}` } })
 
         const { assessments } = response.data
         dispatch({ type: actionTypes.ASSESSMENTS, payload: { assessments } })
@@ -220,12 +228,19 @@ export const getTutorInformations = () => async (dispatch) => {
 
 export const informationChanges = (getData) => async (dispatch) => {
     const { type, id, data } = getData
+    const myJwt = localStorage.getItem('accessToken')
+
     let response;
 
     switch (type) {
         case 'edit':
             try {
-                response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/editInformation/${id}`, null)
+                response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/editInformation/${id}`, null
+                    , {
+                        headers: {
+                            'Authorization': `Bearer ${myJwt}`,
+                        }
+                    })
             }
             catch (err) { console.error(err) }
             break;
@@ -235,7 +250,8 @@ export const informationChanges = (getData) => async (dispatch) => {
                 response = await axios.post(`https://react-school-back-end.vercel.app/tutor/saveInformation/${id}`, data,
                     {
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': `Bearer ${myJwt}`
                         }
                     })
             }
@@ -244,14 +260,25 @@ export const informationChanges = (getData) => async (dispatch) => {
 
         case 'cancel':
             try {
-                response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/cancelInfoChanges/${id}`, null)
+                response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/cancelInfoChanges/${id}`, null
+                    ,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${myJwt}`
+                        }
+                    })
             }
             catch (err) { console.error(err) }
             break;
 
         case 'delete':
             try {
-                response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/deleteInformation/${id}`)
+                response = await axios.delete(`https://react-school-back-end.vercel.app/tutor/deleteInformation/${id}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${myJwt}`
+                        }
+                    })
             }
             catch (err) { console.error(err) }
             break;
@@ -277,10 +304,13 @@ export const addInformation = (data) => async (dispatch) => {
 }
 
 export const sendInformation = (type, infoId) => async (dispatch) => {
+    const myJwt = localStorage.getItem('accessToken')
+
     try {
         const response = await axios.patch(`https://react-school-back-end.vercel.app/tutor/sendInformation/${infoId}`, { type }, {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Bearer ${myJwt}`,
             }
         })
 

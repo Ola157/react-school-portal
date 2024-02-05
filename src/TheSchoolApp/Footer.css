@@ -1,0 +1,232 @@
+.footer {
+    background: #EBEBEB;
+    min-height: 380px;
+}
+
+.footer .footer-top {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.footer-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: auto;
+    /* padding: 1rem 2rem; */
+    overflow: auto;
+    column-gap: 1rem;
+}
+
+.footer-flex>div {
+    margin-bottom: 1rem;
+}
+
+.footer-flex ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-flex ul>div {
+    width: 28%;
+}
+
+.footer-flex>div h4 {
+    padding: 0;
+}
+
+.footer-flex ul li {
+    text-decoration: none;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.footer-flex ul:last-of-type li svg {
+    color: rgb(166, 167, 167);
+}
+
+.footer-flex ul li:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+.footer-flex>div:last-of-type ul li {
+    text-decoration: none !important;
+    cursor: auto;
+    color: inherit !important;
+}
+
+
+.footer-flex>div:last-of-type ul li:last-of-type {
+    margin: 20px 0;
+}
+
+.footer-flex>div h4>span:nth-of-type(2) {
+    display: none;
+}
+
+
+
+.footer-link span {
+    border-radius: 50%;
+    height: fit-content;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 500ms ease-in-out;
+}
+
+.footer-link span:hover {
+    background-color: #fff;
+}
+
+.footer-link svg {
+    font-size: 25px;
+}
+
+.footer-link {
+    padding: 0 2rem;
+    display: flex;
+    column-gap: .2rem;
+    align-items: center;
+}
+
+.bottom-footer-flex {
+    display: flex;
+    /* justify-content: space-between; */
+    /* padding: 0 2rem; */
+    /* width: 70%; */
+}
+
+/* .bottom-footer-flex>div:first-of-type {
+    width: 70%;
+} */
+
+.footer-bottom {
+    position: relative;
+    background: #fff;
+}
+
+@media (max-width:992px) {
+    .footer-bottom-inner {
+        padding: 1rem;
+    }
+}
+
+@media (min-width:992px) {
+    .footer-bottom-inner {
+        padding: 1rem 4rem;
+    }
+}
+
+@media (max-width:768px) {
+    .footer-bottom-inner {
+        padding: 0;
+    }
+
+    .footer-bottom {
+        padding: 1rem;
+    }
+}
+
+.footer-bottom-inner ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-bottom-inner ul li {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    font-family: "MaisonNeue", Arial, sans-serif;
+}
+
+.footer-bottom-inner ul li span {
+    cursor: pointer;
+}
+
+.footer-bottom-inner ul li span:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+.footer-bottom-inner ul li:not(li:first-of-type)::before {
+    content: '';
+    display: inline-block;
+    padding: 0 0.2rem;
+    margin: 0 .2rem;
+    height: 1px;
+    width: 2px;
+    position: relative;
+    background-color: #3C3C3C;
+}
+
+@media(max-width:992px) {
+    .footer-flex>ul:last-of-type {
+        display: none;
+    }
+}
+
+@media(max-width:768px) {
+    .footer-flex>ul:last-of-type {
+        display: none;
+    }
+
+    .footer-flex>div ul.expand {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 500ms ease-in-out;
+    }
+
+    .footer-flex>div ul.expand.out {
+        display: block;
+        max-height: 1000px;
+    }
+
+    h4 span.rotate svg {
+        transform: rotateX(180deg);
+    }
+
+    .footer-flex>div h4>span:nth-of-type(2) {
+        display: inline;
+    }
+
+    .footer-flex {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .footer-flex h4 {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        font-size: 25px;
+        align-items: center;
+    }
+
+    .footer-flex h4 svg {
+        font-size: 40px;
+        transition: transform 500ms ease-in-out;
+    }
+
+    .footer-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+    }
+
+    .bottom-footer-flex {
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+}

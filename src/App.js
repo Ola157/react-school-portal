@@ -6,6 +6,10 @@ import Admin from './TheSchoolApp/AuthenTicationComponent/Admin';
 import Test from './TheSchoolApp/StudentComponent/Test';
 import GuestPage from './TheSchoolApp/GuestPage';
 import './App.css';
+import './TheSchoolApp/LandingPage.css';
+import './TheSchoolApp/NavBar.css';
+import './TheSchoolApp/Footer.css';
+import './TheSchoolApp/Carousel.css';
 import { useDispatch } from 'react-redux';
 import {
   addAssessment,
@@ -48,6 +52,7 @@ import StudentInformation from './TheSchoolApp/StudentComponent/InformationPage'
 import ModuleInformation from './TheSchoolApp/StudentComponent/ModuleInfoPage';
 import TutorHomePage from './TheSchoolApp/TutorComponent/Homepage'
 import StudentHomePage from './TheSchoolApp/StudentComponent/Homepage';
+import LandingPage from './TheSchoolApp/LandingPage';
 
 
 const App = () => {
@@ -181,7 +186,9 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/*' element={<HomePage />} />
+        <Route path='/' element={<LandingPage />} />
+
+        {/* <Route path='/home*' element={<HomePage />} /> */}
 
         <Route path='/tutorhomepage' element={<TutorHomePage
           handleSignOut={handleSignOut}
