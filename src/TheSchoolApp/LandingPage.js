@@ -107,10 +107,10 @@ const LandingPage = () => {
     ])
 
     const [flockler, setflockler] = useState([
-        { svg: <RiTwitterXLine />, p: '@uniofoluyole', image: './assets/flocklerBanner1.jpg', date: '06 Jan 2024' },
-        { svg: <RiTwitterXLine />, p: '@uniofoluyole', image: './assets/schoolCamp1.jpg', date: '08 Jan 2024' },
-        { svg: <FaFacebook />, image: './assets/flocklerBanner3.jpg', date: '09 Jan 2024' },
-        { svg: <FaInstagram />, p: '@uniofoluyole', image: './assets/flocklerBanner4.jpg', date: '11 Jan 2024' }
+        { svg: <RiTwitterXLine />, p: '@uniofoluyole', image: './assets/flocklerBanner1.jpg', date: '06 Jan 2024', translate: '0' },
+        { svg: <RiTwitterXLine />, p: '@uniofoluyole', image: './assets/schoolCamp1.jpg', date: '08 Jan 2024', translate: '300' },
+        { svg: <FaFacebook />, image: './assets/flocklerBanner3.jpg', date: '09 Jan 2024', translate: '600' },
+        { svg: <FaInstagram />, p: '@uniofoluyole', image: './assets/flocklerBanner4.jpg', date: '11 Jan 2024', translate: '900' }
     ])
 
     let [clicked, handleClicked] = useState()
@@ -162,12 +162,16 @@ const LandingPage = () => {
     useEffect(() => {
         const isClicked = document.querySelector('.top_section')
         const schoolPage = document.querySelector('.schoolBody')
+        const bodyHidden = document.querySelector('body')
         if (clicked === 0 || clicked) {
             isClicked.classList.add('filterBrightness')
             schoolPage.classList.add('newsClicked')
+            bodyHidden.style.overflow = 'hidden'
         } else {
             isClicked.classList.remove('filterBrightness')
             schoolPage.classList.remove('newsClicked')
+            bodyHidden.style.overflow = 'auto'
+
         }
     }, [clicked])
 
@@ -176,6 +180,7 @@ const LandingPage = () => {
         const navBar_Header = document.querySelector('.navBar_Header')
         const handleClickOutside = () => {
             handleMenu(false);
+            handleCategory(category)
         };
 
         schoolBody.addEventListener('click', handleClickOutside);
@@ -187,11 +192,13 @@ const LandingPage = () => {
     }, [isMenu]);
 
     useEffect(() => {
-        const schoolBody = document.querySelector('.schoolBody')
+        const bodyHidden = document.querySelector('body')
+
         if (isMenu) {
-            schoolBody.classList.add('menuOpen')
+            bodyHidden.style.overflow = 'hidden'
+            handleCategory(category)
         } else {
-            schoolBody.classList.remove('menuOpen')
+            bodyHidden.style.overflow = 'auto'
         }
     }, [isMenu])
 
@@ -215,22 +222,23 @@ const LandingPage = () => {
         };
     }, []);
 
-
     const handleScroll = () => {
         let navHead = document.querySelector('.navBar_Header');
         let currentScrollPos = window.pageYOffset;
+        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         if (prevScrollPos < currentScrollPos) {
-            handleCategory(category)
+            handleCategory(category);
             navHead.style.top = '-5rem';
-        } else if (window.innerWidth < 760) {
-            navHead.style.top = '0'
+        } else if (isMobile || window.innerWidth < 760) {
+            navHead.style.top = '0';
         } else {
             navHead.style.top = '2rem';
         }
 
         setPrevScrollPos(currentScrollPos);
     };
+
 
     const handleNext = () => {
         handleClicked((prev) => (prev + 1) % flockler.length)
